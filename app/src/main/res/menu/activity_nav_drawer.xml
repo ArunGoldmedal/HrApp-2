@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigationView">
+    <item android:title="@string/home">
+        <menu>
+
+
+            <item
+                android:id="@+id/homeFragment"
+                android:title="@string/dashboard_small" />
+
+        </menu>
+    </item>
+    <item android:title="@string/leave_management">
+        <menu>
+
+            <item
+                android:id="@+id/leaveFragment"
+                android:title="@string/apply_leave" />
+
+            <item
+                android:id="@+id/leaveRecordActivity"
+                android:title="@string/my_record" />
+
+            <item
+                android:id="@+id/applySLActivity"
+                android:title="@string/apply_sl_leave" />
+
+            <item
+                android:id="@+id/slHistoryActivity"
+                android:title="@string/sl_history" />
+
+
+
+            <item
+                android:id="@+id/odApplicationActivity"
+                android:title="@string/od_application" />
+
+            <item
+                android:id="@+id/odRecordsActivity"
+                android:title="@string/od_records" />
+
+
+
+
+        </menu>
+    </item>
+
+
+    <item android:title="@string/attendance_management">
+        <menu>
+
+
+            <item
+                android:id="@+id/timeCardActivity"
+                android:title="@string/time_card" />
+
+            <item
+                android:id="@+id/regularizationHistoryActivity"
+                android:title="@string/reg_history" />
+
+
+        </menu>
+    </item>
+    <item
+        android:id="@+id/headerTitle"
+        android:title="MANAGER">
+        <menu>
+
+
+            <item
+                android:id="@+id/requestsFragment"
+                android:title="@string/leave_requests" />
+
+            <item
+                android:id="@+id/slRequestsActivity"
+                android:title="@string/sl_requests" />
+
+
+
+            <item
+                android:id="@+id/odRequestsActivity"
+                android:title="@string/od_requests" />
+
+            <item
+                android:id="@+id/regularizationRequestsActivity"
+                android:title="@string/reg_requests" />
+        </menu>
+
+    </item>
+
+    <item
+
+        android:title="REPORTS">
+        <menu>
+
+            <item
+                android:id="@+id/myTeamActivity"
+                android:title="@string/my_team" />
+
+            <item
+                android:id="@+id/teamRequestsArchiveActivity"
+                android:title="@string/team_record" />
+
+
+            <item
+                android:id="@+id/teamRegularizationHistoryActivity"
+                android:title="@string/team_reg_history" />
+
+
+        </menu>
+    </item>
+
+
+
+
+    <item android:title="ACCOUNTS">
+        <menu>
+
+
+            <item
+                android:id="@+id/accountsDetailActivity"
+                android:title="@string/limit_details" />
+        </menu>
+    </item>
+
+    <group
+        android:id="@+id/DetailsGrp"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/holidayListActivity"
+            android:title="@string/holiday_list" />
+    </group>
+
+
+    <group
+        android:id="@+id/logoutGrp"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/actionLogout"
+            android:title="@string/str_logout" />
+    </group>
+</menu>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <!--                <variable-->
+        <!--                    name="leaveRecordData"-->
+        <!--                    type="com.goldmedal.hrapp.data.model.LeaveRecordData" />-->
+        <variable
+            name="viewmodel"
+            type="com.goldmedal.hrapp.ui.leave.LeaveViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        app:cardCornerRadius="@dimen/dp_16"
+        app:cardElevation="@dimen/dp_8">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_10"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:layout_toStartOf="@+id/tvAppliedOnPlaceholder"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/statusBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_margin="@dimen/dp_4">
+                    <!--                    android:background="@{leaveRecordData.status.equals(`open`) ? @drawable/rounded_red_background : @drawable/rounded_green_background}-->
+                    <TextView
+                        android:id="@+id/tvLeaveStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_4"
+
+                        android:textColor="@color/colorWhite" />
+                    <!--                    android:text="@{leaveRecordData.status}"-->
+                </RelativeLayout>
+
+
+                <TextView
+                    style="@style/GreyedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="LEAVE REASON"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tvLeaveReason"
+                    style="@style/large_txt_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_marginBottom="@dimen/dp_4"
+
+                    android:textAlignment="textStart" />
+                <!--                android:text="@{leaveRecordData.leaveReason}"-->
+                <TextView
+                    android:id="@+id/tvLeaveDate"
+                    style="@style/large_txt_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_4"
+                    android:textAlignment="textStart" />
+                <!--                android:text="@{leaveRecordData.leaveDate}"-->
+
+                <TextView
+                    style="@style/GreyedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="DURATION"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tvLeaveDays"
+                    style="@style/large_txt_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:textAlignment="textStart" />
+                <!--                android:text="@{leaveRecordData.leaveDays + ` Day(s)`}"-->
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_below="@+id/layout_container"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        style="@style/GreyedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:text="LEAVE TYPE"
+                        android:textAlignment="textStart" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4">
+
+
+                        <TextView
+                            android:id="@+id/tvLeaveType"
+                            style="@style/large_txt_dark"
+                            android:layout_toEndOf="@+id/imvLeaveType"
+                            android:layout_centerInParent="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_8"
+                            tools:text="PL"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:textAlignment="textStart" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/imvLeaveType"
+                        android:layout_width="10dp"
+                        android:src="@color/smsp_transparent_color"
+                        app:civ_circle_background_color="@color/colorRed"
+                        android:layout_height="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerInParent="true" />
+
+
+                    </RelativeLayout>
+                    <TextView
+                        style="@style/GreyedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginTop="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:text="PAID LEAVES"
+                        android:textAlignment="textStart" />
+
+                    <TextView
+                        android:id="@+id/tvPaidLeaves"
+                        style="@style/large_extra_bold_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:textAlignment="textStart" />
+                    <Button
+                        android:id="@+id/cancelButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="@string/str_cancel"
+                        android:textAlignment="textStart"
+                        android:textAllCaps="false" />
+
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/GreyedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="DAY TYPE"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tvDayType"
+                    style="@style/large_txt_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    style="@style/GreyedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="UN-PAID LEAVES"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tvUnPaidLeaves"
+                    style="@style/large_extra_bold_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:textAlignment="textStart" />
+
+
+
+            </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvAppliedOnPlaceholder"
+                style="@style/GreyedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:text="@string/str_applied_on"
+                android:textAlignment="textStart" />
+
+            <TextView
+                android:id="@+id/tvAppliedDate"
+                style="@style/medium_txt_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvAppliedOnPlaceholder"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:textAlignment="textStart" />
+            <!--            android:text="@{leaveRecordData.appliedDate}"-->
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="6dip">
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/medium_icon_width"
+            android:layout_height="@dimen/medium_icon_width"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="6dp"
+            android:src="@drawable/male_avatar"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="0.5dp" />
+
+
+        <TextView
+            android:id="@+id/text_view_applicant_name"
+            style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_view_applied_date"
+            android:layout_toStartOf="@+id/chip_leave_reason"
+            android:layout_toEndOf="@+id/icon"
+            android:gravity="center_vertical"
+            tools:text="Jan Koum" />
+        <!--style="@style/Caption"-->
+        <TextView
+            android:id="@+id/text_view_applied_date"
+            style="@style/TextAppearance.MdcTypographyStyles.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_toEndOf="@+id/icon"
+            android:gravity="center_vertical"
+            tools:text="-"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:id="@+id/text_view_leave_duration"
+            style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_applicant_name"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_toEndOf="@+id/icon"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_leave_reason"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@+id/imvArrow"
+            android:checked="true"
+            android:clickable="false"
+            android:ellipsize="end"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:maxWidth="150dp"
+            tools:text="Leave Reason Here"
+            android:textAppearance="@style/medium_txt_bold" />
+
+        <ImageView
+            android:id="@+id/imvArrow"
+            android:layout_width="@dimen/small_icon_width"
+            android:layout_height="@dimen/small_icon_height"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dp_8"
+            android:src="@drawable/right_arrow"
+            android:tint="@color/material_grey_400" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/reportingPersonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/root"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="@dimen/dp_8"
+            android:background="@color/material_grey_200" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/text_view_approval_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
+                tools:text="Pending by"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:padding="6dip">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_view_reporting_person"
+                    android:layout_width="@dimen/small_icon_width"
+                    android:layout_height="@dimen/small_icon_height"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/female_avatar"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="0.5dp" />
+                <!--            style="@style/Caption"-->
+                <TextView
+                    android:id="@+id/text_view_reporting_person"
+                    style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/image_view_reporting_person"
+                    android:gravity="center_vertical"
+                    tools:text="Jan Koum"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/text_view_designation"
+                    style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_reporting_person"
+                    android:layout_marginTop="4dp"
+                    android:layout_toEndOf="@+id/image_view_reporting_person"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    tools:text="Designation" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

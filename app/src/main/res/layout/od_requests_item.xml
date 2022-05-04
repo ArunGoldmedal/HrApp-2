@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/dp_4"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/text_view_employee"
+        style="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        tools:text="Jan Koum" />
+
+
+    <TextView
+        android:id="@+id/text_view_department"
+        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Designation" />
+
+    <TextView
+        android:id="@+id/text_view_branch"
+        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Branch" />
+
+
+
+    <TextView
+        style="@style/GreyedText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:text="@string/str_applied_on"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/tvAppliedDate"
+        style="@style/large_txt_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:textAlignment="textStart" />
+
+    <TextView
+        style="@style/GreyedText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:text="@string/str_duration"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/tvDuration"
+        style="@style/large_txt_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:textAlignment="textStart" />
+
+    <TextView
+        style="@style/GreyedText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:text="@string/outdoor_place"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/tvOutSidePlace"
+        style="@style/large_txt_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:textAlignment="textStart" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/GreyedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:text="REMARKS"
+                android:textAlignment="textStart" />
+
+            <TextView
+                android:id="@+id/tvRemarks"
+                style="@style/large_txt_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:textAlignment="textStart"
+                tools:text="@string/dash" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/approvalLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_4">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_view_accept"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_accept"
+                app:civ_fill_color="@color/colorGreen" />
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_view_reject"
+                app:civ_fill_color="@color/colorRed"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:src="@drawable/ic_reject"
+
+                android:tint="@color/colorRed" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

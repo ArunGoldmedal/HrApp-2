@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.goldmedal.hrapp.common.RotateLoading
+        android:id="@+id/progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        app:loading_color="@color/darkBackground"
+        app:loading_width="@dimen/dp_2" />
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/progress_bar"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_centerInParent="true"-->
+    <!--        android:layout_gravity="center_horizontal|center_vertical" />-->
+
+
+    <ImageView
+        android:id="@+id/imv_no_data"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="300dp"
+        android:src="@drawable/ic_no_data_found"
+        android:visibility="invisible" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:scaleType="fitCenter"
+        app:lottie_rawRes="@raw/gradient_animated_background"
+        android:visibility="invisible"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_server_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imv_server_error"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/icon_error"-->
+<!--        android:visibility="invisible" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imv_no_internet"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:src="@drawable/icon_no_internet"-->
+<!--        android:visibility="invisible" />-->
+
+</RelativeLayout>

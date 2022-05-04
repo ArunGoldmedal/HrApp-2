@@ -1,0 +1,928 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "080596cfc557aaf61fc7393b51447643",
+    "entities": [
+      {
+        "tableName": "User",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER NOT NULL, `AnniversaryDOB` TEXT, `BranchName` TEXT, `ChildDOB1` TEXT, `ChildDOB2` TEXT, `ChildDOB3` TEXT, `ChildName1` TEXT, `ChildName2` TEXT, `ChildName3` TEXT, `DateOfBirth` TEXT, `Department` TEXT, `Designation` TEXT, `EmployeeCode` TEXT, `EmployeeFullName` TEXT, `EmployeeID` TEXT, `FatherDOB` TEXT, `FatherName` TEXT, `FirstName` TEXT, `Gender` TEXT, `Genderid` TEXT, `HomeAddress` TEXT, `ISHr` INTEGER, `IsExecutive` INTEGER, `IsReportingPerson` INTEGER, `LastName` TEXT, `Location` TEXT, `MaritalID` TEXT, `MaritalStatus` TEXT, `MiddleName` TEXT, `MobileNo` TEXT, `MobileNumber` TEXT, `MotherDOB` TEXT, `MotherName` TEXT, `NickName` TEXT, `OfficeAddress` TEXT, `OfficeConNumber` TEXT, `OfficePincode` TEXT, `Officialemail` TEXT, `Out` INTEGER, `PersonalEmail` TEXT, `ProfilePicture` TEXT, `ReportingPerson` TEXT, `SpouseDOB` TEXT, `SpouseName` TEXT, `Sublocation` TEXT, `UserID` INTEGER, `ShowLimitDetails` INTEGER, `joiningDate` TEXT, PRIMARY KEY(`uid`))",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "AnniversaryDOB",
+            "columnName": "AnniversaryDOB",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "BranchName",
+            "columnName": "BranchName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ChildDOB1",
+            "columnName": "ChildDOB1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ChildDOB2",
+            "columnName": "ChildDOB2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ChildDOB3",
+            "columnName": "ChildDOB3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ChildName1",
+            "columnName": "ChildName1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ChildName2",
+            "columnName": "ChildName2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ChildName3",
+            "columnName": "ChildName3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "DateOfBirth",
+            "columnName": "DateOfBirth",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Department",
+            "columnName": "Department",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Designation",
+            "columnName": "Designation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "EmployeeCode",
+            "columnName": "EmployeeCode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "EmployeeFullName",
+            "columnName": "EmployeeFullName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "EmployeeID",
+            "columnName": "EmployeeID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FatherDOB",
+            "columnName": "FatherDOB",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FatherName",
+            "columnName": "FatherName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstName",
+            "columnName": "FirstName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Gender",
+            "columnName": "Gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Genderid",
+            "columnName": "Genderid",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HomeAddress",
+            "columnName": "HomeAddress",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ISHr",
+            "columnName": "ISHr",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "IsExecutive",
+            "columnName": "IsExecutive",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "IsReportingPerson",
+            "columnName": "IsReportingPerson",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastName",
+            "columnName": "LastName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Location",
+            "columnName": "Location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaritalID",
+            "columnName": "MaritalID",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MaritalStatus",
+            "columnName": "MaritalStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MiddleName",
+            "columnName": "MiddleName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MobileNo",
+            "columnName": "MobileNo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MobileNumber",
+            "columnName": "MobileNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MotherDOB",
+            "columnName": "MotherDOB",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "MotherName",
+            "columnName": "MotherName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "NickName",
+            "columnName": "NickName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "OfficeAddress",
+            "columnName": "OfficeAddress",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "OfficeConNumber",
+            "columnName": "OfficeConNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "OfficePincode",
+            "columnName": "OfficePincode",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Officialemail",
+            "columnName": "Officialemail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Out",
+            "columnName": "Out",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PersonalEmail",
+            "columnName": "PersonalEmail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ProfilePicture",
+            "columnName": "ProfilePicture",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ReportingPerson",
+            "columnName": "ReportingPerson",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SpouseDOB",
+            "columnName": "SpouseDOB",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "SpouseName",
+            "columnName": "SpouseName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Sublocation",
+            "columnName": "Sublocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "UserID",
+            "columnName": "UserID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ShowLimitDetails",
+            "columnName": "ShowLimitDetails",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "joiningDate",
+            "columnName": "joiningDate",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "BirthdayData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `EmployeeName` TEXT, `Birthdate` TEXT, `ProfilePicture` TEXT, `Gender` TEXT, `ViewType` INTEGER NOT NULL, `Message` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "EmployeeName",
+            "columnName": "EmployeeName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Birthdate",
+            "columnName": "Birthdate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ProfilePicture",
+            "columnName": "ProfilePicture",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Gender",
+            "columnName": "Gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ViewType",
+            "columnName": "ViewType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Message",
+            "columnName": "Message",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "AnniversaryData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `employee_name` TEXT, `anniversary_date` TEXT, `ProfilePicture` TEXT, `Gender` TEXT, `ViewType` INTEGER NOT NULL, `Message` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "EmployeeName",
+            "columnName": "employee_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Anniversarydate",
+            "columnName": "anniversary_date",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ProfilePicture",
+            "columnName": "ProfilePicture",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Gender",
+            "columnName": "Gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ViewType",
+            "columnName": "ViewType",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Message",
+            "columnName": "Message",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "HolidayData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `HolidayID` INTEGER, `HolidayFromDate` TEXT, `HolidayToDate` TEXT, `HolidayName` TEXT, `FromDateDay` TEXT, `ToDateDay` TEXT, `FromDateFormat` TEXT, `ToDateFormat` TEXT, `ViewType` INTEGER, `Description` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HolidayID",
+            "columnName": "HolidayID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayFromDate",
+            "columnName": "HolidayFromDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayToDate",
+            "columnName": "HolidayToDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayName",
+            "columnName": "HolidayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FromDateDay",
+            "columnName": "FromDateDay",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ToDateDay",
+            "columnName": "ToDateDay",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FromDateFormat",
+            "columnName": "FromDateFormat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ToDateFormat",
+            "columnName": "ToDateFormat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ViewType",
+            "columnName": "ViewType",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Description",
+            "columnName": "Description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "GetAllAttendanceData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `DisplayDate` TEXT, `FirstIn` TEXT, `LastOut` TEXT, `TotalHours` TEXT, `HolidayName` TEXT, `FirstInLocation` TEXT, `LastOutLocation` TEXT, `FirstInLatitude` TEXT, `FirstInLongitude` TEXT, `FirstInPunchType` TEXT, `LastOutPunchType` TEXT, `LastOutLatitude` TEXT, `LastOutLongitude` TEXT, `status` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "DisplayDate",
+            "columnName": "DisplayDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstIn",
+            "columnName": "FirstIn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOut",
+            "columnName": "LastOut",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "TotalHours",
+            "columnName": "TotalHours",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayName",
+            "columnName": "HolidayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInLocation",
+            "columnName": "FirstInLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutLocation",
+            "columnName": "LastOutLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInLatitude",
+            "columnName": "FirstInLatitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInLongitude",
+            "columnName": "FirstInLongitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInPunchType",
+            "columnName": "FirstInPunchType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutPunchType",
+            "columnName": "LastOutPunchType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutLatitude",
+            "columnName": "LastOutLatitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutLongitude",
+            "columnName": "LastOutLongitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "GetCurrentAttendanceData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `DisplayDate` TEXT, `FirstIn` TEXT, `LastOut` TEXT, `TotalHours` TEXT, `PunchType` TEXT, `HolidayName` TEXT, `FirstInLocation` TEXT, `LastOutLocation` TEXT, `FirstInLatitude` TEXT, `FirstInLongitude` TEXT, `LastOutLatitude` TEXT, `LastOutLongitude` TEXT, `PunchIn_PunchOut` TEXT, `status` TEXT, `Type` TEXT, `FirstInPunchType` TEXT, `LastOutPunchType` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "DisplayDate",
+            "columnName": "DisplayDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstIn",
+            "columnName": "FirstIn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOut",
+            "columnName": "LastOut",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "TotalHours",
+            "columnName": "TotalHours",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PunchType",
+            "columnName": "PunchType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayName",
+            "columnName": "HolidayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInLocation",
+            "columnName": "FirstInLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutLocation",
+            "columnName": "LastOutLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInLatitude",
+            "columnName": "FirstInLatitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInLongitude",
+            "columnName": "FirstInLongitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutLatitude",
+            "columnName": "LastOutLatitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutLongitude",
+            "columnName": "LastOutLongitude",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PunchIn_PunchOut",
+            "columnName": "PunchIn_PunchOut",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Type",
+            "columnName": "Type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FirstInPunchType",
+            "columnName": "FirstInPunchType",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LastOutPunchType",
+            "columnName": "LastOutPunchType",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "AllHolidayData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `HolidayID` INTEGER, `HolidayFromDate` TEXT, `HolidayToDate` TEXT, `HolidayName` TEXT, `FromDateDay` TEXT, `ToDateDay` TEXT, `FromDateFormat` TEXT, `ToDateFormat` TEXT, `Description` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "HolidayID",
+            "columnName": "HolidayID",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayFromDate",
+            "columnName": "HolidayFromDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayToDate",
+            "columnName": "HolidayToDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "HolidayName",
+            "columnName": "HolidayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FromDateDay",
+            "columnName": "FromDateDay",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ToDateDay",
+            "columnName": "ToDateDay",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "FromDateFormat",
+            "columnName": "FromDateFormat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ToDateFormat",
+            "columnName": "ToDateFormat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "Description",
+            "columnName": "Description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "EmployeeAttendanceData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TotalEmployee` INTEGER, `PresentCount` INTEGER, `AbsentCount` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TotalEmployee",
+            "columnName": "TotalEmployee",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PresentCount",
+            "columnName": "PresentCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "AbsentCount",
+            "columnName": "AbsentCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "LeaveBalanceData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `TotalLeaves` REAL, `LeavesTaken` REAL, `PendingLeaves` REAL, `AvailableLeaves` REAL)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "TotalLeaves",
+            "columnName": "TotalLeaves",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "LeavesTaken",
+            "columnName": "LeavesTaken",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "PendingLeaves",
+            "columnName": "PendingLeaves",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "AvailableLeaves",
+            "columnName": "AvailableLeaves",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MyTeamData",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Slno` INTEGER, `EmployeeName` TEXT, `ProfileImg` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "uid",
+            "columnName": "uid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Slno",
+            "columnName": "Slno",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "EmployeeName",
+            "columnName": "EmployeeName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ProfileImg",
+            "columnName": "ProfileImg",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '080596cfc557aaf61fc7393b51447643')"
+    ]
+  }
+}

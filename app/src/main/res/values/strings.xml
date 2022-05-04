@@ -1,0 +1,178 @@
+<resources>
+    <string name="app_name">G - HR</string>
+
+
+    <string name="dash">-</string>
+
+    <!--Menu-->
+    <string name="attendance">Attendance</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="holiday_list">Holiday List</string>
+
+    <!--Leave management-->
+    <string name="leave_management">LEAVE MANAGEMENT</string>
+    <string name="attendance_management">ATTENDANCE MANAGEMENT</string>
+    <string name="leave">Leaves</string>
+    <string name="apply_leave">Apply Leaves</string>
+    <string name="requests">Requests</string>
+    <string name="stats">Attendance Stats</string>
+    <!--    <string name="str_view_leaves"><u>View Remaining Leaves</u></string>-->
+    <string name="my_record">My Leave Status</string>
+    <string name="team_record">Team Leaves Report</string>
+    <string name="team_reg_history">Team Regularization Report</string>
+    <string name="team_attendance_report">Attendance Report</string>
+
+
+    <string name="dashboard_small">Dashboard</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyASJ3yPEVAo2pR4840alRVTw8yxYhFKZwY</string>
+
+    <string name="title_activity_maps">title_activity_maps</string>
+
+
+    <!--PROFILE DETAILS-->
+
+    <string name="str_employee_code">Employee Code</string>
+    <string name="str_office_email">Office Email</string>
+    <string name="str_joining_date">Joining Date</string>
+    <string name="str_DOB">Date of Birth</string>
+    <string name="str_reporting_person">Reporting Person</string>
+    <string name="str_branch">Branch</string>
+    <string name="str_office_address">Office Address</string>
+    <string name="str_home_address">Home Address</string>
+    <string name="home_address">Home Address*</string>
+    <string name="str_change_password">Change Password</string>
+    <string name="str_success">Success</string>
+    <string name="str_ok">Ok</string>
+    <string name="str_cancel">Cancel</string>
+    <string name="str_punch_in">PUNCH IN</string>
+    <string name="str_submit">Submit</string>
+    <string name="str_logout">Logout</string>
+    <string name="str_forgot_password"><u>Forgot Password?</u></string>
+    <string name="str_punch_out">PUNCH OUT</string>
+    <string name="str_camera_permission">To capture photos,allow HrApp access to your camera</string>
+    <string name="str_check_in_alert">You need to be near office premises to Check-IN,Please move within office range and Try again</string>
+    <string name="str_od_check_in_alert">We have detected that you have applied for OD,You need to be near OD Location to Check-IN,Please move within range and Try again</string>
+    <string name="str_check_out_alert">You need to be near office premises to Check-Out,Please move within office range and Try again</string>
+    <string name="str_od_check_out_alert">We have detected that you have applied for OD,You need to be near OD Location to Check-Out,Please move within range and Try again</string>
+
+    <!--MANAGER-->
+
+    <string name="str_present">PRESENT</string>
+    <string name="str_absent">ABSENT</string>
+
+
+    <string name="str_employee_attendance">Employee Attendance</string>
+    <string name="str_present_employee_attendance">Present Employees</string>
+    <string name="str_absent_employee_attendance">Absent Employees</string>
+    <string name="str_email_mobile_no">Phone no or company email or employee code (gepl-xxx)</string>
+    <string name="str_phone">Phone no</string>
+    <string name="str_captcha">Enter captcha</string>
+    <string name="str_req_no">Req No</string>
+    <string name="str_enter_otp">Enter OTP</string>
+    <string name="str_password">Password</string>
+    <string name="str_old_password">Old Password</string>
+    <string name="str_new_password">New Password</string>
+    <string name="str_confirm_password">Confirm Password</string>
+    <string name="notifications">Notifications</string>
+    <string name="str_set_password">SET PASSWORD</string>
+    <string name="str_verify_otp">VERIFY OTP</string>
+
+    <string name="leave_requests">Leave Requests</string>
+    <string name="my_team">My Team Report</string>
+    <string name="paid_leaves_text">Enter paid leave</string>
+
+    <string name="str_unpaid_leave">Unpaid Leave : </string>
+    <string name="supporting_text">Do you wish to continue?</string>
+    <string name="accept_text">Accept Request?</string>
+    <string name="reject_text">Reject Request?</string>
+    <string name="str_upcoming_holidays">Upcoming Holidays</string>
+    <string name="str_birthdays_this_week">Birthday This Week</string>
+    <string name="str_anniversary_this_week">Anniversary This Week</string>
+
+
+    <!--Banner-->
+
+    <string name="guide">guide</string>
+    <string name="press_back_again">Please click BACK again to exit</string>
+
+
+    <!--MOCK LOCATION ALERTS-->
+
+    <string name="mock_location_alert">Mock Location check should be disabled to punch attendance.If already disabled,kindly uninstall app and install again or restart device</string>
+    <string name="str_settings">GO TO SETTINGS</string>
+    <string name="str_search_employee">Search Employee...</string>
+    <string name="title_activity_fullscreen_image">FullscreenActivity</string>
+    <string name="locality">Location : </string>
+    <string name="sub_locality">Sub Location : </string>
+    <string name="str_edit_profile">Update Profile</string>
+    <string name="father_name">Father\'s Name*</string>
+    <string name="personal_email">Personal Email*</string>
+    <string name="office_email">Office Email*</string>
+    <string name="mobile_no">Mobile No*</string>
+    <string name="mother_name">Mother\'s Name*</string>
+    <string name="spouse_name">Spouse Name*</string>
+    <string name="select_anniversary_date">Select Anniversary Date</string>
+    <string name="select_father_dob">Select Father DOB</string>
+    <string name="select_mother_dob">Select Mother DOB</string>
+    <string name="select_spouse_dob">Select Spouse DOB</string>
+    <string name="str_first_child_name">First Child Name</string>
+    <string name="father_dob">Father DOB</string>
+    <string name="mother_dob">Mother DOB</string>
+    <string name="anniversary_date">Anniversary Date</string>
+    <string name="first_child_dob">1st Child DOB</string>
+    <string name="second_child_name">Second Child Name</string>
+    <string name="third_child_name">Third Child Name</string>
+    <string name="third_child_dob">3rd Child DOB</string>
+    <string name="select_third_child_dob">Select 3rd Child DOB</string>
+    <string name="select_first_child_dob">Select 1st Child DOB</string>
+    <string name="second_child_dob">2nd Child DOB</string>
+    <string name="select_second_child_dob">Select 2nd Child DOB</string>
+    <string name="spouse_dob">Spouse DOB</string>
+    <string name="married">Married</string>
+    <string name="unmarried">Unmarried</string>
+    <string name="od_application">Outdoor (OD) Application</string>
+    <string name="str_select">Select</string>
+    <string name="start_date">*Start Date</string>
+    <string name="date">*Date</string>
+    <string name="str_date">Date</string>
+    <string name="end_date">*End Date</string>
+    <string name="str_apply">Apply</string>
+    <string name="outdoor_address">Outdoor Address</string>
+    <string name="od_records">My OD Records</string>
+    <string name="time_card">Regularize Timecard</string>
+    <string name="reg_history">My Regularization History</string>
+    <string name="od_requests">OD Requests</string>
+    <string name="reg_requests">Regularization Requests</string>
+    <string name="str_new_update">NEW UPDATE !</string>
+    <string name="app_update_description_text">There is a newer version available for download! Please update the app by visiting the Play Store.</string>
+    <string name="str_applied_on">APPLIED ON</string>
+    <string name="outdoor_place">OUTDOOR PLACE</string>
+    <string name="str_duration">DURATION</string>
+    <string name="regularize_attendance">Attendance Regularization</string>
+    <string name="str_punch_date">PUNCH DATE</string>
+    <string name="str_old_punch_in">OLD PUNCH IN</string>
+    <string name="str_old_punch_out">OLD PUNCH OUT</string>
+    <string name="str_new_punch_in">NEW PUNCH IN</string>
+    <string name="str_new_punch_out">NEW PUNCH OUT</string>
+    <string name="str_reason">REASON</string>
+    <string name="str_remarks">REMARKS</string>
+    <string name="str_approve">APPROVE</string>
+    <string name="str_disapprove">DISAPPROVE</string>
+    <string name="str_edit">Edit</string>
+    <string name="str_attendance_details">Attendance Details</string>
+    <string name="regularize_timecard">Regularize Timecard</string>
+    <string name="no_of_hrs">No. of Hours</string>
+    <string name="status">Status</string>
+    <string name="apply_sl_leave">Apply Short Leave (SL)</string>
+    <string name="sl_history">My SL History</string>
+    <string name="sl_requests">Short Leave Requests</string>
+    <string name="limit_details">Temp Limit</string>
+
+
+</resources>

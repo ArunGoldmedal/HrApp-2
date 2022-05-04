@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/appBg"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_20"
+        android:layout_gravity="center_horizontal"
+        android:text="The following approval forms have been linked to your attendance and will automatically be included in the attendance report."
+        style="@style/medium_txt_regular"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_rounded_corner_white"
+            android:layout_margin="@dimen/dp_10"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgLeave"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_20"
+                android:clickable="false"
+                android:src="@drawable/male_avatar"
+             />
+
+            <TextView
+                android:id="@+id/tvLeave"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Early Bird"
+                style="@style/large_txt_dark"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_rounded_corner_white"
+            android:layout_margin="@dimen/dp_10"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgBusinessTrip"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_20"
+                android:clickable="false"
+                android:src="@drawable/male_avatar"
+                />
+
+            <TextView
+                android:id="@+id/tvBusinessTrip"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Business Trip"
+                style="@style/large_txt_dark"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:background="@drawable/view_rounded_corner_white"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgOutOfOffice"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_20"
+                android:clickable="false"
+                android:src="@drawable/male_avatar"
+                />
+
+            <TextView
+                android:id="@+id/tvOutOfOffice"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Out Of Office"
+                style="@style/large_txt_dark"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/llAttendanceDetail"
+        android:weightSum="3"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/view_rounded_corner_white"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgOverTime"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_20"
+                android:clickable="false"
+                android:src="@drawable/male_avatar"
+                />
+
+            <TextView
+                android:id="@+id/tvOverTime"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Over Time"
+                style="@style/large_txt_dark"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_rounded_corner_white"
+            android:layout_margin="@dimen/dp_10"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/imgAdjustment"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/dp_20"
+                android:clickable="false"
+                android:src="@drawable/male_avatar"
+                />
+
+            <TextView
+                android:id="@+id/tvAdjustment"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Adjustment"
+                style="@style/large_txt_dark"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/tvApplicationStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_margin="@dimen/dp_4"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:text="Application Status"
+            android:drawableLeft="@drawable/icon_mobile"
+            style="@style/large_txt_dark"
+            />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dp_4"
+            android:layout_height="25dp"
+            android:layout_centerInParent="true"
+
+            android:src="@drawable/ic_profile"/>
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

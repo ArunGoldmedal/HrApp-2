@@ -1,0 +1,234 @@
+//apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
+////kotlin-android-extensions for synthetic imports to work
+//apply plugin: 'kotlin-android-extensions'
+//
+////kotlin kapt and navigation safeargs plugin
+//apply plugin: 'kotlin-kapt'
+//apply plugin: "androidx.navigation.safeargs"
+//apply plugin: 'com.google.gms.google-services' // Google Services Gradle plugin
+//
+//// Apply the Crashlytics Gradle plugin
+//apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-android-extensions"
+    id "kotlin-kapt"
+    id "androidx.navigation.safeargs"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+//    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+}
+
+
+
+
+
+
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.goldmedal.hrapp"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 12
+//        versionName "1.0_distribute_build"
+//        versionName "1.0_development_build"
+        versionName "1.2"
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+       viewBinding true
+        dataBinding true
+    }
+
+    androidExtensions {
+        experimental = true
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+//New Material Design
+//    implementation 'com.google.android.material:material:1.2.0-alpha04'
+    implementation 'com.google.android.material:material:1.3.0-alpha01'
+
+    //Retrofit and GSON
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+//    implementation 'com.squareup.okhttp3:logging-interceptor:4.1.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+
+    //Kotlin Coroutines
+
+//    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+//    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
+
+
+
+    //Work Manager
+    //    implementation "androidx.work:work-runtime-ktx:2.2.0"
+    implementation "androidx.work:work-runtime-ktx:2.3.0"
+
+
+
+    // ViewModel and LiveData
+//    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
+    //Kodein Dependency Injection
+//    implementation 'org.kodein.di:kodein-di-generic-jvm:6.5.0'
+//    implementation 'org.kodein.di:kodein-di-framework-android-x:6.5.0'
+
+//    implementation 'org.kodein.di:kodein-di-generic-jvm:6.2.1'
+//    implementation 'org.kodein.di:kodein-di-framework-android-x:6.2.1'
+
+
+//    implementation 'androidx.room:room-runtime:2.2.3'
+//    implementation 'androidx.room:room-ktx:2.2.3'
+//    kapt 'androidx.room:room-compiler:2.2.3'
+
+
+    //Android Room
+    implementation 'androidx.room:room-runtime:2.4.0-alpha01'
+    implementation 'androidx.room:room-ktx:2.4.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.4.0-alpha01'
+
+    //Android Navigation Architecture
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.0'
+
+    implementation 'com.xwray:groupie:2.9.0'
+    implementation 'com.xwray:groupie-kotlin-android-extensions:2.9.0'
+//    implementation 'com.xwray:groupie-viewbinding:2.5.1'
+    implementation "com.xwray:groupie-viewbinding:2.9.0"
+//    implementation 'com.xwray:groupie-databinding:2.5.1'
+
+    implementation 'com.github.chivorns:smartmaterialspinner:1.1.6'
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.android.support:support-annotations:24.2.0'
+
+
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+
+    implementation 'com.google.code.gson:gson:2.8.1'
+
+
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'com.github.arcadefire:nice-spinner:1.4.5'
+
+    //ViewPager 2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+
+    //Glide
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+
+    //Auto-Read OTP
+
+    //implementation 'com.google.android.gms:play-services-base:17.1.0'
+   // implementation 'com.google.android.gms:play-services-auth-api-phone:17.3.0'
+    //Optional for phone number hint
+   // implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+    //Run Time permissions
+
+    implementation 'com.github.florent37:runtime-permission-kotlin:1.1.2'
+
+
+    //Image Cropping Library
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+
+
+    //Preference Manager
+
+//    implementation 'androidx.preference:preference-ktx:1.1.0'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+
+
+    //Banner
+    implementation 'com.github.zhpanvip:BannerViewPager:3.1.5'
+
+    implementation 'com.airbnb.android:lottie:3.4.1'
+
+
+//Firebase crashlytics
+
+    // Import the Firebase BoM
+//    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+
+
+    //Play core In-App Updates
+    implementation 'com.google.android.play:core:1.10.0'
+    // For Kotlin users also add the Kotlin extensions library for Play Core:
+    implementation 'com.google.android.play:core-ktx:1.8.1'
+
+    //DI
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+
+}

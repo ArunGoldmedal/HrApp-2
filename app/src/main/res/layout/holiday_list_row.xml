@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="holidayListData"
+            type="com.goldmedal.hrapp.data.db.entities.AllHolidayData" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_10">
+
+            <ImageView
+                android:id="@+id/imvHolidayImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/diwali" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_4"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHolidayName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_4"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorBlue"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/tvHolidayDay"
+                    style="@style/main_header_txt_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_4"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tvHolidayDate"
+                    style="@style/main_header_txt_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_4"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    android:id="@+id/tvHolidayDescr"
+                    style="@style/large_light_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_4"
+                    android:layout_marginTop="75dp"
+                    android:layout_marginRight="@dimen/dp_4"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:textAlignment="textStart" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

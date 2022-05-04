@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
+
+    <com.zhpan.bannerview.BannerViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/dp_50"
+        android:layout_marginBottom="@dimen/dp_120"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/sp_16" />
+
+    <TextView
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/common_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:background="@drawable/bg_start"
+        android:gravity="center_vertical"
+        android:text="Start Now"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/sp_18"
+        android:visibility="gone" />
+</RelativeLayout>

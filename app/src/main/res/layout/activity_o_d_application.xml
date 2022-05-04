@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_layout"
+    tools:context=".ui.dashboard.leave.ODApplicationActivity">
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/dp_16"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlSelectStartDate"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/edit_text_round_gray_background">
+
+        <TextView
+            style="@style/large_txt_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_8"
+            android:gravity="center"
+            android:text="@string/start_date" />
+
+        <TextView
+            android:id="@+id/tvSelectStartDate"
+            style="@style/large_txt_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dp_8"
+            android:drawableEnd="@drawable/right_arrow"
+            android:gravity="center"
+            android:text="@string/str_select" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlSelectEndDate"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/edit_text_round_gray_background">
+
+        <TextView
+            style="@style/large_txt_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_8"
+            android:gravity="center"
+            android:text="@string/end_date" />
+
+        <TextView
+            android:id="@+id/tvSelectEndDate"
+            style="@style/large_txt_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/dp_8"
+            android:drawableEnd="@drawable/right_arrow"
+            android:gravity="center"
+            android:text="@string/str_select" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rlSelectSubLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/edit_text_round_gray_background">
+
+        <TextView
+            android:id="@+id/placeholderAddress"
+            style="@style/large_txt_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_8"
+            android:gravity="center"
+            android:text="*Add Outdoor Location" />
+
+        <TextView
+            style="@style/large_txt_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/dp_8"
+            android:drawableEnd="@drawable/right_arrow"
+            android:gravity="center" />
+
+
+        <TextView
+            android:id="@+id/txt_on_site_location"
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/placeholderAddress"
+            style="@style/large_txt_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Address valid"
+            android:layout_margin="@dimen/dp_8"
+            android:gravity="center" />
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hintEnabled="false"
+        android:layout_marginTop="@dimen/dp_20"
+        app:shapeAppearance="@style/TextFieldShapeAppearance.SmallComponent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextRemarks"
+            android:hint="Enter Remarks..."
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minLines="4"
+            android:inputType="textMultiLine" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+    <Button
+        android:layout_marginTop="@dimen/dp_20"
+        android:id="@+id/buttonApplyOD"
+        android:textAllCaps="false"
+        android:text="@string/str_apply"
+        app:backgroundTint="@null"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/color_checkin"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/default_btn_height"/>
+
+
+</LinearLayout>
+
+    <com.goldmedal.hrapp.common.RotateLoading
+        android:id="@+id/progress_bar"
+        app:loading_color="@color/darkBackground"
+        app:loading_width="@dimen/dp_2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal|center_vertical" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

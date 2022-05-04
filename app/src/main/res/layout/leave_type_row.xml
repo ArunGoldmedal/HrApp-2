@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="leaveTypeModel"
+            type="com.goldmedal.hrapp.data.model.LeaveTypeData" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/dp_8"
+        android:id="@+id/item_view"
+        android:layout_height="75dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_10"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imvLeaveType"
+                android:layout_width="10dp"
+                android:src="@color/smsp_transparent_color"
+                app:civ_circle_background_color="@color/colorRed"
+                android:layout_height="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/tvLeaveType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_margin="@dimen/dp_10"
+                style="@style/large_txt_bold"
+                android:layout_centerInParent="true"
+                tools:text="PL"
+                android:layout_toStartOf="@+id/tvLeaveCount"
+                android:layout_toEndOf="@+id/imvLeaveType"
+                android:text = "@{leaveTypeModel.leaveTypeName}"
+                 />
+
+            <TextView
+                android:id="@+id/tvLeaveCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                android:layout_margin="@dimen/dp_6"
+                style="@style/large_extra_bold_dark"
+                android:layout_centerInParent="true"
+                tools:text="10"
+                android:layout_toStartOf="@+id/imvArrow"
+                android:text = "@{leaveTypeModel.LeaveCount}"
+                />
+
+
+            <ImageView
+                android:id="@+id/imvArrow"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/right_arrow"
+                android:tint="@color/material_grey_400"
+                android:layout_margin="@dimen/dp_16"
+                android:layout_centerInParent="true"
+                />
+
+        </RelativeLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="CircleView">
+        <attr name="cv_titleText" format="string" />
+        <attr name="cv_subtitleText" format="string" />
+        <attr name="cv_titleSize" format="dimension" />
+        <attr name="cv_subtitleSize" format="dimension" />
+        <attr name="cv_titleSubtitleSpace" format="float" />
+        <attr name="cv_strokeWidthSize" format="float" />
+        <attr name="cv_fillRadius" format="float" />
+        <attr name="cv_titleColor" format="color" />
+        <attr name="cv_subtitleColor" format="color" />
+        <attr name="cv_fillColor" format="color" />
+        <attr name="cv_strokeColorValue" format="color" />
+        <attr name="cv_backgroundColorValue" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="SegmentedButton">
+        <attr name="textSize" format="dimension"/>
+        <attr name="segmentHeight" format="dimension"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textColorChecked" format="color"/>
+        <attr name="segmentColor" format="color"/>
+        <attr name="segmentColorChecked" format="color"/>
+        <attr name="rippleColor" format="color"/>
+        <attr name="rippleColorChecked" format="color"/>
+        <attr name="borderColor" format="color"/>
+        <attr name="borderWidth" format="dimension"/>
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="segmentFont" format="reference"/>
+        <attr name="segmentFontChecked" format="reference"/>
+
+        <attr name="spreadType" format="enum">
+            <enum name="evenly" value="0"/>
+            <enum name="wrap" value="1"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RotateLoading">
+        <attr name="loading_width" format="dimension"/>
+        <attr name="loading_color" format="color"/>
+        <attr name="shadow_position" format="integer"/>
+        <attr name="loading_speed" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+
+    <!--Add Curve Below View-->
+
+    <declare-styleable name="CrescentoImageView">
+        <attr name="curvature" format="dimension"/>
+        <attr name="gravity" format="integer">
+            <flag name="top" value="0"/>
+            <flag name="bottom" value="1"/>
+        </attr>
+        <attr name="curvatureDirection" format="integer">
+            <flag name="outward" value="0"/>
+            <flag name="inward" value="1"/>
+        </attr>
+        <attr name="crescentoTintMode" format="integer">
+            <flag name="automatic" value="0"/>
+            <flag name="manual" value="1"/>
+        </attr>
+        <attr name="crescentoTintColor" format="color"/>
+        <attr name="crescentoTintAlpha" format="integer"/>
+        <attr name="gradientDirection" format="integer">
+            <flag name="top_to_bottom" value="0" />
+            <flag name="bottom_to_top" value="1" />
+            <flag name="left_to_right" value="2" />
+            <flag name="right_to_left" value="3" />
+        </attr>
+        <attr name="gradientStartColor" format="color"/>
+        <attr name="gradientEndColor" format="color"/>
+    </declare-styleable>
+
+
+
+
+<!--Family Tree-->
+
+    <declare-styleable name="TreeView">
+        <attr name="levelSeparation" format="dimension"/>
+        <attr name="lineThickness" format="dimension"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="useMaxSize" format="boolean"/>
+    </declare-styleable>
+
+
+
+
+
+
+
+
+</resources>

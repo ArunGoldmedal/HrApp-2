@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBg"
+    tools:context=".ui.attendancedetail.DailyTabFragment">
+
+    <ScrollView
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:id="@+id/rlProgressMain"
+                android:layout_gravity="center|top">
+
+                <ProgressBar
+                    android:id="@+id/circularProgressbar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="@dimen/dp_20"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="100"
+                    android:layout_centerInParent="true"
+                    android:progressDrawable="@drawable/circular_progress"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/header_txt_dark"
+                        android:text="Attendance No."/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        style="@style/large_extra_bold_dark"
+                        android:text="0/3"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/tvCalendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Calendar"
+                        android:drawableRight="@drawable/icon_mobile"
+                        style="@style/large_txt_dark"
+                        />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/llAttendanceDetail"
+                android:layout_below="@+id/rlProgressMain"
+                android:layout_marginTop="@dimen/dp_10"
+                android:weightSum="3"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/imgEarlybird"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/dp_20"
+                        android:clickable="false"
+                        android:src="@drawable/male_avatar"
+                        app:civ_border_color="@color/lightGray"
+                        app:civ_border_width="1dp" />
+
+                    <TextView
+                        android:id="@+id/tvEarlyBird"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Early Bird"
+                        android:drawableLeft="@drawable/icon_mobile"
+                        style="@style/large_txt_dark"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/imgHardworking"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/dp_20"
+                        android:clickable="false"
+                        android:src="@drawable/male_avatar"
+                        app:civ_border_color="@color/lightGray"
+                        app:civ_border_width="1dp" />
+
+                    <TextView
+                        android:id="@+id/tvHardworking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Hard Working"
+                        android:drawableLeft="@drawable/icon_mobile"
+                        style="@style/large_txt_dark"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/imgLate"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/dp_20"
+                        android:clickable="false"
+                        android:src="@drawable/male_avatar"
+                        app:civ_border_color="@color/lightGray"
+                        app:civ_border_width="1dp" />
+
+                    <TextView
+                        android:id="@+id/tvLate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Late"
+                        android:drawableLeft="@drawable/icon_mobile"
+                        style="@style/large_txt_dark"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/llAttendanceDetail"
+                android:layout_marginTop="@dimen/dp_10"
+                android:weightSum="3"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1.5">
+
+                    <TextView
+                        android:id="@+id/tvRankings"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="Ranking"
+                        style="@style/large_txt_dark"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@color/colorWhite">
+
+                        <TextView
+                            android:id="@+id/tvAccounts"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_margin="@dimen/dp_4"
+                            android:gravity="center"
+                            android:text="Account"
+                            style="@style/large_txt_dark"
+                            />
+
+                        <ProgressBar
+                            android:id="@+id/pb3"
+                            android:layout_marginTop="10dp"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:maxHeight="10dip"
+                            android:minHeight="10dip"
+                            android:progress="90"
+                            android:secondaryProgress="10"
+                            android:progressDrawable="@color/colorGreen"
+                            android:indeterminateDrawable="@color/lightGray"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="0.75">
+
+                    <TextView
+                        android:id="@+id/tvAttdNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="Attendance No"
+                        style="@style/large_txt_dark"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@color/colorWhite">
+
+                        <TextView
+                            android:id="@+id/tvAttdNoValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="0/3"
+                            style="@style/large_txt_dark"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="0.75">
+
+                    <TextView
+                        android:id="@+id/tvAvgHrs"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="Average Hours"
+                        style="@style/large_txt_dark"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:background="@color/colorWhite">
+
+                        <TextView
+                            android:id="@+id/tvAvgHrsValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="0.0 Hours"
+                            style="@style/large_txt_dark"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

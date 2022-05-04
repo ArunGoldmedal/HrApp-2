@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.goldmedal.hrapp">
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:name=".AppDelegate"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+        <activity android:name=".ui.manager.ShortLeavesRequestsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/sl_requests"
+            android:theme="@style/ThemeWithActionBar"
+            />
+        <activity android:name=".ui.dashboard.leave.ShortLeaveHistoryActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/sl_history"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity android:name=".ui.dashboard.leave.ApplyShortLeaveActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/apply_sl_leave"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leftdrawer.TeamRegularizationHistoryActivity"
+            android:label="@string/team_reg_history"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leftdrawer.RegularizationHistoryActivity"
+            android:label="@string/reg_history"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.manager.RegularizationRequestsActivity"
+            android:label="@string/reg_requests"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leftdrawer.TimeCardActivity"
+            android:label="@string/time_card"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.leave.ODRequestsActivity"
+            android:label="@string/od_requests"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.leave.ODRecordsActivity"
+            android:label="@string/od_records"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.leave.SubLocationListActivity"
+            android:label="@string/outdoor_address"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.leave.ODApplicationActivity"
+            android:label="@string/od_application"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.BaseActivity"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.profile.EditProfileActivity"
+            android:label="@string/str_edit_profile"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.dashboard.profile.FamilyTreeActivity" />
+        <activity
+            android:name=".ui.dashboard.leave.FullscreenImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen_image"
+            android:theme="@style/AppTheme.Fullscreen" />
+        <activity
+            android:name=".ui.manager.TeamProfileHistoryActivity"
+            android:label="@string/my_team"
+            android:parentActivityName=".ui.manager.MyTeamActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.manager.MyTeamActivity"
+            android:label="@string/my_team"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.attendancedetail.AttendanceReportActivity"
+            android:label="@string/team_attendance_report"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leave.TeamRequestsArchiveActivity"
+            android:label="@string/team_record"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leave.LeaveRequestsActivity"
+            android:label="@string/leave_requests"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:theme="@style/ThemeWithActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.dashboard.notification.NotificationActivity"
+            android:label="@string/notifications"
+            android:theme="@style/ThemeWithActionBar" />
+
+        <activity
+            android:name=".ui.accounts.PartyDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.accounts.AccountsDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.holiday.HolidayListActivity"
+            android:label="@string/holiday_list"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+
+        <activity
+            android:name=".ui.leave.LeaveStatusActivity"
+            android:label="@string/my_record"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leave.LeaveTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".ui.map.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.auth.VerifyOTPActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".ui.auth.IntroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.auth.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.auth.InputDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".ui.auth.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
+        <activity android:name=".ui.dashboard.TransitionsActivity" /> <!-- <receiver -->
+        <!-- android:name=".MySMSBroadcastReceiver" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".geofence.GeofenceReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true" /> -->
+        <service android:name=".geofence.GeofenceTransitionService" />
+        <service
+            android:name=".FcmMessageService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+             See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/gm_noti_logo" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+    </application>
+
+</manifest>

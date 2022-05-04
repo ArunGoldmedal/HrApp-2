@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.attendancedetail.MonthlyTabFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="21/01/2019"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_2"
+            android:background="@color/colorWhite"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Days Present"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_bold"/>
+
+            <TextView
+                android:id="@+id/tvDaysPresent"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="2 Days"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_2"
+            android:background="@color/colorWhite"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Absent"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_bold"/>
+
+            <TextView
+                android:id="@+id/tvAbsent"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="2 Days"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_2"
+            android:background="@color/colorWhite"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Off-Site"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_bold"/>
+
+            <TextView
+                android:id="@+id/tvOffSite"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="0 Times"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

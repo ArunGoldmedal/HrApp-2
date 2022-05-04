@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.goldmedal.hrapp.ui.leave.LeaveViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+
+                
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/spinner_select_year"
+                    android:layout_width="200dp"
+                    android:layout_gravity="end"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:background="@color/lightGray"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/leave_record_row">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+
+
+            <com.goldmedal.hrapp.util.ViewCommonCustom
+                android:id="@+id/view_common"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+<!--            <com.goldmedal.hrapp.common.RotateLoading-->
+<!--                android:id="@+id/progress_bar"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                app:loading_width="@dimen/dp_2"-->
+<!--                app:loading_color="@color/darkBackground"/>-->
+
+
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightGray"
+    tools:context=".ui.attendancedetail.MeTabFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="@dimen/dp_4"
+        android:background="@color/colorWhite"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Todays early ranking not ranked"
+            android:gravity="center"
+            android:layout_margin="@dimen/dp_8"
+            style="@style/large_txt_bold"/>
+
+        <ImageView
+            android:id="@+id/imvRightArrow"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/dp_8"
+            android:src="@drawable/ic_profile"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:layout_marginRight="@dimen/dp_4"
+        android:background="@color/colorWhite"
+        >
+
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imgprofile"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dp_20"
+                android:clickable="false"
+                android:src="@drawable/male_avatar"
+                app:civ_border_color="@color/lightGray"
+                app:civ_border_width="1dp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgprofile"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvUserName"
+                android:layout_marginTop="@dimen/dp_12"
+                style="@style/header_txt_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Dummy" />
+
+
+            <TextView
+                android:id="@+id/tvUserPost"
+                style="@style/medium_txt_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Attendance group attendance" />
+
+        </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/dp_20"
+                android:text="21/02/2019"
+                android:layout_gravity="center"
+                android:drawableRight="@drawable/icon_mobile"
+                style="@style/large_txt_dark"
+                />
+
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_4"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Monthly Report"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"/>
+
+            <TextView
+                android:id="@+id/tvCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="Calendar"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_2"
+            android:background="@color/colorWhite"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Days Present"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_bold"/>
+
+            <TextView
+                android:id="@+id/tvDaysPresent"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="2 Days"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_2"
+            android:background="@color/colorWhite"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Absent"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_bold"/>
+
+            <TextView
+                android:id="@+id/tvAbsent"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="2 Days"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/dp_2"
+            android:background="@color/colorWhite"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Off-Site"
+                android:gravity="center"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_bold"/>
+
+            <TextView
+                android:id="@+id/tvOffSite"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="0 Times"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@drawable/icon_mobile"
+                android:layout_margin="@dimen/dp_8"
+                style="@style/large_txt_dark"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvWorkingHrs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This months average working hours: 1 hrs"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/dp_8"
+            style="@style/small_txt_thin"/>
+
+
+    </LinearLayout>
+
+</FrameLayout>

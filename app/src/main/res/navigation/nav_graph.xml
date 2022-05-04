@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.goldmedal.hrapp.ui.dashboard.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment" />
+
+
+    <fragment
+        android:id="@+id/attendanceFragment"
+        android:name="com.goldmedal.hrapp.ui.dashboard.attendance.AttendanceFragment"
+        android:label="@string/attendance"
+        tools:layout="@layout/attendance_fragment" />
+
+
+    <fragment
+        android:id="@+id/leaveFragment"
+        android:name="com.goldmedal.hrapp.ui.leave.ApplyLeaveFragment"
+        android:label="@string/leave"
+        tools:layout="@layout/apply_leave_detail" />
+
+    <fragment
+        android:id="@+id/requestsFragment"
+        android:name="com.goldmedal.hrapp.ui.dashboard.leave.LeaveRequestsFragment"
+        android:label="LeaveRequestsFragment"
+        tools:layout="@layout/fragment_leave_requests" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.goldmedal.hrapp.ui.dashboard.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/profile_fragment" />
+
+
+    <activity
+        android:id="@+id/mapsActivity"
+        android:name="com.goldmedal.hrapp.ui.map.MapsActivity"
+        android:label="activity_maps"
+        tools:layout="@layout/activity_maps" />
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="com.goldmedal.hrapp.ui.policy.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings" />
+    <activity
+        android:id="@+id/privacyPolicyActivity"
+        android:name="com.goldmedal.hrapp.ui.policy.PrivacyPolicyActivity"
+        android:label="activity_privacy_policy"
+        tools:layout="@layout/activity_privacy_policy" />
+    <activity
+        android:id="@+id/contactUsActivity"
+        android:name="com.goldmedal.hrapp.ui.policy.ContactUsActivity"
+        android:label="activity_contact_us"
+        tools:layout="@layout/activity_contact_us" />
+    <activity
+        android:id="@+id/aboutUsActivity"
+        android:name="com.goldmedal.hrapp.ui.policy.AboutUsActivity"
+        android:label="activity_about_us"
+        tools:layout="@layout/activity_about_us" />
+    <activity
+        android:id="@+id/paySlipActivity"
+        android:name="com.goldmedal.hrapp.ui.policy.PaySlipActivity"
+        android:label="activity_pay_slip"
+        tools:layout="@layout/activity_pay_slip" />
+    <activity
+        android:id="@+id/accountsDetailActivity"
+        android:name="com.goldmedal.hrapp.ui.accounts.AccountsDetailActivity"
+        android:label="activity_acounts_detail"
+        tools:layout="@layout/activity_accounts_detail" />
+    <activity
+        android:id="@+id/leaveStatsActivity"
+        android:name="com.goldmedal.hrapp.ui.leave.LeaveStatusActivity"
+        android:label="leave_stats" />
+    <activity
+        android:id="@+id/holidayListActivity"
+        android:name="com.goldmedal.hrapp.ui.holiday.HolidayListActivity"
+        android:label="holiday_list"
+        tools:layout="@layout/holiday_list_activity" />
+    <activity
+        android:id="@+id/leaveRecordActivity"
+        android:name="com.goldmedal.hrapp.ui.leave.LeaveStatusActivity"
+        android:label="leave_record"
+        tools:layout="@layout/leave_status_activity" />
+    <activity
+        android:id="@+id/attendanceStatsActivity"
+        android:name="com.goldmedal.hrapp.ui.attendancedetail.AttendanceStatsActivity"
+        android:label="att_stats" />
+    <activity
+        android:id="@+id/leaveRequestsActivity"
+        android:name="com.goldmedal.hrapp.ui.leave.LeaveRequestsActivity"
+        android:label="activity_leave_requests"
+        tools:layout="@layout/activity_leave_requests" />
+    <activity
+        android:id="@+id/teamRequestsArchiveActivity"
+        android:name="com.goldmedal.hrapp.ui.leave.TeamRequestsArchiveActivity"
+        android:label="TeamRequestsArchiveActivity"
+        tools:layout="@layout/activity_team_requests_archive" />
+
+    <activity
+        android:id="@+id/myTeamActivity"
+        android:name="com.goldmedal.hrapp.ui.manager.MyTeamActivity"
+        android:label="@string/my_team"
+        tools:layout="@layout/activity_my_team" />
+
+    <activity
+        android:id="@+id/odApplicationActivity"
+        android:name="com.goldmedal.hrapp.ui.dashboard.leave.ODApplicationActivity"
+        android:label="@string/od_application" />
+
+    <activity
+        android:id="@+id/odRecordsActivity"
+        android:name="com.goldmedal.hrapp.ui.dashboard.leave.ODRecordsActivity"
+        android:label="@string/od_records" />
+
+    <activity
+        android:id="@+id/odRequestsActivity"
+        android:name="com.goldmedal.hrapp.ui.dashboard.leave.ODRequestsActivity"
+        android:label="@string/od_requests" />
+    <activity
+        android:id="@+id/timeCardActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.TimeCardActivity"
+        android:label="activity_time_card"
+        tools:layout="@layout/activity_time_card" />
+    <activity
+        android:id="@+id/regularizationRequestsActivity"
+        android:name="com.goldmedal.hrapp.ui.manager.RegularizationRequestsActivity"
+        android:label="activity_regularization_requests"
+        tools:layout="@layout/activity_regularization_requests" />
+
+
+    <activity
+        android:id="@+id/teamRegularizationHistoryActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.TeamRegularizationHistoryActivity" />
+
+    <activity
+        android:id="@+id/regularizationHistoryActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.RegularizationHistoryActivity" />
+
+    <activity
+        android:id="@+id/applySLActivity"
+        android:name="com.goldmedal.hrapp.ui.dashboard.leave.ApplyShortLeaveActivity" />
+    <activity
+        android:id="@+id/slHistoryActivity"
+        android:name="com.goldmedal.hrapp.ui.dashboard.leave.ShortLeaveHistoryActivity" />
+    <activity
+        android:id="@+id/slRequestsActivity"
+        android:name="com.goldmedal.hrapp.ui.manager.ShortLeavesRequestsActivity" />
+
+
+
+
+</navigation>

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/appBg">
+
+    <data>
+
+        <variable
+            name="applyLeaveModel"
+            type="com.goldmedal.hrapp.ui.leave.LeaveViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/appBg"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/large_txt_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:layout_margin="@dimen/dp_8"
+                    android:gravity="center"
+                    android:text="Leave Balance" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/txt_rem_leaves"
+                        style="@style/medium_txt_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_4"
+                        android:gravity="center"
+                        android:text="" />
+
+                    <TextView
+                        android:id="@+id/txt_total_leaves"
+                        style="@style/medium_txt_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:gravity="center" />
+                    <!--                    app:trackColorActive="@drawable/color_checkin"-->
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_total_leaves"
+                        app:thumbRadius="0dp"
+                        app:trackColorActive="@color/colorPrimary"
+                        app:trackColorInactive="@color/colorWhite" />
+                </RelativeLayout>
+
+
+                <TextView
+                    style="@style/large_txt_bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="27dp"
+                    android:layout_margin="@dimen/dp_8"
+                    android:gravity="center"
+                    android:text="Day Type" />
+
+
+                   <com.goldmedal.hrapp.common.customviews.segmentedcontrol.SegmentedButton
+                        android:id="@+id/segmented_day_type"
+                        style="@style/TextAppearance.MdcTypographyStyles.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp_8"
+                        android:orientation="horizontal"
+                        app:spreadType="evenly">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Full" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="First-Half" />
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:text="Second-Half" />
+                    </com.goldmedal.hrapp.common.customviews.segmentedcontrol.SegmentedButton>
+
+
+                <RelativeLayout
+                    android:id="@+id/rlSelectLeaveType"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/dp_4"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_8"
+                        android:gravity="center"
+                        android:text="*Leave Type" />
+
+                    <TextView
+                        android:id="@+id/tvSelectLeaveType"
+                        style="@style/large_txt_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_8"
+                        android:drawableRight="@drawable/right_arrow"
+                        android:gravity="center"
+                        android:text="@string/str_select" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rlSelectStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/dp_4"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_8"
+                        android:gravity="center"
+                        android:text="@string/start_date" />
+
+                    <TextView
+                        android:id="@+id/tvSelectStartDate"
+                        style="@style/large_txt_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_8"
+                        android:drawableEnd="@drawable/right_arrow"
+                        android:gravity="center"
+                        android:text="@string/str_select" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlSelectEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/dp_4"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_8"
+                        android:gravity="center"
+                        android:text="@string/end_date" />
+
+                    <TextView
+                        android:id="@+id/tvSelectEndDate"
+                        style="@style/large_txt_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_8"
+                        android:drawableEnd="@drawable/right_arrow"
+                        android:gravity="center"
+                        android:text="@string/str_select" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/dp_4"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/dp_8"
+                        android:gravity="center"
+                        android:text="*Duration (Days)" />
+
+                    <TextView
+                        android:id="@+id/tvDuration"
+                        style="@style/medium_txt_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:layout_marginEnd="@dimen/dp_32"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:text="@string/dash" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_8"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        android:id="@+id/tvInputReason"
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/dp_8"
+                        android:gravity="center"
+                        android:text="*Leave Reason" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="@dimen/dp_8"
+                        android:layout_toEndOf="@+id/tvInputReason"
+                        android:background="@drawable/login_rounded_corner_white">
+
+
+                        <Spinner
+                            android:id="@+id/spinnerLeaveReasons"
+                            style="@style/large_txt_bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+
+                            android:background="@android:color/transparent"
+                            android:drawableEnd="@drawable/arrow_down"
+                            android:gravity="center"
+                            android:spinnerMode="dropdown" />
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center|end"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:src="@drawable/arrow_down" />
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_8"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        android:id="@+id/tvImage"
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp_8"
+                        android:gravity="center"
+                        android:text="Upload Image (Optional)" />
+
+                    <ImageView
+                        android:id="@+id/imgUpload"
+                        android:layout_width="@dimen/large_icon_width"
+                        android:layout_height="@dimen/large_icon_height"
+                        android:layout_below="@+id/tvImage"
+                        android:layout_marginLeft="@dimen/dp_8"
+                        android:onClick="@{applyLeaveModel::onImageUploadButtonClick}"
+                        android:src="@drawable/image_upload" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:background="@drawable/color_checkin"
+                    android:onClick="@{applyLeaveModel::onApplyLeavesButtonClick}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Submit"
+                        android:textColor="@color/colorWhite" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+        <com.goldmedal.hrapp.common.RotateLoading
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:loading_width="@dimen/dp_2"
+            app:loading_color="@color/darkBackground"/>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</layout>

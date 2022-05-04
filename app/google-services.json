@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "618272736107",
+    "firebase_url": "https://hrapp-970f1.firebaseio.com",
+    "project_id": "hrapp-970f1",
+    "storage_bucket": "hrapp-970f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618272736107:android:63f628be6956e707",
+        "android_client_info": {
+          "package_name": "com.goldmedal.hrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618272736107-brc408jre121464271nmu5m1nclvgifa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goldmedal.hrapp",
+            "certificate_hash": "aa1e8cd91995aa985d68b744f7eca8853410edf6"
+          }
+        },
+        {
+          "client_id": "618272736107-k51ljgrbciukk61jhron5joc1srn3fn8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goldmedal.hrapp",
+            "certificate_hash": "36979c6f7544447eaf15a30d8c0f019c637a48bc"
+          }
+        },
+        {
+          "client_id": "618272736107-1n5nahra7on4g81n3bl2lpfda4n1d9sc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg0NbATq5hFbhZ20bOtrjWC5g6BLNmNKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618272736107-1n5nahra7on4g81n3bl2lpfda4n1d9sc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "618272736107-n9f1ll2namv92tero4ijcipakfnro6hl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Goldmedal.HrApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/dp_4"
+    app:strokeColor="@color/lightGray"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <!--<TextView-->
+        <!--android:id="@+id/txtPreview"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_margin="@dimen/dimen_8dp"-->
+        <!--android:background="@drawable/circular_text"-->
+        <!--android:gravity="center"-->
+        <!--android:textAllCaps="true"-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:textSize="@dimen/dimen_20dp" />-->
+
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_4"
+            android:fontFamily="sans-serif-light"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_4"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

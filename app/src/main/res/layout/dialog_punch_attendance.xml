@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.goldmedal.hrapp.ui.dialogs.PunchAttendanceViewModel" />
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="@dimen/dp_16">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/appBg"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/txt_punch_header"
+                style="@style/large_light_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dp_16"
+                android:text="@string/str_punch_in"
+                android:textColor="@color/colorMaterialCyan" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F5F5F5"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:paddingStart="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingEnd="@dimen/dp_4"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:text="Punch Time: " />
+
+                    <TextView
+                        android:id="@+id/txt_punch_time"
+                        style="@style/medium_txt_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:textColor="@color/colorMaterialCyan"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:text="" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_8"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:paddingStart="@dimen/dp_8"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingEnd="@dimen/dp_4"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:text="Punch Location:" />
+
+                    <TextView
+                        android:id="@+id/txt_punch_location"
+                        style="@style/medium_txt_regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:paddingTop="@dimen/dp_2"
+                        android:paddingBottom="@dimen/dp_2"
+                        android:text="@={viewmodel.strLocationAddress}" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_8"
+                    android:background="@null"
+                    android:hint="Enter Comment (optional)"
+                    android:padding="@dimen/dp_8"
+                    android:text="@={viewmodel.strComment}" />
+
+
+                <ImageView
+                    android:id="@+id/imgUpload"
+                    android:layout_width="@dimen/large_icon_width"
+                    android:layout_height="@dimen/large_icon_height"
+
+                    android:onClick="@{viewmodel::onImageUploadButtonClick}"
+                    android:padding="@dimen/dp_8"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/image_upload" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_width="@dimen/common_button_width"
+                android:layout_height="@dimen/common_button_height"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:background="@drawable/color_checkin"
+                android:gravity="center"
+                android:onClick="@{viewmodel::onPunchAttendanceButtonClick}"
+                android:padding="@dimen/dp_8"
+                android:text="@string/str_submit"
+                android:textColor="#FFFFFF" />
+
+
+        </LinearLayout>
+
+        <com.goldmedal.hrapp.common.RotateLoading
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:loading_color="@color/darkBackground"
+            app:loading_width="@dimen/dp_2" />
+        <!--    <ProgressBar-->
+        <!--        android:id="@+id/progress_bar"-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:layout_gravity="center_horizontal|center_vertical"-->
+        <!--        android:visibility="invisible" />-->
+    </com.google.android.material.card.MaterialCardView>
+</layout>

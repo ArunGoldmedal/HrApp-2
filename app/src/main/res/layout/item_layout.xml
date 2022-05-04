@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.goldmedal.hrapp.common.CornerImageView
+        android:id="@+id/banner_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scaleType="fitXY" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/dp_20"
+        app:cardCornerRadius="16dp">
+
+        <ImageView
+            android:id="@+id/avatarImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile_bg" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_employee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_20"
+        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="4dp"
+        android:layout_toEndOf="@id/cardView"
+        android:fontFamily="sans-serif-black"
+        android:paddingLeft="4dp"
+        android:text="Akram Khan"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txt_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_employee"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_toEndOf="@id/cardView"
+        android:fontFamily="sans-serif-condensed-light"
+        android:paddingLeft="4dp"
+        android:text="is celebrating his/her birthday \n on 20th sep"
+        android:textSize="14sp" />
+
+
+</RelativeLayout>
+
+

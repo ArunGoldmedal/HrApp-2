@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.goldmedal.hrapp.ui.auth.LoginViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="@drawable/login_background"
+        tools:context=".ui.auth.LoginActivity">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_32"
+            android:layout_marginEnd="@dimen/dp_32"
+            android:layout_marginBottom="@dimen/medium_icon_height"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:helperText="@string/str_email_mobile_no"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/colorWhite"
+                app:shapeAppearance="@style/TextFieldShapeAppearance.SmallComponent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:nextFocusForward="@+id/editTextPassword"
+                    android:text="@={viewmodel.strUserName}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
+                app:counterTextColor="@color/colorWhite"
+                app:endIconMode="password_toggle"
+                app:helperText="@string/str_password"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/colorWhite"
+                app:shapeAppearance="@style/TextFieldShapeAppearance.SmallComponent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLength="20"
+                    android:maxLines="1"
+                    android:nextFocusForward="@+id/editTextCaptcha"
+                    android:text="@={viewmodel.strPassword}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_btn_height"
+                android:layout_marginTop="@dimen/dp_20"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCaptcha"
+                    style="@style/login_edt_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_btn_height"
+                    android:layout_marginRight="50dp"
+                    android:background="@drawable/login_rounded_corner_white"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="italic|bold" />
+
+                <ImageView
+                    android:id="@+id/imvReloadCaptcha"
+                    android:layout_width="@dimen/small_icon_width"
+                    android:layout_height="@dimen/small_icon_height"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_12"
+                    android:layout_marginRight="@dimen/dp_12"
+                    android:background="@drawable/reload"
+                    android:backgroundTint="@color/colorWhite"
+                    android:onClick="@{viewmodel::onCaptchaReload}" />
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                app:counterEnabled="true"
+                app:counterMaxLength="6"
+                app:counterTextColor="@color/colorWhite"
+                app:helperText="@string/str_captcha"
+                app:helperTextEnabled="true"
+                app:helperTextTextColor="@color/colorWhite"
+                app:shapeAppearance="@style/TextFieldShapeAppearance.SmallComponent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextCaptcha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="6"
+                    android:text="@={viewmodel.strCaptcha}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <RelativeLayout
+                android:id="@+id/btnLogIn"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_btn_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/color_checkin"
+                android:onClick="@{viewmodel::onLoginButtonClick}">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="LOG IN"
+                    android:textColor="@color/colorWhite" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8">
+
+                <TextView
+                    android:id="@+id/tvForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:onClick="@{viewmodel::onForgotPassword}"
+                    android:text="@string/str_forgot_password"
+                    android:textColor="@color/colorWhite" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+        <com.goldmedal.hrapp.common.RotateLoading
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:loading_width="@dimen/dp_2"
+            app:loading_color="@color/darkBackground"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+
+
