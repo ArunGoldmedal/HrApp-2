@@ -14,6 +14,8 @@ private const val KEY_VERSION_NAME = "key_ver_name"
 private const val KEY_USER_PWD = "key_user_password"
 private const val KEY_IS_ACTIVE = "key_is_active"
 private const val KEY_FORCE_UPDATE = "key_force_update"
+private const val KEY_FCM_TOKEN = "key_fcm_token"
+
 class PreferenceProvider @Inject constructor(@ApplicationContext context: Context){
 
 
@@ -89,13 +91,12 @@ class PreferenceProvider @Inject constructor(@ApplicationContext context: Contex
         return preference.getBoolean(KEY_FORCE_UPDATE,false)
     }
 
+    fun saveFCMToken(password: String?) {
+        preference.edit().putString(KEY_FCM_TOKEN,password).apply()
+    }
 
-
-
-
-
-
-
-
+    fun getFCMToken(): String? {
+        return preference.getString(KEY_FCM_TOKEN,"")
+    }
 
 }

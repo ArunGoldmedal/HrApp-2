@@ -315,7 +315,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     private fun getCheckedChip(){
         homeFragmentBinding.chipGroupChoice.setOnCheckedChangeListener { group, checkedId ->
             // Responds to child chip checked/unchecked
-            viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+            viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
                 if (user != null) {
                     when (checkedId) {
                         R.id.chipLast7Days -> {
@@ -334,8 +334,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                         }
                     }
                 }
-            })
-
+            }
 
 
         }

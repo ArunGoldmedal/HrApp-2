@@ -102,6 +102,9 @@ class UserRepository @Inject constructor(
     fun saveInitialData(verCode: Int,verName: String?,isActive: Boolean,forceUpdate: Boolean) =
             prefs.saveInitialData(verCode, verName, isActive, forceUpdate)
 
-fun getVersionCode() = prefs.getVersionCode()
-fun getForceUpdateFlag() = prefs.getForceUpdateFlag()
+    fun getVersionCode() = prefs.getVersionCode()
+    fun getForceUpdateFlag() = prefs.getForceUpdateFlag()
+
+    fun saveFCMToken(token: String?) = prefs.saveFCMToken(token)
+    fun getFCMToken() = prefs.getFCMToken()
 }

@@ -53,6 +53,9 @@ class LoginViewModel @Inject constructor(
     fun getVersionCode() = repository.getVersionCode()
     fun getForceUpdateFlag() = repository.getForceUpdateFlag()
 
+    fun saveFcmToken(token: String?) = repository.saveFCMToken(token)
+    fun getFcmToken() = repository.getFCMToken()
+
     fun logoutUser() =
 
             Coroutines.main {
@@ -83,8 +86,9 @@ class LoginViewModel @Inject constructor(
             return
         }
         else if (strFCMToken.isNullOrEmpty()) {
-            authListener?.onFailure("Invalid token")
-            return
+            strFCMToken = getFcmToken()
+            /*authListener?.onFailure("Invalid token")
+            return*/
         }
         authListener?.onStarted()
 

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.goldmedal.hrapp.ui.dashboard.DashboardActivity
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -16,7 +17,7 @@ import com.google.firebase.messaging.RemoteMessage
 class FcmMessageService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-
+        Log.d("newToken", token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {

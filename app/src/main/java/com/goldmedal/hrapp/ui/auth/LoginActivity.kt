@@ -51,15 +51,14 @@ class LoginActivity : AppCompatActivity(), AuthListener<Any> {
         viewModel.strGeneratedCaptcha = generateRandomCaptcha()
         tvCaptcha.text = viewModel.strGeneratedCaptcha
 
-        viewModel.getLoggedInUser().observe(this, { user ->
+        viewModel.getLoggedInUser().observe(this) { user ->
             if (user != null) {
                 Intent(this, DashboardActivity::class.java).also {
                     it.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(it)
-
                 }
             }
-        })
+        }
         /**
          * Get FireBase Registration  Token (pushwoosh id)
          */
@@ -76,6 +75,7 @@ class LoginActivity : AppCompatActivity(), AuthListener<Any> {
              * Get new FCM registration token
              */
             viewModel.strFCMToken = task.result
+            viewModel.saveFcmToken(task.result)
             Log.d("LoginActivity", "FCM Token: " + task.result)
 
 
