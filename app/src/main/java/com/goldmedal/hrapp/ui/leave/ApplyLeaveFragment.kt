@@ -219,16 +219,15 @@ applyLeaveModel.strLeaveConsiderId = 0
                         }, mYear, mMonth, mDay)
                 startDatePicker.datePicker.minDate = previousCalendar.timeInMillis
 
-                if(dayTypeSegmentIndex > 0){
-
-                   if (applyLeaveModel.strEndDate?.isNotEmpty() == true) {
-                       startDatePicker.datePicker.minDate = maxStartDate.timeInMillis
-                    startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
-                }
-                }else{
-                if (applyLeaveModel.strEndDate?.isNotEmpty() == true) {
-                    startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
-                }
+                if (dayTypeSegmentIndex > 0) {
+                    if (applyLeaveModel.strEndDate?.isNotEmpty() == true) {
+                        startDatePicker.datePicker.minDate = maxStartDate.timeInMillis
+                        startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
+                    }
+                } else {
+                    if (applyLeaveModel.strEndDate?.isNotEmpty() == true) {
+                        startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
+                    }
                 }
 
 
@@ -257,18 +256,17 @@ applyLeaveModel.strLeaveConsiderId = 0
                         }, mYear, mMonth, mDay)
 
 
-                if(dayTypeSegmentIndex > 0){
-
-                   if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
-                       endDatePicker.datePicker.minDate = minEndDate.timeInMillis
-                    endDatePicker.datePicker.maxDate = minEndDate.timeInMillis
-                }
-                }else{
-                if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
-                    endDatePicker.datePicker.minDate = minEndDate.timeInMillis
+                if (dayTypeSegmentIndex > 0) {
+                    if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
+                        endDatePicker.datePicker.minDate = minEndDate.timeInMillis
+                        endDatePicker.datePicker.maxDate = minEndDate.timeInMillis
+                    }
                 } else {
-                    endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
-                }
+                    if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
+                        endDatePicker.datePicker.minDate = minEndDate.timeInMillis
+                    } else {
+                        endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
+                    }
                 }
 
 

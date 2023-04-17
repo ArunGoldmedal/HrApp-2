@@ -9,6 +9,8 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="holiday_list">Holiday List</string>
+    <string name="sourcing_data">Add Sourcing Data</string>
+    <string name="view_sourcing_data">Sourcing Data History</string>
 
     <!--Leave management-->
     <string name="leave_management">LEAVE MANAGEMENT</string>
@@ -173,6 +175,8 @@
     <string name="sl_history">My SL History</string>
     <string name="sl_requests">Short Leave Requests</string>
     <string name="limit_details">Temp Limit</string>
+    <string name="org_name">Company Name</string>
+    <string name="org_address">Company Address</string>
 
 
 </resources>

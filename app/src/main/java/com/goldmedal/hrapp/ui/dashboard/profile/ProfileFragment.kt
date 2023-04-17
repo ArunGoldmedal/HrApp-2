@@ -67,7 +67,7 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
         viewModel.imageSelectionListener = this
         viewModel.apiListener = this
 
-        viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+        viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 userId = user.UserID
 
@@ -96,18 +96,20 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
 
 
                 tv_locality?.text = "${getString(R.string.locality)} ${user?.Location ?: "-"}"
-                tv_sub_locality?.text = "${getString(R.string.sub_locality)} ${user?.Sublocation ?: "-"}"
+                tv_sub_locality?.text =
+                    "${getString(R.string.sub_locality)} ${user?.Sublocation ?: "-"}"
 
 
-                val avatar = if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
+                val avatar =
+                    if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
 
                 Glide.with(this)
-                        .load(user.ProfilePicture)
-                        .fitCenter()
-                        .placeholder(avatar)
-                        .into(imgprofile)
+                    .load(user.ProfilePicture)
+                    .fitCenter()
+                    .placeholder(avatar)
+                    .into(imgprofile)
             }
-        })
+        }
 
         imv_edit_profile?.setOnClickListener {
             EditProfileActivity.start(requireContext())
@@ -224,71 +226,43 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
         } else if (requestCode == CAMERA) {
             if (data != null) {
                 val thumbnail = data.extras!!.get("data") as Bitmap
-
-
                 prepareImgUpload(thumbnail)
-
             }
         } else if (requestCode == UCrop.REQUEST_CROP) {
             if (resultCode == RESULT_OK) {
                 handleUCropResult(data!!)
-            } else {
-
             }
         } else if (requestCode == UCrop.RESULT_ERROR) {
-
             val cropError: Throwable? = UCrop.getError(data!!)
-            Log.e("TAG", "Crop error: " + cropError);
-
+            Log.e("TAG", "Crop error: $cropError")
         }
-
     }
 
     private fun handleUCropResult(data: Intent) {
-
         val resultUri: Uri? = UCrop.getOutput(data)
-
-
         val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, resultUri)
 
-
         prepareImgUpload(bitmap)
-
-
     }
 
     private fun prepareImgUpload(bitmap: Bitmap) {
         val scaledBitmap = scaleDown(bitmap, 675f, true)
-
-
         viewModel.strBase64Image = convertBitmapToBase64(scaledBitmap)
-
-
-
         viewModel.updateProfilePic(userId)
-
-
     }
 
     override fun onStarted(callFrom: String) {
-
         progress_bar?.start()
-
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
-
-
         progress_bar?.stop()
         root_layout?.snackbar("Profile Picture Updated")
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-
-
         progress_bar?.stop()
         root_layout?.snackbar(message)
-
     }
 
     override fun onValidationError(message: String, callFrom: String) {

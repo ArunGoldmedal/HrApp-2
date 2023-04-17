@@ -141,7 +141,18 @@
             android:parentActivityName=".ui.dashboard.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeWithActionBar" />
-
+        <activity
+            android:name=".ui.leftdrawer.SourcingDataActivity"
+            android:label="@string/sourcing_data"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leftdrawer.ViewSourcingDataActivity"
+            android:label="@string/view_sourcing_data"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
         <activity
             android:name=".ui.leave.LeaveStatusActivity"
             android:label="@string/my_record"

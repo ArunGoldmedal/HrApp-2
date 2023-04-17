@@ -125,6 +125,18 @@
         </menu>
     </item>
 
+    <item android:title="SOURCING DATA">
+        <menu>
+            <item
+                android:id="@+id/sourcingDataActivity"
+                android:title="@string/sourcing_data" />
+
+            <item
+                android:id="@+id/viewSourcingDataActivity"
+                android:title="@string/view_sourcing_data" />
+        </menu>
+    </item>
+
     <group
         android:id="@+id/DetailsGrp"
         android:checkableBehavior="none">
@@ -132,7 +144,6 @@
             android:id="@+id/holidayListActivity"
             android:title="@string/holiday_list" />
     </group>
-
 
     <group
         android:id="@+id/logoutGrp"

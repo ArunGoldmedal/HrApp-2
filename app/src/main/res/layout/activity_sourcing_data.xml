@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/appBg">
+
+    <data>
+
+        <variable
+            name="sourcingDataViewModel"
+            type="com.goldmedal.hrapp.ui.leftdrawer.SourcingDataViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.leftdrawer.SourcingDataActivity">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_org_details_txt"
+                    style="@style/large_extra_bold_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_8"
+                    android:gravity="center"
+                    android:text="Company Details"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/ll_org_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_org_details_txt">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:hint="@string/org_name"
+                        app:shapeAppearance="@style/TextFieldShapeAppearance.SmallComponent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextOrganisationName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:nextFocusForward="@+id/editTextOrgAddress" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_32"
+                        android:hint="@string/org_address"
+                        app:shapeAppearance="@style/TextFieldShapeAppearance.SmallComponent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextOrgAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_100"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_visiting_card_txt"
+                    style="@style/large_extra_bold_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_12"
+                    android:gravity="center"
+                    android:text="Visiting Card (atleast one)"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_org_details" />
+
+                <LinearLayout
+                    android:id="@+id/ll_visiting_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_visiting_card_txt">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/dp_8"
+                        android:elevation="@dimen/dp_10"
+                        app:cardCornerRadius="@dimen/dp_10"
+                        app:cardElevation="@dimen/dp_10">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:id="@+id/iv_upload_visiting_card_1"
+                                android:layout_width="@dimen/large_icon_width"
+                                android:layout_height="@dimen/large_icon_height"
+                                android:layout_margin="@dimen/dp_8"
+                                android:src="@drawable/image_upload"
+                                android:layout_gravity="center"/>
+
+                            <TextView
+                                android:id="@+id/tv_visiting_1"
+                                style="@style/large_txt_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dp_8"
+                                android:gravity="center"
+                                android:text="Upload Visiting Card 1" />
+
+                        </LinearLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="@dimen/dp_8"
+                        android:elevation="@dimen/dp_10"
+                        app:cardCornerRadius="@dimen/dp_10"
+                        app:cardElevation="@dimen/dp_10">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:id="@+id/iv_upload_visiting_card_2"
+                                android:layout_width="@dimen/large_icon_width"
+                                android:layout_height="@dimen/large_icon_height"
+                                android:layout_margin="@dimen/dp_8"
+                                android:src="@drawable/image_upload"
+                                android:layout_gravity="center"/>
+
+                            <TextView
+                                android:id="@+id/tv_visiting_2"
+                                style="@style/large_txt_bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dp_8"
+                                android:gravity="center"
+                                android:text="Upload Visiting Card 2" />
+
+                        </LinearLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_product_photos_txt"
+                    style="@style/large_extra_bold_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:gravity="center"
+                    android:textAlignment="textStart"
+                    android:text="Product Images (atleast one)"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_visiting_card"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_product_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp_8"
+                    android:elevation="@dimen/dp_10"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_product_photos_txt"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorBlue"/>
+
+                        <ImageView
+                            android:id="@+id/iv_product_1"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/box_img"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tv_product_1"
+                            style="@style/large_txt_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_8"
+                            android:layout_gravity="center"
+                            android:text="Upload Product Image 1" />
+
+                        <ImageView
+                            android:id="@+id/iv_upload_product_1"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/large_icon_height"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/image_upload"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_product_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp_8"
+                    android:elevation="@dimen/dp_10"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_product_1"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorGreen"/>
+
+                        <ImageView
+                            android:id="@+id/iv_product_2"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/box_img"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tv_product_2"
+                            style="@style/large_txt_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_8"
+                            android:layout_gravity="center"
+                            android:text="Upload Product Image 2" />
+
+                        <ImageView
+                            android:id="@+id/iv_upload_product_2"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/large_icon_height"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/image_upload"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_product_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp_8"
+                    android:elevation="@dimen/dp_10"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_product_2"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorOrange"/>
+
+                        <ImageView
+                            android:id="@+id/iv_product_3"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/box_img"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tv_product_3"
+                            style="@style/large_txt_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_8"
+                            android:layout_gravity="center"
+                            android:text="Upload Product Image 3" />
+
+                        <ImageView
+                            android:id="@+id/iv_upload_product_3"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/large_icon_height"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/image_upload"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_product_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp_8"
+                    android:elevation="@dimen/dp_10"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_product_3"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorRed"/>
+
+                        <ImageView
+                            android:id="@+id/iv_product_4"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/box_img"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tv_product_4"
+                            style="@style/large_txt_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_8"
+                            android:layout_gravity="center"
+                            android:text="Upload Product Image 4" />
+
+                        <ImageView
+                            android:id="@+id/iv_upload_product_4"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/large_icon_height"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/image_upload"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_product_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/dp_8"
+                    android:elevation="@dimen/dp_10"
+                    app:cardCornerRadius="@dimen/dp_10"
+                    app:cardElevation="@dimen/dp_10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_product_4"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/colorYellow"/>
+
+                        <ImageView
+                            android:id="@+id/iv_product_5"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/box_img"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/tv_product_5"
+                            style="@style/large_txt_bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_8"
+                            android:layout_gravity="center"
+                            android:text="Upload Product Image 5" />
+
+                        <ImageView
+                            android:id="@+id/iv_upload_product_5"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/large_icon_height"
+                            android:layout_margin="@dimen/dp_8"
+                            android:src="@drawable/image_upload"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"/>
+
+                    </LinearLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+                <RelativeLayout
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:background="@drawable/color_checkin"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cv_product_5">
+
+                    <TextView
+                        style="@style/large_txt_bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="Submit"
+                        android:textColor="@color/colorWhite" />
+
+                </RelativeLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.goldmedal.hrapp.common.RotateLoading
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:loading_color="@color/darkBackground"
+            app:loading_width="@dimen/dp_2" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

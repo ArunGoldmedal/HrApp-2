@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_10"
+    android:elevation="@dimen/dp_12"
+    app:cardCornerRadius="@dimen/dp_12">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F6F6F6">
+
+        <ImageView
+            android:id="@+id/iv_company"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_margin="@dimen/dp_10"
+            android:src="@drawable/company_image"
+            app:layout_constraintBottom_toTopOf="@id/barrier_middle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_company_name"
+            style="@style/medium_txt_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_10"
+            android:padding="@dimen/dp_2"
+            android:textAlignment="textStart"
+            app:layout_constraintStart_toEndOf="@id/iv_company"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Company Name" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/medium_txt_regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_2"
+            android:padding="@dimen/dp_2"
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_company"
+            app:layout_constraintTop_toBottomOf="@id/tv_company_name"
+            tools:text="17/04/2023" />
+
+        <TextView
+            android:id="@+id/tv_company_address"
+            style="@style/medium_txt_regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_4"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:padding="@dimen/dp_2"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toTopOf="@id/btn_view_visiting_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_company"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            app:layout_constraintVertical_bias="0"
+            tools:text="Company Address" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="iv_company, tv_company_address" />
+
+        <Button
+            android:id="@+id/btn_view_visiting_card"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:background="@drawable/color_checkin"
+            android:text="Visiting Card"
+            android:textAllCaps="false"
+            android:textSize="@dimen/sp_12"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_view_product_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrier_middle" />
+
+        <Button
+            android:id="@+id/btn_view_product_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:background="@drawable/color_checkin"
+            android:text="Product Image"
+            android:textAllCaps="false"
+            android:textSize="@dimen/sp_12"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_delete"
+            app:layout_constraintStart_toEndOf="@id/btn_view_visiting_card"
+            app:layout_constraintTop_toBottomOf="@id/barrier_middle" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_6"
+            android:layout_marginTop="@dimen/dp_6"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_6"
+            android:background="@drawable/color_checkin"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textSize="@dimen/sp_12"
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_view_product_image"
+            app:layout_constraintTop_toBottomOf="@id/barrier_middle" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

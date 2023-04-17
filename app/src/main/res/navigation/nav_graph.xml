@@ -152,7 +152,16 @@
         android:id="@+id/slRequestsActivity"
         android:name="com.goldmedal.hrapp.ui.manager.ShortLeavesRequestsActivity" />
 
+    <activity
+        android:id="@+id/sourcingDataActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.SourcingDataActivity"
+        android:label="sourcing_data"
+        tools:layout="@layout/activity_sourcing_data" />
 
-
+    <activity
+        android:id="@+id/viewSourcingDataActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.ViewSourcingDataActivity"
+        android:label="view_sourcing_data"
+        tools:layout="@layout/activity_view_sourcing_data" />
 
 </navigation>

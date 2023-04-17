@@ -2,6 +2,9 @@ package com.goldmedal.hrapp.data.repositories
 
 import com.goldmedal.hrapp.data.db.AppDatabase
 import com.goldmedal.hrapp.data.db.entities.*
+import com.goldmedal.hrapp.data.model.AddCompanyResponse
+import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
+import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant
 import com.goldmedal.hrapp.data.network.MyApi
 import com.goldmedal.hrapp.data.network.SafeApiRequest
@@ -9,8 +12,8 @@ import com.goldmedal.hrapp.data.network.responses.*
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(
-        private val api: MyApi,
-        private val db: AppDatabase
+    private val api: MyApi,
+    private val db: AppDatabase
 ) : SafeApiRequest() {
 
     /*  - - - - - - - - - - - - -   Active User - - - - - - - - - - - -  */
@@ -25,7 +28,8 @@ class HomeRepository @Inject constructor(
         }
     }
 
-    suspend fun saveBirthData(birthData: List<BirthdayData?>) = db.getBirthDateDao().insertBirthDate(birthData)
+    suspend fun saveBirthData(birthData: List<BirthdayData?>) =
+        db.getBirthDateDao().insertBirthDate(birthData)
 
     fun getBirthData() = db.getBirthDateDao().getBirthDate()
 
@@ -36,24 +40,36 @@ class HomeRepository @Inject constructor(
 
     suspend fun upcomingHolidays(userId: Int, holidayType: String): HolidaysResponse {
         return apiRequest {
-            api.upcomingHolidays(userId, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET, holidayType)
+            api.upcomingHolidays(
+                userId,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET,
+                holidayType
+            )
         }
     }
 
     suspend fun getAllHolidays(userId: Int, holidayType: String): AllHolidaysResponse {
         return apiRequest {
-            api.getAllHolidays(userId, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET, holidayType)
+            api.getAllHolidays(
+                userId,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET,
+                holidayType
+            )
         }
     }
 
-    suspend fun saveHolidaysData(holidayData: List<HolidayData?>) = db.getHolidayDao().insertHoliday(holidayData)
+    suspend fun saveHolidaysData(holidayData: List<HolidayData?>) =
+        db.getHolidayDao().insertHoliday(holidayData)
 
     fun getHolidaysData() = db.getHolidayDao().getHoliday()
 
     suspend fun removeHolidaysData() = db.getHolidayDao().removeHoliday()
 
 
-    suspend fun saveAllHolidaysData(holidayData: List<AllHolidayData?>) = db.getAllHolidayDao().insertAllHoliday(holidayData)
+    suspend fun saveAllHolidaysData(holidayData: List<AllHolidayData?>) =
+        db.getAllHolidayDao().insertAllHoliday(holidayData)
 
     fun getAllHolidaysData() = db.getAllHolidayDao().getAllHoliday()
 
@@ -63,10 +79,17 @@ class HomeRepository @Inject constructor(
     /*  - - - - - - - - - - - - -   ANNIVERSARY - - - - - - - - - - - -  */
 
     suspend fun upcomingAnniversary(userId: Int): AnniversaryResponse {
-        return apiRequest { api.upcomingAnniversary(userId, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET) }
+        return apiRequest {
+            api.upcomingAnniversary(
+                userId,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
+        }
     }
 
-    suspend fun saveAnniversaryData(anniversaryData: List<AnniversaryData?>) = db.getAnniversaryDateDao().insertAnniversaryDate(anniversaryData)
+    suspend fun saveAnniversaryData(anniversaryData: List<AnniversaryData?>) =
+        db.getAnniversaryDateDao().insertAnniversaryDate(anniversaryData)
 
     fun getAnniversaryData() = db.getAnniversaryDateDao().getAnniversaryDate()
 
@@ -76,10 +99,17 @@ class HomeRepository @Inject constructor(
     /*  - - - - - - - - - - - - -   EMPLOYEE ATTENDANCE - - - - - - - - - - - -  */
 
     suspend fun employeeAttendance(userId: Int): EmployeeAttendanceResponse {
-        return apiRequest { api.employeeAttendance(userId, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET) }
+        return apiRequest {
+            api.employeeAttendance(
+                userId,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
+        }
     }
 
-    suspend fun saveEmployeeAttendance(empData: List<EmployeeAttendanceData?>) = db.getEmployeeAttendanceDao().insertEmpAttendanceData(empData)
+    suspend fun saveEmployeeAttendance(empData: List<EmployeeAttendanceData?>) =
+        db.getEmployeeAttendanceDao().insertEmpAttendanceData(empData)
 
     fun getEmpAttendanceData() = db.getEmployeeAttendanceDao().getEmpAttendanceData()
 
@@ -89,7 +119,11 @@ class HomeRepository @Inject constructor(
     /*  - - - - - - - - - - - - -   PUNCH STATUS - - - - - - - - - - - -  */
     suspend fun punchInoutStatus(strUserId: Int): PunchInOutStatusResponse {
         return apiRequest {
-            api.getPunchInOutStatus(strUserId, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET)
+            api.getPunchInOutStatus(
+                strUserId,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
         }
     }
 
@@ -101,16 +135,25 @@ class HomeRepository @Inject constructor(
     }
 
     /*  - - - - - - - - - - - - -   MY TEAM PROFILE- - - - - - - - - - - -  */
-    suspend fun getMyTeamProfile(userId: Int,year:String): MyTeamProfileResponse {
+    suspend fun getMyTeamProfile(userId: Int, year: String): MyTeamProfileResponse {
         return apiRequest {
-            api.getMyTeamProfile(userId,year, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET)
+            api.getMyTeamProfile(
+                userId,
+                year,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
         }
     }
 
     /*  - - - - - - - - - - - - -   PENDING REQUESTS COUNT - - - - - - - - - - - -  */
     suspend fun getPendingRequestsCount(userId: Int): RequestsCountResponse {
         return apiRequest {
-            api.getPendingRequestsCount(userId, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET)
+            api.getPendingRequestsCount(
+                userId,
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
         }
     }
 
@@ -120,5 +163,64 @@ class HomeRepository @Inject constructor(
     fun getMyTeam() = db.getMyTeamDao().getMyTeam()
 
     suspend fun removeMyTeamData() = db.getMyTeamDao().removeTeamData()
+
+    suspend fun commonImageUpload(
+        moduleName: String,
+        imageBlob: String
+    ): CommonImageUploadResponse {
+        return apiRequest {
+            api.commonImageUpload(moduleName, imageBlob)
+        }
+    }
+
+    suspend fun addCompanyDetails(
+        userId: Int,
+        companyName: String,
+        companyAddress: String,
+        visitingCardImages: String,
+        productImages: String
+    ): AddCompanyResponse {
+        return apiRequest {
+            api.addCompanyDetails(
+                0,
+                GlobalConstant.APP_TYPE,
+                userId,
+                "",
+                "",
+                companyName,
+                companyAddress,
+                visitingCardImages,
+                productImages,
+                "",
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
+        }
+    }
+
+    suspend fun getCompanyDetails(userId: Int): GetCompanyDetailsResponse {
+        return apiRequest {
+            api.getCompanyDetails(
+                GlobalConstant.APP_TYPE,
+                userId,
+                "",
+                "",
+                GlobalConstant.CLIENT_ID,
+                GlobalConstant.CLIENT_SECRET
+            )
+        }
+    }
+
+    suspend fun deleteCompanyDetails(companyId: Int, userId: Int): AddCompanyResponse {
+        return apiRequest {
+            api.deleteCompanyDetails(
+                GlobalConstant.APP_TYPE,
+                companyId,
+                userId,
+                "",
+                ""
+            )
+        }
+    }
 
 }

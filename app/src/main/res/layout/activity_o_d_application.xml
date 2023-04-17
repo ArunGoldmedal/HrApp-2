@@ -124,13 +124,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextRemarks"
-            android:hint="Enter Remarks..."
+            android:hint="*Enter Remarks..."
             android:gravity="top"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minLines="4"
             android:inputType="textMultiLine" />
-
+Don
     </com.google.android.material.textfield.TextInputLayout>
 
 

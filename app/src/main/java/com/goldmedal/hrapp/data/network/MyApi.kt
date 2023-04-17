@@ -3,6 +3,9 @@ package com.goldmedal.hrapp.data.network
 import com.goldmedal.hrapp.data.db.entities.AgingResponse
 import com.goldmedal.hrapp.data.db.entities.ResetPasswordResponse
 import com.goldmedal.hrapp.data.db.entities.SendOtpResponse
+import com.goldmedal.hrapp.data.model.AddCompanyResponse
+import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
+import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
 import com.goldmedal.hrapp.data.network.responses.*
@@ -640,6 +643,51 @@ interface MyApi {
             @Field("ClientID") strClientid: String,
             @Field("ClientSecret") strClientSecret: String
     ): Response<DefaultMessageResponse>
+
+    @FormUrlEncoded
+    @POST("common/common-image-upload")
+    suspend fun commonImageUpload(
+        @Field("ModuleName") moduleName: String,
+        @Field("ImageBlob") imgBlob: String
+    ): Response<CommonImageUploadResponse>
+
+    @FormUrlEncoded
+    @POST("common/add-update-company-details")
+    suspend fun addCompanyDetails(
+        @Field("CompanyDetailsID") companyDetailsId: Int,
+        @Field("AppType") appType: String,
+        @Field("UserID") userId: Int,
+        @Field("CINNo") cinNo: String,
+        @Field("Category") category: String,
+        @Field("CompanyName") companyName: String,
+        @Field("CompanyAddress") companyAddress: String,
+        @Field("VisitingCardImages") visitingCardImages: String,
+        @Field("ProductImages") productImages: String,
+        @Field("Remark") remark: String,
+        @Field("ClientID") strClientid: String,
+        @Field("ClientSecret") strClientSecret: String
+    ): Response<AddCompanyResponse>
+
+    @FormUrlEncoded
+    @POST("common/get-company-details-list")
+    suspend fun getCompanyDetails(
+        @Field("AppType") appType: String,
+        @Field("UserID") userId: Int,
+        @Field("CINNo") cinNo: String,
+        @Field("Category") category: String,
+        @Field("ClientID") strClientid: String,
+        @Field("ClientSecret") strClientSecret: String
+    ): Response<GetCompanyDetailsResponse>
+
+    @FormUrlEncoded
+    @POST("common/delete-company-details")
+    suspend fun deleteCompanyDetails(
+        @Field("AppType") appType: String,
+        @Field("CompanyDetailsID") companyDetailsId: Int,
+        @Field("UserID") userId: Int,
+        @Field("CINNo") cinNo: String,
+        @Field("Remark") remark: String
+    ): Response<AddCompanyResponse>
 
     companion object {
         operator fun invoke(
