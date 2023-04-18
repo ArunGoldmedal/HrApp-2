@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Html
@@ -443,8 +444,13 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
         Log.d(TAG, "createGeofencePendingIntent")
         if (geoFencePendingIntent != null) return geoFencePendingIntent
         val intent = Intent(this, GeofenceTransitionService::class.java)
-        return PendingIntent.getService(
-                this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getService(this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getService(this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
     }
 
     // Add the created GeofenceRequest to the device's monitoring list

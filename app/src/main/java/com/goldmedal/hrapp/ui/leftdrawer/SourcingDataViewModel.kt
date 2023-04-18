@@ -86,11 +86,11 @@ class SourcingDataViewModel @Inject constructor(
         } else if (companyAddress.isEmpty()){
             apiListener?.onValidationError("Please enter company address.", GlobalConstant.ADD_COMPANY_DETAILS_API)
             return
-        } else if (visitorCardImage1.isEmpty()){
-            apiListener?.onValidationError("Please upload visiting card image 1.", GlobalConstant.ADD_COMPANY_DETAILS_API)
+        } else if (visitingCardImages.isEmpty()){
+            apiListener?.onValidationError("Please upload atleast one visiting card image.", GlobalConstant.ADD_COMPANY_DETAILS_API)
             return
-        } else if (productImage1.isEmpty()){
-            apiListener?.onValidationError("Please upload product image 1.", GlobalConstant.ADD_COMPANY_DETAILS_API)
+        } else if (productImages.isEmpty()){
+            apiListener?.onValidationError("Please upload atleast product image.", GlobalConstant.ADD_COMPANY_DETAILS_API)
             return
         }
 
