@@ -172,3 +172,66 @@ fun bitmapDescriptorFromVector(context: Context?, resource: Int): BitmapDescript
     vectorDrawable.draw(canvas)
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
+
+fun getMinDateToApplyLeaves(year: Int, month: Int, dayOfMonth: Int): Int {
+    var minDay = 1
+    when (month) {
+        1, 3, 5, 7, 8, 10, 12 -> {
+            // month is of 31 days
+            minDay = if (dayOfMonth < 28) {
+                4 + dayOfMonth
+            } else {
+                dayOfMonth - 27
+            }
+        }
+        4, 6, 9, 11 -> {
+            // month is of 30 days
+            minDay = if (dayOfMonth < 27) {
+                4 + dayOfMonth
+            } else {
+                dayOfMonth - 26
+            }
+        }
+        2 -> {
+            // month of feb
+            // leap year
+            minDay = if (year % 4 == 0) {
+                if (dayOfMonth < 26) {
+                    4 + dayOfMonth
+                } else {
+                    dayOfMonth - 25
+                }
+            } else {
+                if (dayOfMonth < 25) {
+                    4 + dayOfMonth
+                } else {
+                    dayOfMonth - 24
+                }
+            }
+        }
+    }
+    return minDay
+}
+
+fun isRegularizedAllowedData(regularizeDate: String): Boolean {
+    val c = Calendar.getInstance()
+    val currentYear = c[Calendar.YEAR]
+    val currentMonth = c[Calendar.MONTH]
+    val currentDay = c[Calendar.DAY_OF_MONTH]
+    val currentTimeMillis = c.timeInMillis
+
+    val currentMinDays = getMinDateToApplyLeaves(currentYear, currentMonth, currentDay)
+    c.add(Calendar.DAY_OF_MONTH, -currentMinDays)
+    val startTimeMillis = c.timeInMillis
+
+    val regularizeTimeInMillis = getTimeInMillisForDate(regularizeDate)
+
+    return if (regularizeTimeInMillis >= startTimeMillis && regularizeTimeInMillis <= currentTimeMillis) true else false
+}
+
+fun getTimeInMillisForDate(strDate: String): Long {
+    val cal = Calendar.getInstance()
+    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    cal.time = sdf.parse(strDate) as Date
+    return cal.timeInMillis
+}

@@ -201,7 +201,8 @@ applyLeaveModel.strLeaveConsiderId = 0
                 mDay = minEndDate[Calendar.DAY_OF_MONTH]
 
                 val previousCalendar = Calendar.getInstance()
-                previousCalendar.add(Calendar.DAY_OF_MONTH, -7)
+                val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+                previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
 
                 val startDatePicker = DatePickerDialog(requireContext(),
@@ -241,7 +242,8 @@ applyLeaveModel.strLeaveConsiderId = 0
                 mDay = maxStartDate[Calendar.DAY_OF_MONTH]
 
                 val previousCalendar = Calendar.getInstance()
-                previousCalendar.add(Calendar.DAY_OF_MONTH, -7)
+                val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+                previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
                 val endDatePicker = DatePickerDialog(requireContext(),
                         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->

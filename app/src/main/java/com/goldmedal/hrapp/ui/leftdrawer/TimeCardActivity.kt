@@ -36,7 +36,6 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
     private val viewModel: AttendanceViewModel by viewModels()
 
 
-
     private lateinit var minEndDate: Calendar
     private lateinit var maxStartDate: Calendar
     private lateinit var groupLayoutManager: LinearLayoutManager
@@ -69,8 +68,14 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
         intent?.let {
             val sevenDayCalendar = Calendar.getInstance()
             val sevenDayToday = sevenDayCalendar.time
+            val minDay = getMinDateToApplyLeaves(sevenDayCalendar[Calendar.YEAR], sevenDayCalendar[Calendar.MONTH] + 1, sevenDayCalendar[Calendar.DAY_OF_MONTH])
 
-            sevenDayCalendar.add(Calendar.DAY_OF_MONTH, -7)
+            if (minDay > 7) {
+                sevenDayCalendar.add(Calendar.DAY_OF_MONTH, -7)
+            } else {
+                sevenDayCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
+            }
+
             val sevenDayPrevious = sevenDayCalendar.time
 
             viewModel.strStartDate = sevenDayPrevious.toString("yyyy-MM-dd")
@@ -91,37 +96,43 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
         clickListeners()
 
 
-
     }
 
-    private fun clickListeners(){
+    private fun clickListeners() {
 
 
-binding.txtStartDate.setOnClickListener {
-    val mYear = minEndDate[Calendar.YEAR]
-    val mMonth = minEndDate[Calendar.MONTH]
-    val mDay = minEndDate[Calendar.DAY_OF_MONTH]
+        binding.txtStartDate.setOnClickListener {
+            val mYear = minEndDate[Calendar.YEAR]
+            val mMonth = minEndDate[Calendar.MONTH]
+            val mDay = minEndDate[Calendar.DAY_OF_MONTH]
+
+            val previousCalendar = Calendar.getInstance()
+            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+            previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
+
+            val startDatePicker = DatePickerDialog(this,
+                { view, year, monthOfYear, dayOfMonth ->
+                    binding.txtStartDate.text = String.format(
+                        Locale.getDefault(),
+                        "%s/%d/%d",
+                        dayOfMonth.toString(),
+                        monthOfYear + 1,
+                        year
+                    )
+                    minEndDate.set(year, monthOfYear, dayOfMonth)
+                    viewModel.strStartDate =
+                        (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
 
 
+                }, mYear, mMonth, mDay
+            )
+            startDatePicker.datePicker.minDate = previousCalendar.timeInMillis
 
-    val startDatePicker = DatePickerDialog(this,
-            { view, year, monthOfYear, dayOfMonth ->
-                binding.txtStartDate.text = String.format(Locale.getDefault(), "%s/%d/%d", dayOfMonth.toString(), monthOfYear + 1, year)
-                minEndDate.set(year, monthOfYear, dayOfMonth)
-                viewModel.strStartDate = (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
-
-
-            }, mYear, mMonth, mDay)
-
-
-    if (viewModel.strEndDate?.isNotEmpty() == true) {
-        startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
-    }
-    startDatePicker.show()
-}
-
-
-
+            if (viewModel.strEndDate?.isNotEmpty() == true) {
+                startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
+            }
+            startDatePicker.show()
+        }
 
         binding.txtEndDate.setOnClickListener {
             val c = Calendar.getInstance()
@@ -129,18 +140,29 @@ binding.txtStartDate.setOnClickListener {
             val mMonth = maxStartDate[Calendar.MONTH]
             val mDay = maxStartDate[Calendar.DAY_OF_MONTH]
 
-
-
+            val previousCalendar = Calendar.getInstance()
+            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+            previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
             val endDatePicker = DatePickerDialog(this,
-                    { view, year, monthOfYear, dayOfMonth ->
-                        binding.txtEndDate.text = String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, monthOfYear + 1, year)
-                        maxStartDate.set(year, monthOfYear, dayOfMonth)
-                        viewModel.strEndDate = (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
-                    }, mYear, mMonth, mDay)
+                { view, year, monthOfYear, dayOfMonth ->
+                    binding.txtEndDate.text = String.format(
+                        Locale.getDefault(),
+                        "%d/%d/%d",
+                        dayOfMonth,
+                        monthOfYear + 1,
+                        year
+                    )
+                    maxStartDate.set(year, monthOfYear, dayOfMonth)
+                    viewModel.strEndDate =
+                        (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
+                }, mYear, mMonth, mDay
+            )
             endDatePicker.datePicker.maxDate = c.timeInMillis
             if (viewModel.strStartDate?.isNotEmpty() == true) {
                 endDatePicker.datePicker.minDate = minEndDate.timeInMillis
+            } else {
+                endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
             }
             endDatePicker.show()
         }
@@ -169,9 +191,12 @@ binding.txtStartDate.setOnClickListener {
         }
     }
 
-    private fun initRecyclerView(parentList: List<ExpandableTimeCardItem?>, childList: List<ChildTimeCardItem?>) {
+    private fun initRecyclerView(
+        parentList: List<ExpandableTimeCardItem?>,
+        childList: List<ChildTimeCardItem?>
+    ) {
         groupLayoutManager = LinearLayoutManager(this)
-         val groupAdapter = GroupAdapter<GroupieViewHolder>()
+        val groupAdapter = GroupAdapter<GroupieViewHolder>()
 
         binding.rvList.apply {
             layoutManager = groupLayoutManager
@@ -180,7 +205,7 @@ binding.txtStartDate.setOnClickListener {
         groupAdapter.apply {
             for (i in parentList.indices) {
                 this += ExpandableGroup(parentList[i]).apply {
-                        add(Section(childList[i]))
+                    add(Section(childList[i]))
                 }
             }
         }
@@ -192,7 +217,11 @@ binding.txtStartDate.setOnClickListener {
         }
     }
 
-    private fun showAttendanceRegDialog(punchDate: String?, oldPunchInTime: String?, oldPunchOutTime: String?) {
+    private fun showAttendanceRegDialog(
+        punchDate: String?,
+        oldPunchInTime: String?,
+        oldPunchOutTime: String?
+    ) {
 
         val dialogFragment = RegularizeAttendanceDialog.newInstance()
         val bundle = Bundle()
@@ -216,7 +245,7 @@ binding.txtStartDate.setOnClickListener {
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
         binding.viewCommon.hide()
-        val data =  _object as  List<AttendanceDetailsData?>
+        val data = _object as List<AttendanceDetailsData?>
         bindWorkingHours(data)
         val presentCount = data.filter {
             (it?.status.equals(TAG_PRESENT, ignoreCase = true))
@@ -235,7 +264,8 @@ binding.txtStartDate.setOnClickListener {
         binding.txtMissedPunchDays.text = missedPunchCount.size.toString()
 
 
-        val mutableList : MutableList<AttendanceDetailsData> = data as MutableList<AttendanceDetailsData>
+        val mutableList: MutableList<AttendanceDetailsData> =
+            data as MutableList<AttendanceDetailsData>
         mutableList.reverse()
         bindUI(mutableList)
 
@@ -244,12 +274,14 @@ binding.txtStartDate.setOnClickListener {
 
     private fun bindWorkingHours(data: List<AttendanceDetailsData?>) {
         var totalTime = 0.0
-        var timeArr : List<String>?
-        for (i in data.indices){
+        var timeArr: List<String>?
+        for (i in data.indices) {
             timeArr = data[i]?.TotalHours?.split(":")
             if (timeArr?.size ?: 0 > 1) {
-                 totalTime += addWorkingHours(timeArr?.get(0)?.toInt() ?: 0, timeArr?.get(1)?.toDouble()
-                        ?: 0.0)
+                totalTime += addWorkingHours(
+                    timeArr?.get(0)?.toInt() ?: 0, timeArr?.get(1)?.toDouble()
+                        ?: 0.0
+                )
             }
         }
 
@@ -258,13 +290,14 @@ binding.txtStartDate.setOnClickListener {
         val intArr = IntArray(2)
         intArr[0] = arr[0].toInt()
         intArr[1] = arr[1].toInt()
-        binding.txtTotalWorkHrs.text = formatWorkingHours(intArr[0],intArr[1])
-    }
-    private fun addWorkingHours(hours: Int, min: Double) : Double{
-return hours + (min/60)
+        binding.txtTotalWorkHrs.text = formatWorkingHours(intArr[0], intArr[1])
     }
 
-    private fun formatWorkingHours(hours: Int, min: Int): String{
+    private fun addWorkingHours(hours: Int, min: Double): Double {
+        return hours + (min / 60)
+    }
+
+    private fun formatWorkingHours(hours: Int, min: Int): String {
         return String.format("%02d:%02d", hours, ((min.toDouble() * 60) / 100).roundToInt())
     }
 
@@ -280,6 +313,7 @@ return hours + (min/60)
     override fun onValidationError(message: String, callFrom: String) {
         binding.rootLayout.snackbar(message)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             onBackPressed()
@@ -295,7 +329,7 @@ return hours + (min/60)
     }
 
 
-    companion object{
+    companion object {
         fun start(context: Context) {
             val intent = Intent(context, TimeCardActivity::class.java)
             intent.putExtra("callFrom", "")

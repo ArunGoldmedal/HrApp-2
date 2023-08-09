@@ -420,7 +420,6 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     override fun onStart() {
         super.onStart()
 
-
         viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
             if (user != null) {
                 viewModel.punchInoutStatus(user.UserID)
@@ -511,23 +510,22 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                         showCheckoutView()
                     }
                     false -> {
-                        viewModel.getLoggedInUser().observe(this, { user ->
+                        viewModel.getLoggedInUser().observe(this) { user ->
                             if (user != null) {
                                 if (user.IsExecutive == 0) {
                                     showCheckInView()
                                 }
                             }
-                        })
+                        }
                     }
                     else -> {
-                        viewModel.getLoggedInUser().observe(this, { user ->
+                        viewModel.getLoggedInUser().observe(this) { user ->
                             if (user != null) {
                                 if (user.IsExecutive == 0) {
                                     showCheckInView()
                                 }
-
                             }
-                        })
+                        }
                     }
                 }
 
