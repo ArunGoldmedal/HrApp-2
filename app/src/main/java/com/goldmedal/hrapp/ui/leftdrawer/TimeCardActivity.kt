@@ -87,11 +87,11 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
 
 
 
-        viewModel.getLoggedInUser().observe(this, { user ->
+        viewModel.getLoggedInUser().observe(this) { user ->
             if (user != null) {
                 viewModel.getAttendanceDetails(user.UserID)
             }
-        })
+        }
 
         clickListeners()
 
@@ -120,8 +120,8 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
                         year
                     )
                     minEndDate.set(year, monthOfYear, dayOfMonth)
-                    viewModel.strStartDate =
-                        (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
+                    viewModel.strStartDate = year.toString() + "-" + (monthOfYear + 1).toString() + "-" + dayOfMonth
+                        //(monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
 
 
                 }, mYear, mMonth, mDay
@@ -135,45 +135,49 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
         }
 
         binding.txtEndDate.setOnClickListener {
-            val c = Calendar.getInstance()
-            val mYear = maxStartDate[Calendar.YEAR]
-            val mMonth = maxStartDate[Calendar.MONTH]
-            val mDay = maxStartDate[Calendar.DAY_OF_MONTH]
+            try {
+                val c = Calendar.getInstance()
+                val mYear = maxStartDate[Calendar.YEAR]
+                val mMonth = maxStartDate[Calendar.MONTH]
+                val mDay = maxStartDate[Calendar.DAY_OF_MONTH]
 
-            val previousCalendar = Calendar.getInstance()
-            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
-            previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
+                val previousCalendar = Calendar.getInstance()
+                val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+                previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
-            val endDatePicker = DatePickerDialog(this,
-                { view, year, monthOfYear, dayOfMonth ->
-                    binding.txtEndDate.text = String.format(
-                        Locale.getDefault(),
-                        "%d/%d/%d",
-                        dayOfMonth,
-                        monthOfYear + 1,
-                        year
-                    )
-                    maxStartDate.set(year, monthOfYear, dayOfMonth)
-                    viewModel.strEndDate =
-                        (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
-                }, mYear, mMonth, mDay
-            )
-            endDatePicker.datePicker.maxDate = c.timeInMillis
-            if (viewModel.strStartDate?.isNotEmpty() == true) {
-                endDatePicker.datePicker.minDate = minEndDate.timeInMillis
-            } else {
-                endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
+                val endDatePicker = DatePickerDialog(this,
+                    { view, year, monthOfYear, dayOfMonth ->
+                        binding.txtEndDate.text = String.format(
+                            Locale.getDefault(),
+                            "%d/%d/%d",
+                            dayOfMonth,
+                            monthOfYear + 1,
+                            year
+                        )
+                        maxStartDate.set(year, monthOfYear, dayOfMonth)
+                        viewModel.strEndDate = year.toString() + "-" + (monthOfYear + 1).toString() + "-" + dayOfMonth
+                        //(monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
+                    }, mYear, mMonth, mDay
+                )
+                endDatePicker.datePicker.maxDate = c.timeInMillis
+                if (viewModel.strStartDate?.isNotEmpty() == true) {
+                    endDatePicker.datePicker.minDate = getCalendarFromDate(viewModel.strStartDate!!).timeInMillis
+                } else {
+                    endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
+                }
+                endDatePicker.show()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            endDatePicker.show()
         }
 
         binding.fabSelectDate.setOnClickListener {
 
-            viewModel.getLoggedInUser().observe(this, { user ->
+            viewModel.getLoggedInUser().observe(this) { user ->
                 if (user != null) {
                     viewModel.getAttendanceDetails(user.UserID)
                 }
-            })
+            }
         }
 
     }

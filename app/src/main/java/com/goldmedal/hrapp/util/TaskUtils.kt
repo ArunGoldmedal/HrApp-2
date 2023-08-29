@@ -235,3 +235,10 @@ fun getTimeInMillisForDate(strDate: String): Long {
     cal.time = sdf.parse(strDate) as Date
     return cal.timeInMillis
 }
+
+fun getCalendarFromDate(strDate: String): Calendar {
+    val cal = Calendar.getInstance()
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    cal.time = sdf.parse(strDate) as Date
+    return cal
+}
