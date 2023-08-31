@@ -128,7 +128,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     private fun stopTimer() {
         timeBuff += millisecondTime
         handler?.removeCallbacks(runnable)
-        disableCheckoutButton()
+        //disableCheckoutButton()
     }
 
     private fun disableCheckoutButton() {
