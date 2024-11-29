@@ -1,6 +1,7 @@
 package com.goldmedal.hrapp.ui.leave
 
 import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -19,7 +20,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ImageSelectionListener
@@ -31,46 +31,40 @@ import com.goldmedal.hrapp.data.model.LeaveTypeData
 import com.goldmedal.hrapp.data.network.GlobalConstant.IMAGE_DIRECTORY
 import com.goldmedal.hrapp.databinding.ApplyLeaveDetailBinding
 import com.goldmedal.hrapp.util.*
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.apply_leave_detail.*
 import java.io.IOException
 import java.util.*
 
 @AndroidEntryPoint
-class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>,  View.OnClickListener, ImageSelectionListener {
-
-
-
-
+class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener, ImageSelectionListener,
+    EasyPermissions.PermissionCallbacks {
     private val applyLeaveModel: LeaveViewModel by viewModels()
 
     private lateinit var applyLeaveBinding: ApplyLeaveDetailBinding
     private lateinit var minEndDate: Calendar
     private lateinit var maxStartDate: Calendar
-
-
-      private var dayTypeSegmentIndex: Int = 0
-
+    private var dayTypeSegmentIndex: Int = 0
 
     private var totalLeavesCount: String? = null
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         applyLeaveBinding = DataBindingUtil.inflate(inflater, R.layout.apply_leave_detail, container, false)
         return applyLeaveBinding.rootLayout
     }
 
     private val GALLERY = 1
     private val CAMERA = 2
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         applyLeaveBinding.applyLeaveModel = applyLeaveModel
         applyLeaveModel.apiListener = this
         applyLeaveModel.imageSelectionListener = this
-
-
 
         applyLeaveModel.getLoggedInUser().observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
@@ -83,25 +77,22 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>,  View.OnClickListe
             }
         })
         //Disable touch events
-        slider.setOnTouchListener { v, event -> true }
+        applyLeaveBinding.slider.setOnTouchListener { v, event -> true }
         maxStartDate = Calendar.getInstance()
         minEndDate = Calendar.getInstance()
 
-        rlSelectEndDate.setOnClickListener(this)
-        rlSelectStartDate.setOnClickListener(this)
-        rlSelectLeaveType.setOnClickListener(this)
-
-
-           segmented_day_type {
+        applyLeaveBinding.rlSelectEndDate.setOnClickListener(this)
+        applyLeaveBinding.rlSelectStartDate.setOnClickListener(this)
+        applyLeaveBinding.rlSelectLeaveType.setOnClickListener(this)
+        applyLeaveBinding.segmentedDayType {
             initialCheckedIndex = 0
             onSegmentChecked { segment ->
 
-resetDates()
+                resetDates()
                  applyLeaveModel.strDayType = segment.text as String?
                 if (segment.text == "Full") {
                     dayTypeSegmentIndex = 0
-
-applyLeaveModel.strLeaveConsiderId = 0
+                    applyLeaveModel.strLeaveConsiderId = 0
 
                 } else if (segment.text == "First-Half") {
                     dayTypeSegmentIndex = 1
@@ -114,25 +105,20 @@ applyLeaveModel.strLeaveConsiderId = 0
                 }
             }
         }
-
-
     }
 
 
     override fun onStarted(callFrom: String) {
 
-        progress_bar?.start()
-
-
+        applyLeaveBinding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
-        progress_bar?.stop()
+        applyLeaveBinding.progressBar.stop()
 
         if (callFrom == "leave_balance") {
             fillSlider(_object as List<LeaveBalanceData>)
         }
-
 
         if (callFrom == "leaveReasons") {
             populateLeaveReasonsSpinner(_object as List<LeaveReasonsData>)
@@ -143,7 +129,7 @@ applyLeaveModel.strLeaveConsiderId = 0
             applyLeaveModel.strActualLeaveDays = leaveCountData[0].ActualLeaveDays
             applyLeaveModel.strAppliedLeaveDays = leaveCountData[0].AppliedLeaveDays
 
-            tvDuration?.text = applyLeaveModel.strActualLeaveDays
+            applyLeaveBinding.tvDuration.text = applyLeaveModel.strActualLeaveDays
         }
         if (callFrom == "leaveType") {
             bindUI(_object as List<LeaveTypeData?>)
@@ -151,10 +137,9 @@ applyLeaveModel.strLeaveConsiderId = 0
 
         if (callFrom == "applyLeave") {
 
-
             val status = _object as List<LeaveApplyData>
 
-            root_layout?.snackbar(status[0].Status ?: "Leave Applied Successfully")
+            applyLeaveBinding.rootLayout.snackbar(status[0].Status ?: "Leave Applied Successfully")
             clearAllFields()
 
             //Refresh Leave Count at success...
@@ -166,22 +151,20 @@ applyLeaveModel.strLeaveConsiderId = 0
 
     private fun bindUI(list: List<LeaveTypeData?>) {
         totalLeavesCount = list[0]?.LeaveCount
-        tvSelectLeaveType?.text = list[0]?.LeaveTypeName
+        applyLeaveBinding.tvSelectLeaveType.text = list[0]?.LeaveTypeName
         applyLeaveModel.strLeaveTypeId = list[0]?.LeaveTypeID
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
-
-
+        applyLeaveBinding.progressBar.stop()
+        applyLeaveBinding.rootLayout.snackbar(message)
 
         if (callFrom == "leave_balance") {
-            applyLeaveModel.getLeaveBalanceData().observe(this, {
+            applyLeaveModel.getLeaveBalanceData().observe(this) {
                 if (it != null) {
                     fillSlider(it)
                 }
-            })
+            }
         }
     }
 
@@ -207,12 +190,12 @@ applyLeaveModel.strLeaveConsiderId = 0
 
                 val startDatePicker = DatePickerDialog(requireContext(),
                         { view, year, monthOfYear, dayOfMonth ->
-                            tvSelectStartDate.text = String.format(Locale.getDefault(), "%s/%d/%d", dayOfMonth.toString(), monthOfYear + 1, year)
+                            applyLeaveBinding.tvSelectStartDate.text = String.format(Locale.getDefault(), "%s/%d/%d", dayOfMonth.toString(), monthOfYear + 1, year)
                             minEndDate.set(year, monthOfYear, dayOfMonth)
                             applyLeaveModel.strStartDate = (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
 
                             if (applyLeaveModel.strEndDate.isNullOrEmpty()) {
-                                root_layout?.snackbar("Please Select End Date")
+                                applyLeaveBinding.rootLayout.snackbar("Please Select End Date")
                             } else {
                                 applyLeaveModel.appliedLeavesCount()
                             }
@@ -231,8 +214,6 @@ applyLeaveModel.strLeaveConsiderId = 0
                     }
                 }
 
-
-
                 startDatePicker.show()
 
             }
@@ -247,11 +228,11 @@ applyLeaveModel.strLeaveConsiderId = 0
 
                 val endDatePicker = DatePickerDialog(requireContext(),
                         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                            tvSelectEndDate.text = String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, monthOfYear + 1, year)
+                            applyLeaveBinding.tvSelectEndDate.text = String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, monthOfYear + 1, year)
                             maxStartDate.set(year, monthOfYear, dayOfMonth)
                             applyLeaveModel.strEndDate = (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
                             if (applyLeaveModel.strStartDate.isNullOrEmpty()) {
-                                root_layout?.snackbar("Please Select Start Date")
+                                applyLeaveBinding.rootLayout.snackbar("Please Select Start Date")
                             } else {
                                 applyLeaveModel.appliedLeavesCount()
                             }
@@ -271,26 +252,17 @@ applyLeaveModel.strLeaveConsiderId = 0
                     }
                 }
 
-
-
-
-
                 endDatePicker.show()
             }
-
 
             R.id.rlSelectLeaveType -> {
              startActivityForResult(Intent(requireContext(),LeaveTypeActivity::class.java),LAUNCH_LEAVE_TYPE)
             }
-
         }
-
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
 
         if (requestCode == GALLERY) {
             if (data != null) {
@@ -299,15 +271,12 @@ applyLeaveModel.strLeaveConsiderId = 0
                     val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, contentURI)
                     val scaledBitmap = scaleDown(bitmap, 675f, true)
 
-
                     applyLeaveModel.strBase64Image = convertBitmapToBase64(scaledBitmap)
-
 
                     saveImage(context, IMAGE_DIRECTORY, bitmap)
                     Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
                     val displayedBitmap = scaleDown(bitmap, 150f, true)
-                    imgUpload!!.setImageBitmap(displayedBitmap)
-
+                    applyLeaveBinding.imgUpload.setImageBitmap(displayedBitmap)
 
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -321,7 +290,7 @@ applyLeaveModel.strLeaveConsiderId = 0
 
 
                 val thumbnail = data!!.extras!!.get("data") as Bitmap
-                imgUpload!!.setImageBitmap(thumbnail)
+                applyLeaveBinding.imgUpload.setImageBitmap(thumbnail)
                 saveImage(context, IMAGE_DIRECTORY, thumbnail)
                 Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
                 val scaledBitmap = scaleDown(thumbnail, 675f, true)
@@ -334,11 +303,9 @@ applyLeaveModel.strLeaveConsiderId = 0
                 val leaveType: LeaveTypeData? = data?.getParcelableExtra(LeaveTypeActivity.ARG_LEAVE_TYPE)
 
                 applyLeaveModel.strLeaveTypeId = leaveType?.LeaveTypeID
-                tvSelectLeaveType?.text = leaveType?.LeaveTypeName
+                applyLeaveBinding.tvSelectLeaveType.text = leaveType?.LeaveTypeName
             }
         }
-
-
     }
 
     override fun choosePhotoFromGallery() {
@@ -351,9 +318,20 @@ applyLeaveModel.strLeaveConsiderId = 0
     }
 
     override fun takePhotoFromCamera() {
+        if (EasyPermissions.hasPermissions(context, Manifest.permission.CAMERA)) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, CAMERA)
+        } else {
+            // Request one permission
+            EasyPermissions.requestPermissions(
+                activity as Activity,
+                getString(R.string.str_camera_permission),
+                CAMERA_PERM,
+                Manifest.permission.CAMERA
+            )
+        }
 
-
-        askPermission(Manifest.permission.CAMERA) {
+        /*askPermission(Manifest.permission.CAMERA) {
             //all permissions already granted or just granted
 
             // your action
@@ -389,9 +367,7 @@ applyLeaveModel.strLeaveConsiderId = 0
                 // you need to open setting manually if you really need it
                 e.goToSettings()
             }
-        }
-
-
+        }*/
     }
 
 
@@ -410,60 +386,44 @@ applyLeaveModel.strLeaveConsiderId = 0
         };
 
         // Apply the adapter to the spinner
-        spinnerLeaveReasons?.adapter = leaveReasonsAdapter
+        applyLeaveBinding.spinnerLeaveReasons.adapter = leaveReasonsAdapter
 
-
-
-        spinnerLeaveReasons?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-            }
+        applyLeaveBinding.spinnerLeaveReasons.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val leaveReasons = leaveReasonsAdapter?.getItem(position);
 
-
                 applyLeaveModel.strLeaveReasonId = leaveReasons?.LeaveReasonID
             }
-
         }
-
     }
 
-
     private fun fillSlider(list: List<LeaveBalanceData>) {
-
-
         if (list.isNotEmpty()) {
 
             val totalLeaves = list[0].TotalLeaves ?: 0.0
             val leavesTaken = list[0].LeavesTaken ?: 0.0
             val leaveBalance = totalLeaves - leavesTaken
 
-            slider?.valueFrom = 0f
+            applyLeaveBinding.slider.valueFrom = 0f
 
             if (totalLeaves > 0) {
-                slider?.valueTo = totalLeaves.toFloat()
+                applyLeaveBinding.slider.valueTo = totalLeaves.toFloat()
             }
 
             if (leaveBalance > 0) {
-                slider?.value = leaveBalance.toFloat()
+                applyLeaveBinding.slider.value = leaveBalance.toFloat()
             }
 
-
-
-            
-            txt_rem_leaves?.text = formatNumber(leaveBalance.toString()) + " Leave Rem."
-            txt_total_leaves?.text = formatNumber(totalLeaves.toString()) + " Leaves"
+            applyLeaveBinding.txtRemLeaves.text = formatNumber(leaveBalance.toString()) + " Leave Rem."
+            applyLeaveBinding.txtTotalLeaves.text = formatNumber(totalLeaves.toString()) + " Leaves"
 
         }
-
-
     }
 
     //Reset everything on Api success
     private fun clearAllFields() {
-
 
         applyLeaveModel.strStartDate = ""
         applyLeaveModel.strEndDate = ""
@@ -478,16 +438,15 @@ applyLeaveModel.strLeaveConsiderId = 0
         applyLeaveModel.strDayType = "Full"
 
         //Re-select Full Segment Button
-        segmented_day_type?.initialCheckedIndex = 0
-        segmented_day_type?.setInitialCheckedItem()
+        applyLeaveBinding.segmentedDayType.initialCheckedIndex = 0
+        applyLeaveBinding.segmentedDayType.setInitialCheckedItem()
 
-        tvDuration?.text = "-"
-        spinnerLeaveReasons?.setSelection(0)
-        imgUpload?.setImageResource(R.drawable.image_upload)
-        tvSelectStartDate?.text = "Select"
-        tvSelectEndDate?.text = "Select"
-        tvSelectLeaveType?.text = "Select"
-
+        applyLeaveBinding.tvDuration.text = "-"
+        applyLeaveBinding.spinnerLeaveReasons.setSelection(0)
+        applyLeaveBinding.imgUpload.setImageResource(R.drawable.image_upload)
+        applyLeaveBinding.tvSelectStartDate.text = "Select"
+        applyLeaveBinding.tvSelectEndDate.text = "Select"
+        applyLeaveBinding.tvSelectLeaveType.text = "Select"
 
     }
 
@@ -505,18 +464,38 @@ applyLeaveModel.strLeaveConsiderId = 0
         applyLeaveModel.strActualLeaveDays = "0"
 
 
-        tvDuration?.text = "-"
-        tvSelectStartDate?.text = "Select"
-        tvSelectEndDate?.text = "Select"
+        applyLeaveBinding.tvDuration.text = "-"
+        applyLeaveBinding.tvSelectStartDate.text = "Select"
+        applyLeaveBinding.tvSelectEndDate.text = "Select"
 
 
     }
 
     override fun onValidationError(message: String, callFrom: String) {
-        root_layout?.snackbar(message)
+        applyLeaveBinding.rootLayout.snackbar(message)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            context?.let { SettingsDialog.Builder(it).build().show() }
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA)
     }
 
     companion object {
         internal const val LAUNCH_LEAVE_TYPE = 99
+        const val CAMERA_PERM = 121
     }
 }

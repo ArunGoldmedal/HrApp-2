@@ -274,7 +274,7 @@ class TreeView : AdapterView<TreeAdapter<*>?>, GestureDetector.OnGestureListener
         return true
     }
 
-    override fun onScroll(downEvent: MotionEvent, event: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+    override fun onScroll(p0: MotionEvent?, p1: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
         val newScrollX = scrollX + distanceX
         val newScrollY = scrollY + distanceY
         if (mBoundaries.contains(newScrollX.toInt(), newScrollY.toInt())) {
@@ -287,7 +287,7 @@ class TreeView : AdapterView<TreeAdapter<*>?>, GestureDetector.OnGestureListener
         longClickChildAt(event.x.toInt() + scrollX, event.y.toInt() + scrollY)
     }
 
-    override fun onFling(event1: MotionEvent, event2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+    override fun onFling(p0: MotionEvent?, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         return true
     }
 

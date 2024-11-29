@@ -27,7 +27,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.holiday_list_activity.*
 
 @AndroidEntryPoint
 class ViewSourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, CompanyDetailsItem.OnItemClickListener {
@@ -94,7 +93,7 @@ class ViewSourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, Com
             addAll(toCompanyDetailsData)
         }
 
-        rvList.apply {
+        mBinding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter

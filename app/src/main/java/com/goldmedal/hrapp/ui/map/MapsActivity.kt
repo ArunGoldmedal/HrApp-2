@@ -28,6 +28,7 @@ import androidx.fragment.app.FragmentActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.GoogleMapInfoAdapter
 import com.goldmedal.hrapp.data.model.InsertPunchData
+import com.goldmedal.hrapp.databinding.ActivityMapsBinding
 import com.goldmedal.hrapp.geofence.GeofenceTransitionService
 import com.goldmedal.hrapp.ui.dialogs.PunchAttendanceDialog
 import com.goldmedal.hrapp.ui.dialogs.SuccessMessageDialog
@@ -44,7 +45,6 @@ import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.model.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_maps.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,6 +52,7 @@ import java.util.*
 @AndroidEntryPoint
 class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener, OnMapReadyCallback, SuccessMessageDialog.OnDashboardRefresh, OnMapClickListener, OnMarkerClickListener, ResultCallback<Status>, PunchAttendanceDialog.OnShowSuccessMsg {
     private var map: GoogleMap? = null
+    private lateinit var mBinding: ActivityMapsBinding
     private var googleApiClient: GoogleApiClient? = null
     private var lastLocation: Location? = null
     private var geoFenceMarker: Marker? = null
@@ -88,8 +89,8 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
-
+        mBinding = ActivityMapsBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
         // initialize GoogleMaps
         initGMaps()
@@ -109,16 +110,16 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
         isGeoFenceLock = intent.getBooleanExtra("isGeoFenceLock", true)
 
 
-        buttonAddress?.setOnClickListener(this)
+        mBinding.buttonAddress.setOnClickListener(this)
 
         if (punchType == "IN") {
-            btnCheckIn.visibility = View.VISIBLE
-            btnCheckOut.visibility = View.GONE
-            btnCheckIn.setOnClickListener(this)
+            mBinding.btnCheckIn.visibility = View.VISIBLE
+            mBinding.btnCheckOut.visibility = View.GONE
+            mBinding.btnCheckIn.setOnClickListener(this)
         } else {
-            btnCheckIn.visibility = View.GONE
-            btnCheckOut.visibility = View.VISIBLE
-            btnCheckOut.setOnClickListener(this)
+            mBinding.btnCheckIn.visibility = View.GONE
+            mBinding.btnCheckOut.visibility = View.VISIBLE
+            mBinding.btnCheckOut.setOnClickListener(this)
         }
     }
 

@@ -21,33 +21,28 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ImageSelectionListener
 import com.goldmedal.hrapp.databinding.DialogPunchAttendanceBinding
 import com.goldmedal.hrapp.util.*
 import com.google.android.gms.maps.model.LatLng
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_punch_attendance.*
 import java.io.IOException
 
 @AndroidEntryPoint
-class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSelectionListener {
-
-
-
+class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSelectionListener,
+    EasyPermissions.PermissionCallbacks{
 
     private val viewModel: PunchAttendanceViewModel by viewModels()
-
-
     private lateinit var attBinding: DialogPunchAttendanceBinding
-
 
     var callBack: OnShowSuccessMsg? = null
     private val GALLERY = 1
     private val CAMERA = 2
-
+    private val CAMERA_PERM = 121
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -74,16 +69,11 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         attBinding.viewmodel = viewModel
         viewModel.apiListener = this
         viewModel.imageSelectionListener = this
 
         viewModel.strDeviceId = context?.let { getDeviceId(context = it) }
-
-
-
 
         viewModel.getLoggedInUser().observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
@@ -95,7 +85,7 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
         viewModel.strPunchType = arguments?.getString("calledFrom", "")
 
         if (viewModel.strPunchType.equals("OUT", ignoreCase = true)) {
-            txt_punch_header.text = getString(R.string.str_punch_out)
+            attBinding.txtPunchHeader.text = getString(R.string.str_punch_out)
         }
 
 
@@ -111,30 +101,24 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
             viewModel.strLocationAddress = getAddressFromLatLong(view.context, lastLocation.latitude, lastLocation.longitude)
         }
 
-
-        txt_punch_time.text = getCurrentDateTime().toString("hh:mm a")
-
+        attBinding.txtPunchTime.text = getCurrentDateTime().toString("hh:mm a")
     }
 
     override fun onStarted(callFrom: String) {
-        progress_bar?.start()
+        attBinding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
-        progress_bar?.stop()
+        attBinding.progressBar.stop()
 
         callBack?.showSuccessDialog(_object, viewModel.strPunchType)
         dismiss()
-
-
     }
-
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-        progress_bar?.stop()
+        attBinding.progressBar.stop()
         context?.toast(message)
     }
-
 
     companion object {
         fun newInstance() = PunchAttendanceDialog()
@@ -154,9 +138,20 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
     }
 
     override fun takePhotoFromCamera() {
+        if (EasyPermissions.hasPermissions(context, Manifest.permission.CAMERA)) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, CAMERA)
+        } else {
+            // Request one permission
+            EasyPermissions.requestPermissions(
+                activity as Activity,
+                getString(R.string.str_camera_permission),
+                CAMERA_PERM,
+                Manifest.permission.CAMERA
+            )
+        }
 
-
-        askPermission(Manifest.permission.CAMERA) {
+        /*askPermission(Manifest.permission.CAMERA) {
             //all permissions already granted or just granted
 
             // your action
@@ -192,7 +187,7 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
                 // you need to open setting manually if you really need it
                 e.goToSettings()
             }
-        }
+        }*/
 
 
     }
@@ -214,20 +209,19 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
 
                     Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
                     val displayedBitmap = scaleDown(bitmap, 150f, true)
-                    imgUpload!!.setImageBitmap(displayedBitmap)
+                    attBinding.imgUpload.setImageBitmap(displayedBitmap)
 
 
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(context, "Failed!", Toast.LENGTH_SHORT).show()
                 }
-
             }
 
         } else if (requestCode == CAMERA) {
             if (resultCode == Activity.RESULT_OK) {
                 val thumbnail = data!!.extras!!.get("data") as Bitmap
-                imgUpload!!.setImageBitmap(thumbnail)
+                attBinding.imgUpload.setImageBitmap(thumbnail)
                 Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
                 val scaledBitmap = scaleDown(thumbnail, 675f, true)
 
@@ -238,6 +232,25 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
 
     override fun onValidationError(message: String, callFrom: String) {
         context?.toast(message)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            context?.let { SettingsDialog.Builder(it).build().show() }
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA)
     }
 
 

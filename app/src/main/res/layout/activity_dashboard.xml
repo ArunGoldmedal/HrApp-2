@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewmodel"
             type="com.goldmedal.hrapp.ui.auth.LoginViewModel" />
-
     </data>
-
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawerLayout"
@@ -21,11 +17,12 @@
         tools:viewBindingIgnore="true"
         tools:openDrawer="start">
         <include
+            android:id="@+id/app_bar_home_screen"
             layout="@layout/app_bar_home_screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

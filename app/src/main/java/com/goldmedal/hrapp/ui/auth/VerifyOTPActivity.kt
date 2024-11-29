@@ -10,39 +10,30 @@ import com.goldmedal.hrapp.databinding.OtpLayoutBinding
 import com.goldmedal.hrapp.util.getDeviceId
 import com.goldmedal.hrapp.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.otp_layout.*
 
 @AndroidEntryPoint
 class VerifyOTPActivity : AppCompatActivity(), AuthListener<Any>{
+    private  val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: OtpLayoutBinding
 
-
-
-private  val viewModel: LoginViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        val binding: OtpLayoutBinding = DataBindingUtil.setContentView(this, R.layout.otp_layout)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.otp_layout)
         binding.viewmodel = viewModel
 
-
         viewModel.strMobileNo = intent.getStringExtra("MobileNo")
-        tvMobileNumber.text = viewModel.strMobileNo
+        binding.tvMobileNumber.text = viewModel.strMobileNo
 
         viewModel.authListener = this
         viewModel.strDeviceId = getDeviceId(this@VerifyOTPActivity)
     }
 
     override fun onStarted() {
-        progress_bar?.start()
+        binding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>) {
-
-        progress_bar?.stop()
-
-
+        binding.progressBar.stop()
 
         Intent(this, ForgotPasswordActivity::class.java)
                 .also {
@@ -53,11 +44,9 @@ private  val viewModel: LoginViewModel by viewModels()
     }
 
     override fun onFailure(message: String) {
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
+        binding.progressBar.stop()
+        binding.rootLayout.snackbar(message)
     }
 
-    override fun setCaptcha(strCaptcha: String) {
-
-    }
+    override fun setCaptcha(strCaptcha: String) {}
 }

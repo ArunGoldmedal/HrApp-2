@@ -25,7 +25,6 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.attendance_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
@@ -36,11 +35,7 @@ import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener<Any> {
-
-
-
-
-private val viewModel: AttendanceViewModel by viewModels()
+    private val viewModel: AttendanceViewModel by viewModels()
 
     var widget: MaterialCalendarView? = null
     private lateinit var attFragmentBinding: AttendanceFragmentBinding
@@ -68,7 +63,7 @@ private val viewModel: AttendanceViewModel by viewModels()
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         attFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.attendance_fragment, container, false)
         return attFragmentBinding.root
     }
@@ -95,7 +90,7 @@ private val viewModel: AttendanceViewModel by viewModels()
 
 
         val formatDate = formatDateString(instance.toString(),"yyyy-MM-dd","dd/MM/yyyy")
-        textViewDate?.text =  formatDate
+        attFragmentBinding.textViewDate.text =  formatDate
 
         widget?.state()?.edit()?.setMinimumDate(min)?.setMaximumDate(max)?.commit()
 
@@ -111,12 +106,8 @@ private val viewModel: AttendanceViewModel by viewModels()
         calendar.add(Calendar.YEAR, -2)
         val previous = calendar.time
 
-
-
         viewModel.strStartDate = previous.toString("yyyy-MM-dd")
         viewModel.strEndDate = today.toString("yyyy-MM-dd")
-
-
 
         val attInfo = arrayListOf<String>()
         attInfo.add("Present")
@@ -133,16 +124,14 @@ private val viewModel: AttendanceViewModel by viewModels()
         colors.add(HexColors("#ffaa66cc")) //Purple
 
         adapter = CustomLegendAdapter(colors, attInfo)
-        recyclerView_legends.adapter = adapter
-        recyclerView_legends.layoutManager = GridLayoutManager(activity, 3)
+        attFragmentBinding.recyclerViewLegends.adapter = adapter
+        attFragmentBinding.recyclerViewLegends.layoutManager = GridLayoutManager(activity, 3)
 
         Coroutines.main {
-
             viewModel.getLoggedInUser().observe(viewLifecycleOwner, Observer { user ->
                 if (user != null) {
                     viewModel.userId = user.UserID
-                    textViewEmployeeName?.text = user.EmployeeFullName
-
+                    attFragmentBinding.textViewEmployeeName.text = user.EmployeeFullName
 
                     val avatar = if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
 
@@ -150,19 +139,16 @@ private val viewModel: AttendanceViewModel by viewModels()
                             .load(user.ProfilePicture)
                             .fitCenter()
                             .placeholder(avatar)
-                            .into(imgProfilePic)
-
-
+                            .into(attFragmentBinding.imgProfilePic)
 
                     Coroutines.main {
-                        progress_bar?.start()
+                        attFragmentBinding.progressBar.start()
                         val attendance = viewModel.attendanceData.await()
 
                  //If used viewLifecycleOwner app crashes ,let context be this
-                        attendance.observe(this, Observer { it ->
+                        attendance.observe(this@AttendanceFragment, Observer { it ->
 
-
-                            progress_bar?.stop()
+                            attFragmentBinding.progressBar.stop()
                             if (it != null) {
                                 attendanceData = it
                                 Coroutines.main {
@@ -178,7 +164,7 @@ private val viewModel: AttendanceViewModel by viewModels()
         }
 
 
-        textViewDate.setOnClickListener {
+        attFragmentBinding.textViewDate.setOnClickListener {
             val c = Calendar.getInstance()
             val c1 = Calendar.getInstance()
 
@@ -190,13 +176,11 @@ private val viewModel: AttendanceViewModel by viewModels()
                     { view, year, monthOfYear, dayOfMonth ->
 
                         val selectedDate = CalendarDay.from(year, monthOfYear + 1, dayOfMonth)
-                        calendarView.selectedDate = selectedDate
-                        calendarView.setCurrentDate(selectedDate, true)
-
-
+                        attFragmentBinding.calendarView.selectedDate = selectedDate
+                        attFragmentBinding.calendarView.setCurrentDate(selectedDate, true)
 
                         val formattedSelectedDate = formatDateString(selectedDate.date.toString(),"yyyy-MM-dd","dd/MM/yyyy")
-                        textViewDate.text = formattedSelectedDate
+                        attFragmentBinding.textViewDate.text = formattedSelectedDate
 
                         if (selectedDate.equals(CalendarDay.today())) {
                             Log.d("same date - -- ", "" + selectedDate + " -- - " + CalendarDay.today())
@@ -221,40 +205,32 @@ private val viewModel: AttendanceViewModel by viewModels()
             c1.set(Calendar.YEAR, mYear)
             datePickerDialog.datePicker.maxDate = c1.timeInMillis
 
-
             datePickerDialog.show()
         }
     }
 
-
     override fun onStarted(callFrom: String) {
-        progress_bar?.start()
+        attFragmentBinding.progressBar.start()
     }
-
-
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
 
-
-        progress_bar?.stop()
-        if (callFrom.equals("today_attendance")) {
+        attFragmentBinding.progressBar.stop()
+        if (callFrom == "today_attendance") {
             if (_object != null) {
                 Log.d("object current", "" + _object.size)
                 currentAttendanceData = _object as? List<GetCurrentAttendanceData>
                 currentAttendanceData?.let {
-
                     setCurrentAddress(it)
-
-
                 }
             }
         }
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-        progress_bar.stop()
+        attFragmentBinding.progressBar.stop()
 
-        if (callFrom.equals("today_attendance")) {
+        if (callFrom == "today_attendance") {
             viewModel.getCurrentAttendanceDataDetail().observe(this, Observer { data ->
                 print("today_attendance- - - " + data.size)
                 Log.d("today_attendance", "Msg - - - -" + data.size)
@@ -268,7 +244,7 @@ private val viewModel: AttendanceViewModel by viewModels()
 
 
             if(isNetworkError){
-                root_layout?.snackbar(message)
+                attFragmentBinding.rootLayout.snackbar(message)
             }
         }
 
@@ -276,36 +252,33 @@ private val viewModel: AttendanceViewModel by viewModels()
 
 
     private fun setCurrentAddress(currentAttendanceData: List<GetCurrentAttendanceData?>) {
-activity?.let {
-    widget?.addDecorators(CurrentDayDecorator(activity, CalendarDay.today(), currentAttendanceData[0]?.status ?: TAG_HOLIDAY))
-}
+    activity?.let {
+        widget?.addDecorators(CurrentDayDecorator(activity, CalendarDay.today(), currentAttendanceData[0]?.status ?: TAG_HOLIDAY))
+    }
 
-
-
-        txt_punch_time?.text = currentAttendanceData[0]?.FirstIn
-        txt_punch_out_time?.text = currentAttendanceData[0]?.LastOut
-
+        attFragmentBinding.txtPunchTime.text = currentAttendanceData[0]?.FirstIn
+        attFragmentBinding.txtPunchOutTime.text = currentAttendanceData[0]?.LastOut
 
         //Check First PunchType
         if (currentAttendanceData[0]?.FirstInPunchType.equals(TAG_PUNCH_TYPE_MOBILE, ignoreCase = true)) {
-            txt_punch_location?.text = getAddressFromLatLong(context, currentAttendanceData[0]?.FirstInLatitude?.toDoubleOrNull() ?: 0.0,
+            attFragmentBinding.txtPunchLocation.text = getAddressFromLatLong(context, currentAttendanceData[0]?.FirstInLatitude?.toDoubleOrNull() ?: 0.0,
                     currentAttendanceData[0]?.FirstInLongitude?.toDoubleOrNull() ?: 0.0)
         }else{
-            txt_punch_location?.text = currentAttendanceData[0]?.FirstInLocation
+            attFragmentBinding.txtPunchOutLocation.text = currentAttendanceData[0]?.FirstInLocation
         }
 
 
         //Check Last PunchType
         if (currentAttendanceData[0]?.LastOutPunchType.equals(TAG_PUNCH_TYPE_MOBILE, ignoreCase = true)) {
-            txt_punch_out_location?.text = getAddressFromLatLong(context, currentAttendanceData[0]?.LastOutLatitude?.toDoubleOrNull() ?: 0.0,
+            attFragmentBinding.txtPunchOutLocation.text = getAddressFromLatLong(context, currentAttendanceData[0]?.LastOutLatitude?.toDoubleOrNull() ?: 0.0,
                     currentAttendanceData[0]?.LastOutLongitude?.toDoubleOrNull() ?: 0.0)
         }else{
-            txt_punch_out_location?.text = currentAttendanceData[0]?.LastOutLocation
+            attFragmentBinding.txtPunchOutLocation.text = currentAttendanceData[0]?.LastOutLocation
         }
 
-        txt_working_hrs?.text = currentAttendanceData[0]?.TotalHours + " of working hours"
-        scrollView?.post {
-            scrollView?.fullScroll(View.FOCUS_DOWN)
+        attFragmentBinding.txtWorkingHrs.text = currentAttendanceData[0]?.TotalHours + " of working hours"
+        attFragmentBinding.scrollView.post {
+            attFragmentBinding.scrollView.fullScroll(View.FOCUS_DOWN)
         }
     }
 
@@ -323,43 +296,35 @@ activity?.let {
         Log.d("prev - - - ", "" + prevAttendanceObj)
 
         if (prevAttendanceObj.isNullOrEmpty()) {
-            txt_punch_time.text = "-"
-            txt_punch_out_time.text = "-"
+            attFragmentBinding.txtPunchTime.text = "-"
+            attFragmentBinding.txtPunchOutTime.text = "-"
 
-            txt_punch_location.text = "-"
-            txt_punch_out_location.text = "-"
-
-
+            attFragmentBinding.txtPunchLocation.text = "-"
+            attFragmentBinding.txtPunchOutLocation.text = "-"
         } else {
-            txt_punch_time.text =  prevAttendanceObj[0]?.FirstIn
-            txt_punch_out_time.text =  prevAttendanceObj[0]?.LastOut
-
-
+            attFragmentBinding.txtPunchTime.text =  prevAttendanceObj[0]?.FirstIn
+            attFragmentBinding.txtPunchOutTime.text =  prevAttendanceObj[0]?.LastOut
 
             //Check First PunchType
             if (prevAttendanceObj[0]?.FirstInPunchType.equals(TAG_PUNCH_TYPE_MOBILE, ignoreCase = true)) {
-                txt_punch_location.text = getAddressFromLatLong(context, prevAttendanceObj[0]?.FirstInLatitude?.toDoubleOrNull() ?: 0.0,
+                attFragmentBinding.txtPunchLocation.text = getAddressFromLatLong(context, prevAttendanceObj[0]?.FirstInLatitude?.toDoubleOrNull() ?: 0.0,
                         prevAttendanceObj[0]?.FirstInLongitude?.toDoubleOrNull() ?: 0.0)
             }else{
-                txt_punch_location.text = prevAttendanceObj[0]?.FirstInLocation
+                attFragmentBinding.txtPunchLocation.text = prevAttendanceObj[0]?.FirstInLocation
             }
 
 
             //Check Last PunchType
             if (prevAttendanceObj[0]?.LastOutPunchType.equals(TAG_PUNCH_TYPE_MOBILE, ignoreCase = true)) {
-                txt_punch_out_location.text = getAddressFromLatLong(context, prevAttendanceObj[0]?.LastOutLatitude?.toDoubleOrNull() ?: 0.0,
+                attFragmentBinding.txtPunchOutLocation.text = getAddressFromLatLong(context, prevAttendanceObj[0]?.LastOutLatitude?.toDoubleOrNull() ?: 0.0,
                         prevAttendanceObj[0]?.LastOutLongitude?.toDoubleOrNull() ?: 0.0)
             }else{
-                txt_punch_out_location.text = prevAttendanceObj[0]?.LastOutLocation
+                attFragmentBinding.txtPunchOutLocation.text = prevAttendanceObj[0]?.LastOutLocation
             }
 
-            txt_working_hrs.text = prevAttendanceObj[0]?.TotalHours + " of working hours"
+            attFragmentBinding.txtWorkingHrs.text = prevAttendanceObj[0]?.TotalHours + " of working hours"
         }
-
-
-
     }
-
 
     override fun onDateSelected(
             widget: MaterialCalendarView,
@@ -372,10 +337,10 @@ activity?.let {
         Log.d("---", "----")
 
         val formatDate = formatDateString(date.date.toString(),"yyyy-MM-dd","dd/MM/yyyy")
-        textViewDate.text = formatDate
+        attFragmentBinding.textViewDate.text = formatDate
 
         //  - - - - - - Hit api for current attendance data - - - - - -
-        if (date.equals(CalendarDay.today())) {
+        if (date == CalendarDay.today()) {
             Log.d("same date - -- ", "" + date + " -- - " + CalendarDay.today())
             viewModel.currentAttendance()
         } else {
@@ -383,15 +348,11 @@ activity?.let {
             attendanceData?.let {
 
                 setPreviousAddress(it, date.date)
-                scrollView.post {
-                    scrollView.fullScroll(View.FOCUS_DOWN)
+                attFragmentBinding.scrollView.post {
+                    attFragmentBinding.scrollView.fullScroll(View.FOCUS_DOWN)
                 }
             }
         }
-
-
-
-
     }
 
 

@@ -5,20 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.User
 import com.goldmedal.hrapp.data.model.InitialApiData
+import com.goldmedal.hrapp.databinding.ActivitySplashBinding
 import com.goldmedal.hrapp.ui.dashboard.DashboardActivity
 import com.goldmedal.hrapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_splash.*
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity(), AuthListener<Any> {
 
-
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: ActivitySplashBinding
 
     private val splashJson = arrayOf(R.raw.splash_1, R.raw.splash_2, R.raw.splash_3)
     private var initialApiCalled = false
@@ -33,7 +34,8 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
     private var user: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         viewModel.authListener = this
 
         startApi()
@@ -41,14 +43,14 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
 
     override fun onResume() {
         super.onResume()
-        lottie?.setAnimation(splashJson.random())
-        lottie?.playAnimation()
+        binding.lottie.setAnimation(splashJson.random())
+        binding.lottie.playAnimation()
 
-        lottie?.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-            }
+        binding.lottie.addAnimatorListener(object : Animator.AnimatorListener {
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationStart(p0: Animator) {}
+
+            override fun onAnimationEnd(p0: Animator) {
                 isVideoCompleted = true
                 if (!initialApiCalled) {
                     startApi()
@@ -59,11 +61,9 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
                 }
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
-            }
+            override fun onAnimationCancel(p0: Animator) {}
 
-            override fun onAnimationStart(animation: Animator?) {
-            }
+            override fun onAnimationRepeat(p0: Animator) {}
 
         })
     }

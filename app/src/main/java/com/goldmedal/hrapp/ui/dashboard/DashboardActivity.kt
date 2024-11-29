@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -21,24 +22,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.databinding.ActivityDashboardBinding
+import com.goldmedal.hrapp.databinding.NavHeaderHomeScreenBinding
 import com.goldmedal.hrapp.inappupdates.UpdateManager
 import com.goldmedal.hrapp.inappupdates.UpdateManagerConstant
 import com.goldmedal.hrapp.ui.auth.*
 import com.goldmedal.hrapp.ui.dashboard.notification.NotificationActivity
 import com.goldmedal.hrapp.util.shortToast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_dashboard.*
-import kotlinx.android.synthetic.main.bottom_nav_content.*
-import kotlinx.android.synthetic.main.nav_header_home_screen.*
-import kotlinx.android.synthetic.main.toolbar.*
-
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancelUpdate {
-
-
-private  val viewModel: LoginViewModel by viewModels()
-    var mToast: Toast? = null
+    private  val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: ActivityDashboardBinding
+    private lateinit var mHeaderBinding: NavHeaderHomeScreenBinding
+    private var mToast: Toast? = null
 
     private var forceUpdate: Boolean = false
     private var playStoreVersionCode: Int = 0
@@ -59,42 +56,39 @@ private  val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-        val binding: ActivityDashboardBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard)
         binding.viewmodel = viewModel
+        mHeaderBinding = NavHeaderHomeScreenBinding.bind(binding.navigationView.getHeaderView(0))
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.appBarHomeScreen.appBarToolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
         mToast = Toast.makeText(this@DashboardActivity, R.string.press_back_again, Toast.LENGTH_SHORT)
 
         val toggle = ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+                this, binding.drawerLayout, binding.appBarHomeScreen.appBarToolbar.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        drawerLayout.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
 
 
         navController = Navigation.findNavController(this, R.id.navFragment)
 
-        bottomNav.setupWithNavController(navController)
-        navigationView.setupWithNavController(navController)
+        binding.appBarHomeScreen.bottomNavContent.bottomNav.setupWithNavController(navController)
+        binding.navigationView.setupWithNavController(navController)
 
 
-        val logoutItem = navigationView.menu.findItem(R.id.actionLogout)
+        val logoutItem = binding.navigationView.menu.findItem(R.id.actionLogout)
         logoutItem.setOnMenuItemClickListener {
             logout()
             true
         }
 
-        toolbar_notification?.setOnClickListener {
+        binding.appBarHomeScreen.appBarToolbar.toolbarNotification.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
-
 
         playStoreVersionCode = viewModel.getVersionCode() ?: 1
         forceUpdate = viewModel.getForceUpdateFlag()
@@ -106,18 +100,16 @@ private  val viewModel: LoginViewModel by viewModels()
         viewModel.getLoggedInUser().observe(this, Observer { user ->
             if (user != null) {
 
-                textViewMsg?.text = "Hello, " + user.FirstName
+                mHeaderBinding.textViewMsg.text = "Hello, " + user.FirstName
 
                 val avatar = if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
 
 
-                if (imageViewProfile != null) {
-                    Glide.with(this)
-                            .load(user.ProfilePicture)
-                            .fitCenter()
-                            .placeholder(avatar)
-                            .into(this@DashboardActivity.imageViewProfile)
-                }
+                Glide.with(this)
+                        .load(user.ProfilePicture)
+                        .fitCenter()
+                        .placeholder(avatar)
+                        .into(mHeaderBinding.imageViewProfile)
                 if (user.IsReportingPerson == 1) {
                     setTitle("MANAGER")
                 }
@@ -193,8 +185,8 @@ private  val viewModel: LoginViewModel by viewModels()
     }
 
     private fun setTitle(message: String) {
-        val nav_Menu = navigationView.menu
-        nav_Menu.findItem(R.id.headerTitle).title = message
+        val navMenu = binding.navigationView.menu
+        navMenu.findItem(R.id.headerTitle).title = message
 
     }
 
@@ -203,7 +195,7 @@ private  val viewModel: LoginViewModel by viewModels()
     * When employee is not manager or HR hide these options
     */
     private fun hideAdminOptions() {
-        val navMenu = navigationView.menu
+        val navMenu = binding.navigationView.menu
         navMenu.findItem(R.id.teamRequestsArchiveActivity).isVisible = false
         navMenu.findItem(R.id.requestsFragment).isVisible = false
         navMenu.findItem(R.id.myTeamActivity).isVisible = false
@@ -213,7 +205,7 @@ private  val viewModel: LoginViewModel by viewModels()
         navMenu.findItem(R.id.teamRegularizationHistoryActivity).isVisible = false
 
         //Hide Leave Requests on Bottom Navigation
-        bottomNav?.menu?.removeItem(R.id.requestsFragment)
+        binding.appBarHomeScreen.bottomNavContent.bottomNav.menu.removeItem(R.id.requestsFragment)
     }
 
 
@@ -222,17 +214,15 @@ private  val viewModel: LoginViewModel by viewModels()
     }
 
     private fun hideLimitDetails() {
-        val nav_Menu = navigationView.menu
-        nav_Menu.findItem(R.id.accountsDetailActivity).isVisible = false
+        val navMenu = binding.navigationView.menu
+        navMenu.findItem(R.id.accountsDetailActivity).isVisible = false
     }
 
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-
-
             if (navController.currentDestination?.id == R.id.homeFragment) {
                 if (mToast?.view?.isShown == false) {
                     mToast?.show()
@@ -250,7 +240,7 @@ private  val viewModel: LoginViewModel by viewModels()
 
 
     override fun onSupportNavigateUp(): Boolean {
-        return NavigationUI.navigateUp(navController, drawerLayout)
+        return NavigationUI.navigateUp(navController, binding.drawerLayout)
     }
 
     //In-App Update Flow - - - - - - - - - - - - - - - - - - - - - -
