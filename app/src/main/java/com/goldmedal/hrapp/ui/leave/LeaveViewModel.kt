@@ -202,8 +202,8 @@ class LeaveViewModel @Inject constructor(
         Coroutines.main {
             try {
                 val leaveResponse = repository.leaveBalance(userId!!,year)
-                if (leaveResponse?.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!leaveResponse?.leaveBalData?.isNullOrEmpty()!!) {
+                if (leaveResponse.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
+                    if (!leaveResponse.leaveBalData?.isEmpty()!!) {
                         leaveResponse.leaveBalData.let {
                             apiListener?.onSuccess(it, "leave_balance")
                             repository.removeLeaveBalanceData()

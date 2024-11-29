@@ -10,7 +10,7 @@ import com.goldmedal.hrapp.data.db.entities.AllHolidayData
 @Dao
 interface AllHolidayDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllHoliday(holidayData: List<AllHolidayData?>)
+    suspend fun insertAllHoliday(holidayData: List<AllHolidayData>)
 
     @Query("SELECT * FROM AllHolidayData")
     fun getAllHoliday() : LiveData<List<AllHolidayData>>

@@ -80,11 +80,11 @@ class UserRepository @Inject constructor(
 
     }
 
-    suspend fun saveProfilePic(profilePicLink: String?) = db.getUserDao().updateProfilePic(profilePicLink)
+    suspend fun saveProfilePic(profilePicLink: String) = db.getUserDao().updateProfilePic(profilePicLink)
 
 
-    suspend fun saveUser(user: User?) = db.getUserDao().upsert(user)
-    suspend fun updateUserProfile(user: UserDataUpdate?) = db.getUserDao().update(user)
+    suspend fun saveUser(user: User) = db.getUserDao().upsert(user)
+    suspend fun updateUserProfile(user: UserDataUpdate) = db.getUserDao().update(user)
 
     fun getUser() = db.getUserDao().getUser()
 

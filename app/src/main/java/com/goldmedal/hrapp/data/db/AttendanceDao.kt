@@ -10,7 +10,7 @@ import com.goldmedal.hrapp.data.db.entities.GetAllAttendanceData
 @Dao
 interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     fun insertAttendanceData(birthData: List<GetAllAttendanceData?>) : List<Long>
+     fun insertAttendanceData(birthData: List<GetAllAttendanceData>) : List<Long>
 
     @Query("SELECT * FROM GetAllAttendanceData")
     fun getAttendanceData() : LiveData<List<GetAllAttendanceData>>

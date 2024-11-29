@@ -44,6 +44,7 @@ import com.goldmedal.hrapp.ui.manager.ShortLeavesRequestsActivity
 import com.goldmedal.hrapp.ui.map.MapsActivity
 import com.goldmedal.hrapp.util.*
 import com.zhpan.bannerview.BannerViewPager
+import com.zhpan.bannerview.BannerViewPager.OnPageClickListener
 import com.zhpan.bannerview.BaseViewHolder
 import com.zhpan.bannerview.constants.IndicatorGravity
 import com.zhpan.bannerview.utils.BannerUtils
@@ -92,9 +93,9 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
 
     //Banner
-    private lateinit var holidayBanner: BannerViewPager<HolidayData?, BaseViewHolder<HolidayData?>?>
-    private lateinit var birthdayBanner: BannerViewPager<BirthdayData?, BaseViewHolder<BirthdayData?>?>
-    private lateinit var anniversaryBanner: BannerViewPager<AnniversaryData?, BaseViewHolder<AnniversaryData?>>
+    private lateinit var holidayBanner: BannerViewPager<HolidayData>
+    private lateinit var birthdayBanner: BannerViewPager<BirthdayData>
+    private lateinit var anniversaryBanner: BannerViewPager<AnniversaryData>
 
     private val runnable = Runnable { formatTimer() }
 
@@ -229,12 +230,11 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                     }
                 })
 
-                setOnPageClickListener {
+                setOnPageClickListener { clickedView, position ->
                     activity?.let {
                         val intent = Intent(it, HolidayListActivity::class.java)
                         it.startActivity(intent)
                     }
-
                 }
             }
                     .create()

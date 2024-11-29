@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
@@ -73,8 +74,8 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         toggle.syncState()
 
 
-
-        navController = Navigation.findNavController(this, R.id.navFragment)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navFragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         binding.appBarHomeScreen.bottomNavContent.bottomNav.setupWithNavController(navController)
         binding.navigationView.setupWithNavController(navController)

@@ -14,7 +14,7 @@ import com.goldmedal.hrapp.data.db.entities.User
 interface MyTeamDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(data: List<MyTeamData?>)
+    suspend fun upsert(data: List<MyTeamData>)
 
     @Query("SELECT * FROM MyTeamData")
     fun getMyTeam() : LiveData<List<MyTeamData>>

@@ -28,7 +28,7 @@ class IntroActivity : AppCompatActivity(){
 
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: ActivityIntroBinding
-    private lateinit var mViewPager: BannerViewPager<CustomBean, CustomPageViewHolder>
+    private lateinit var mViewPager: BannerViewPager<CustomBean>
 
     private val des = arrayOf("Goldmedal is synonymous with\nworld-class electrical brands", "Switch to the amazing\nto come across products of tomorrow", "We've been innovating since\ninception in 1979 \nIt's a legacy we are proud of and \nwhich will never change")
     private val introJson = arrayOf(R.raw.splash_1, R.raw.splash_2, R.raw.splash_3)

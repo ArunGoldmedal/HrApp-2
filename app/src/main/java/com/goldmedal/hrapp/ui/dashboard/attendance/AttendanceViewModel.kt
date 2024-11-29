@@ -88,7 +88,7 @@ class AttendanceViewModel @Inject constructor(
             try {
                 val attendanceResponse = repository.currentAttendanceData(userId!!, strEndDate!!)
 
-                if (!attendanceResponse.currAttendanceData?.isNullOrEmpty()!!) {
+                if (!attendanceResponse.currAttendanceData.isNullOrEmpty()) {
                     attendanceResponse.currAttendanceData.let {
                         apiListener?.onSuccess(it, "today_attendance")
                         Log.d("Inside curr attendance", "Msg - - - -" + it.size);
