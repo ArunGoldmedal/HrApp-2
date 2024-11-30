@@ -1,22 +1,25 @@
 package com.goldmedal.hrapp.ui.dashboard
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import android.widget.Toolbar
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -28,7 +31,10 @@ import com.goldmedal.hrapp.inappupdates.UpdateManager
 import com.goldmedal.hrapp.inappupdates.UpdateManagerConstant
 import com.goldmedal.hrapp.ui.auth.*
 import com.goldmedal.hrapp.ui.dashboard.notification.NotificationActivity
+import com.goldmedal.hrapp.util.alertDialog
 import com.goldmedal.hrapp.util.shortToast
+import com.goldmedal.hrapp.util.toast
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +53,16 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
     private var mUpdateManager: UpdateManager? = null
 
     private lateinit var navController: NavController
+    private val requestPermissionLauncher = registerForActivityResult<String, Boolean>(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            toast("Notification will not be shown without permission.")
+        }
+    }
+
     companion object {
 
 
@@ -90,6 +106,7 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         binding.appBarHomeScreen.appBarToolbar.toolbarNotification.setOnClickListener {
             startActivity(Intent(this, NotificationActivity::class.java))
         }
+        askNotificationPermission()
 
         playStoreVersionCode = viewModel.getVersionCode() ?: 1
         forceUpdate = viewModel.getForceUpdateFlag()
@@ -155,6 +172,34 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                 crossCheckPlayStoreVersion()
             }
         })
+    }
+
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                val builder = MaterialAlertDialogBuilder(this, R.style.MyRounded_MaterialComponents_MaterialAlertDialog)
+                builder.setTitle("Notification")
+                builder.setMessage("Please allow notification permission to show notifications.")
+                builder.setPositiveButton("OK") { dialogInterface, i ->
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    dialogInterface.cancel()
+                }
+                builder.setNegativeButton("Cancel") { dialogInterface, i ->
+                    toast("Notification will not be shown without permission.")
+                    dialogInterface.cancel()
+                }
+                builder.show()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
     }
 
 
