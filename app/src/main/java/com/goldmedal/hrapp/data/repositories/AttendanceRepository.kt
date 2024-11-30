@@ -71,7 +71,7 @@ class AttendanceRepository @Inject constructor(private val api: MyApi,
         return ChronoUnit.HOURS.between(savedAt, LocalDateTime.now()) > MINIMUM_INTERVAL
     }
 
-    fun saveAllAttendanceData(attendanceData: List<GetAllAttendanceData?>) {
+    fun saveAllAttendanceData(attendanceData: List<GetAllAttendanceData>) {
         prefs.saveLastSavedAt(LocalDateTime.now().toString())
         Coroutines.io {
             removeAllAttendanceData()
@@ -184,7 +184,7 @@ class AttendanceRepository @Inject constructor(private val api: MyApi,
 
 
 
-    suspend fun saveCurrentAttendanceData(attendanceData: List<GetCurrentAttendanceData?>) = db.getCurrentAttendanceDao().insertCurrentAttendanceData(attendanceData)
+    suspend fun saveCurrentAttendanceData(attendanceData: List<GetCurrentAttendanceData>) = db.getCurrentAttendanceDao().insertCurrentAttendanceData(attendanceData)
 
     fun retrieveCurrentAttendanceData() = db.getCurrentAttendanceDao().getCurrentAttendanceData()
 

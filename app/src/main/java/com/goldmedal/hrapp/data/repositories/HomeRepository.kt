@@ -28,7 +28,7 @@ class HomeRepository @Inject constructor(
         }
     }
 
-    suspend fun saveBirthData(birthData: List<BirthdayData?>) =
+    suspend fun saveBirthData(birthData: List<BirthdayData>) =
         db.getBirthDateDao().insertBirthDate(birthData)
 
     fun getBirthData() = db.getBirthDateDao().getBirthDate()
@@ -60,7 +60,7 @@ class HomeRepository @Inject constructor(
         }
     }
 
-    suspend fun saveHolidaysData(holidayData: List<HolidayData?>) =
+    suspend fun saveHolidaysData(holidayData: List<HolidayData>) =
         db.getHolidayDao().insertHoliday(holidayData)
 
     fun getHolidaysData() = db.getHolidayDao().getHoliday()
@@ -68,7 +68,7 @@ class HomeRepository @Inject constructor(
     suspend fun removeHolidaysData() = db.getHolidayDao().removeHoliday()
 
 
-    suspend fun saveAllHolidaysData(holidayData: List<AllHolidayData?>) =
+    suspend fun saveAllHolidaysData(holidayData: List<AllHolidayData>) =
         db.getAllHolidayDao().insertAllHoliday(holidayData)
 
     fun getAllHolidaysData() = db.getAllHolidayDao().getAllHoliday()
@@ -88,7 +88,7 @@ class HomeRepository @Inject constructor(
         }
     }
 
-    suspend fun saveAnniversaryData(anniversaryData: List<AnniversaryData?>) =
+    suspend fun saveAnniversaryData(anniversaryData: List<AnniversaryData>) =
         db.getAnniversaryDateDao().insertAnniversaryDate(anniversaryData)
 
     fun getAnniversaryData() = db.getAnniversaryDateDao().getAnniversaryDate()
@@ -108,7 +108,7 @@ class HomeRepository @Inject constructor(
         }
     }
 
-    suspend fun saveEmployeeAttendance(empData: List<EmployeeAttendanceData?>) =
+    suspend fun saveEmployeeAttendance(empData: List<EmployeeAttendanceData>) =
         db.getEmployeeAttendanceDao().insertEmpAttendanceData(empData)
 
     fun getEmpAttendanceData() = db.getEmployeeAttendanceDao().getEmpAttendanceData()
@@ -158,7 +158,7 @@ class HomeRepository @Inject constructor(
     }
 
 
-    suspend fun saveMyTeam(data: List<MyTeamData?>) = db.getMyTeamDao().upsert(data = data)
+    suspend fun saveMyTeam(data: List<MyTeamData>) = db.getMyTeamDao().upsert(data = data)
 
     fun getMyTeam() = db.getMyTeamDao().getMyTeam()
 

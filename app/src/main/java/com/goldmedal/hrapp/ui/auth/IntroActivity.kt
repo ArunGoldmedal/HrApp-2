@@ -17,21 +17,20 @@ import com.goldmedal.hrapp.common.transform.TransformerStyle
 import com.goldmedal.hrapp.data.adapters.IntroAdapter
 import com.goldmedal.hrapp.data.model.CustomBean
 import com.goldmedal.hrapp.data.model.viewholder.CustomPageViewHolder
+import com.goldmedal.hrapp.databinding.ActivityIntroBinding
 import com.zhpan.bannerview.BannerViewPager
 import com.zhpan.indicator.enums.IndicatorSlideMode
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_intro.*
 import java.util.*
 
 @AndroidEntryPoint
 class IntroActivity : AppCompatActivity(){
 
-
-
     private val viewModel: LoginViewModel by viewModels()
-    private lateinit var mViewPager: BannerViewPager<CustomBean, CustomPageViewHolder>
+    private lateinit var binding: ActivityIntroBinding
+    private lateinit var mViewPager: BannerViewPager<CustomBean>
 
-        private val des = arrayOf("Goldmedal is synonymous with\nworld-class electrical brands", "Switch to the amazing\nto come across products of tomorrow", "We've been innovating since\ninception in 1979 \nIt's a legacy we are proud of and \nwhich will never change")
+    private val des = arrayOf("Goldmedal is synonymous with\nworld-class electrical brands", "Switch to the amazing\nto come across products of tomorrow", "We've been innovating since\ninception in 1979 \nIt's a legacy we are proud of and \nwhich will never change")
     private val introJson = arrayOf(R.raw.splash_1, R.raw.splash_2, R.raw.splash_3)
     private val transforms = intArrayOf( TransformerStyle.ACCORDION, TransformerStyle.DEPTH, TransformerStyle.ROTATE, TransformerStyle.SCALE_IN)
     private val backgroundRes = intArrayOf( R.color.colorMaterialIndigo, R.color.colorMaterialBlue, R.color.colorMaterialPink)
@@ -52,16 +51,12 @@ class IntroActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro)
-
-
+        binding = ActivityIntroBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupViewPager()
         updateUI(0)
-        btn_start?.setOnClickListener {
-
-
-
+        binding.btnStart.setOnClickListener {
             viewModel.introInit()
 
             LoginActivity.start(this)
@@ -97,13 +92,13 @@ class IntroActivity : AppCompatActivity(){
     }
 
     private fun updateUI(position: Int) {
-        tv_describe?.text = des[position]
-        val translationAnim = ObjectAnimator.ofFloat(tv_describe, "translationX", -120f, 0f)
+        binding.tvDescribe.text = des[position]
+        val translationAnim = ObjectAnimator.ofFloat(binding.tvDescribe, "translationX", -120f, 0f)
         translationAnim.apply {
             duration = ANIMATION_DURATION.toLong()
             interpolator = DecelerateInterpolator()
         }
-        val alphaAnimator = ObjectAnimator.ofFloat(tv_describe, "alpha", 0f, 1f)
+        val alphaAnimator = ObjectAnimator.ofFloat(binding.tvDescribe, "alpha", 0f, 1f)
         alphaAnimator.apply {
             duration = ANIMATION_DURATION.toLong()
         }
@@ -111,13 +106,13 @@ class IntroActivity : AppCompatActivity(){
         animatorSet.playTogether(translationAnim, alphaAnimator)
         animatorSet.start()
 
-        if (position == mViewPager.data.size - 1 && btn_start?.visibility == View.GONE) {
-            btn_start?.visibility = View.VISIBLE
+        if (position == mViewPager.data.size - 1 && binding.btnStart.visibility == View.GONE) {
+            binding.btnStart.visibility = View.VISIBLE
             ObjectAnimator
-                    .ofFloat(btn_start, "alpha", 0f, 1f)
+                    .ofFloat(binding.btnStart, "alpha", 0f, 1f)
                     .setDuration(ANIMATION_DURATION.toLong()).start()
         } else {
-            btn_start?.visibility = View.GONE
+            binding.btnStart.visibility = View.GONE
         }
     }
 

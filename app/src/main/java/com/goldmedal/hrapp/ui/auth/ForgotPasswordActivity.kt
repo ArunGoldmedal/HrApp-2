@@ -11,27 +11,20 @@ import com.goldmedal.hrapp.data.model.ResetPasswordData
 import com.goldmedal.hrapp.databinding.ActivityForgotPasswordBinding
 import com.goldmedal.hrapp.util.alertDialog
 import com.goldmedal.hrapp.util.hideKeyboard
-import com.goldmedal.hrapp.util.snackbar
 import com.goldmedal.hrapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_forgot_password.*
-import kotlinx.android.synthetic.main.activity_forgot_password.progress_bar
-import kotlinx.android.synthetic.main.activity_login.root_layout
 
 
 @AndroidEntryPoint
 class ForgotPasswordActivity : AppCompatActivity(), AuthListener<Any> {
-
-
-
-
     private var isFromProfile: Boolean = false
     private  val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: ActivityForgotPasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityForgotPasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password)
         binding.viewmodelforgot = viewModel
         viewModel.authListener = this
 
@@ -40,7 +33,7 @@ class ForgotPasswordActivity : AppCompatActivity(), AuthListener<Any> {
         viewModel.strMobileNo = intent.getStringExtra("MobileNo")
 
         if (isFromProfile) {
-            view_old_password.visibility = View.VISIBLE
+            binding.viewOldPassword.visibility = View.VISIBLE
 
         }else{
             viewModel.strOldPassword = "-"
@@ -50,12 +43,12 @@ class ForgotPasswordActivity : AppCompatActivity(), AuthListener<Any> {
     override fun onStarted() {
 
         hideKeyboard()
-        progress_bar?.start()
+        binding.progressBar.start()
 
     }
 
     override fun onSuccess(_object: List<Any?>) {
-        progress_bar?.stop()
+        binding.progressBar.stop()
 
 
         //Save password and logout of all active signed in devices
@@ -75,7 +68,7 @@ class ForgotPasswordActivity : AppCompatActivity(), AuthListener<Any> {
     }
 
     override fun onFailure(message: String) {
-        progress_bar?.stop()
+        binding.progressBar.stop()
         alertDialog(message)
     }
 

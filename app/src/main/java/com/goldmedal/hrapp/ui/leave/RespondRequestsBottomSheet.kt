@@ -28,15 +28,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.respond_requests_bottom_sheet.*
 
 
 @AndroidEntryPoint
 class RespondRequestsBottomSheet : BottomSheetDialogFragment(),  ApiStageListener<Any> {
-
-
-
-private val leaveModel: LeaveViewModel by viewModels()
+    private val leaveModel: LeaveViewModel by viewModels()
     private lateinit var binding: RespondRequestsBottomSheetBinding
     private var item: LeaveRequestsData? = null
 
@@ -52,7 +48,7 @@ private val leaveModel: LeaveViewModel by viewModels()
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.respond_requests_bottom_sheet, container, false)
         return binding.root
     }
@@ -113,20 +109,16 @@ private val leaveModel: LeaveViewModel by viewModels()
         leaveModel.apiListener = this
 
 
-        leaveModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+        leaveModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 leaveModel.userId = user.UserID
-
             }
-        })
+        }
 
         item = arguments?.getSerializable("item") as LeaveRequestsData
 
-
-
-
         if (item?.LeaveImage.isNullOrEmpty()) {
-            btnViewImage.visibility = View.GONE
+            binding.btnViewImage.visibility = View.GONE
         }
 
 
@@ -136,37 +128,34 @@ private val leaveModel: LeaveViewModel by viewModels()
                 .load(item?.ProfilePicture)
                 .fitCenter()
                 .placeholder(avatar)
-                .into(avatarIcon)
-
-
-
+                .into(binding.avatarIcon)
 
         leaveModel.applyLeaveId = item?.ApplyLeaveID
         leaveModel.employeeID = item?.EmployeeID
         leaveModel.strAppliedDays = item?.ActualLeavesDay.toString()
 
-        edtComment.setHorizontallyScrolling(false)
-        edtComment.maxLines = 4
+        binding.edtComment.setHorizontallyScrolling(false)
+        binding.edtComment.maxLines = 4
 
-        text_view_leave_duration.text = item?.LeaveDuration.toString()
-        text_view_applicant_name.text = item?.EmployeeName
-        text_view_applicant_designation.text = item?.EmployeeDesignation
-        chip_leave_reason.text = item?.LeaveReason ?: "-"
+        binding.textViewLeaveDuration.text = item?.LeaveDuration.toString()
+        binding.textViewApplicantName.text = item?.EmployeeName
+        binding.textViewApplicantDesignation.text = item?.EmployeeDesignation
+        binding.chipLeaveReason.text = item?.LeaveReason ?: "-"
 
-        text_view_leave_type?.text = item?.LeaveType ?: "-"
-        imvLeaveType?.circleBackgroundColor = Color.parseColor(item?.LeaveTypeColor ?: "#d32f2f")
-        text_view_day_type?.text = item?.DayType ?: "-"
+        binding.textViewLeaveType.text = item?.LeaveType ?: "-"
+        binding.imvLeaveType.circleBackgroundColor = Color.parseColor(item?.LeaveTypeColor ?: "#d32f2f")
+        binding.textViewDayType.text = item?.DayType ?: "-"
 
 
-        text_view_applied_leaves.text = formatNumber(item?.ActualLeavesDay.toString())
-        text_view_avail_leaves.text = formatNumber(item?.AvailableLeaves.toString())
+        binding.textViewAppliedLeaves.text = formatNumber(item?.ActualLeavesDay.toString())
+        binding.textViewAvailLeaves.text = formatNumber(item?.AvailableLeaves.toString())
 
-        chip_leave_reason.setTextColor(item?.ChipTextColor ?: 0)
-        chip_leave_reason.chipBackgroundColor = ColorStateList.valueOf(item?.ChipBackgroundColor
+        binding.chipLeaveReason.setTextColor(item?.ChipTextColor ?: 0)
+        binding.chipLeaveReason.chipBackgroundColor = ColorStateList.valueOf(item?.ChipBackgroundColor
                 ?: 0)
 
 
-        segmented {
+        binding.segmented {
 
             // set initial checked segment (null by default)
             initialCheckedIndex = 0
@@ -185,9 +174,7 @@ private val leaveModel: LeaveViewModel by viewModels()
             }
         }
 
-        segmented_leave_type {
-
-
+        binding.segmentedLeaveType {
             initialCheckedIndex = 0
             leaveModel.leaveType = leaveTypeSegmentIndex + 1
 
@@ -201,7 +188,7 @@ private val leaveModel: LeaveViewModel by viewModels()
                     leaveModel.strPaidLeave = "0"
                     leaveModel.strUnPaidLeave = "0"
 
-                    partialPaidLayout?.visibility = View.GONE
+                    binding.partialPaidLayout.visibility = View.GONE
 
                 } else if (segment.text == "UnPaid") {
                     leaveTypeSegmentIndex = 1
@@ -210,22 +197,18 @@ private val leaveModel: LeaveViewModel by viewModels()
                     leaveModel.strPaidLeave = "0"
                     leaveModel.strUnPaidLeave = "0"
 
-                    partialPaidLayout?.visibility = View.GONE
+                    binding.partialPaidLayout.visibility = View.GONE
                 }
                 //Partial Paid
                 else {
                     leaveTypeSegmentIndex = 2
                     leaveModel.leaveType = leaveTypeSegmentIndex + 1
-                    partialPaidLayout?.visibility = View.VISIBLE
-
+                    binding.partialPaidLayout.visibility = View.VISIBLE
                 }
             }
         }
 
-
-
-
-        textInputLayout.editText?.doOnTextChanged { inputText, start, before, count ->
+        binding.textInputLayout.editText?.doOnTextChanged { inputText, start, before, count ->
 
             val inputNumber = inputText.toString().toDoubleOrNull()
 
@@ -233,38 +216,33 @@ private val leaveModel: LeaveViewModel by viewModels()
             if (inputNumber != null) {
 
                 if (inputNumber % 0.5 == 0.0) {
-                    textInputLayout.error = null
-
+                    binding.textInputLayout.error = null
 
                     getPartialLeaves(inputNumber)
 
                 } else {
-                    textInputLayout.error = "Input valid input"
+                    binding.textInputLayout.error = "Input valid input"
                 }
             } else {
-                textInputLayout.error = "Input valid input"
-                txtUnpaidLeaves.text = getString(R.string.str_unpaid_leave)
+                binding.textInputLayout.error = "Input valid input"
+                binding.txtUnpaidLeaves.text = getString(R.string.str_unpaid_leave)
             }
         }
 
-
-        imvClose.setOnClickListener {
+        binding.imvClose.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
-        btnSend.setOnClickListener {
-
+        binding.btnSend.setOnClickListener {
 
             if (segmentIndex == 0) {
-
-
                 // In case of partial paid
                 if (leaveTypeSegmentIndex == 2) {
-                    if (edtPaidLeaves.text.toString().isEmpty()) {
+                    if (binding.edtPaidLeaves.text.toString().isEmpty()) {
                         context?.toast("Please enter paid leave")
 
                         return@setOnClickListener
-                    } else if (!TextUtils.isEmpty(textInputLayout.error)) {
+                    } else if (!TextUtils.isEmpty(binding.textInputLayout.error)) {
                         context?.toast("Please enter valid paid leave")
 
                         return@setOnClickListener
@@ -277,7 +255,7 @@ private val leaveModel: LeaveViewModel by viewModels()
             }
         }
 
-        btnViewImage?.setOnClickListener {
+        binding.btnViewImage.setOnClickListener {
             FullscreenImageActivity.start(requireContext(),item?.LeaveImage)// "https://goldblobtest.blob.core.windows.net/goldappdata/goldapp/base/hrm/employeedocuments/profile_122-10628935-c973-4e78-a5ae-0ae238d490ec.jpg"
         }
     }
@@ -285,20 +263,15 @@ private val leaveModel: LeaveViewModel by viewModels()
     private fun getPartialLeaves(inputNumber: Double) {
         val actualLeaves = item?.ActualLeavesDay ?: 0.0
         if (inputNumber <= actualLeaves) {
-
-
-
             val unpaidLeave = formatNumber(actualLeaves.minus(inputNumber).toString())
 
             leaveModel.strPaidLeave = inputNumber.toString()
             leaveModel.strUnPaidLeave = unpaidLeave
 
-            txtUnpaidLeaves.text = getString(R.string.str_unpaid_leave) + " " + unpaidLeave
+            binding.txtUnpaidLeaves.text = getString(R.string.str_unpaid_leave) + " " + unpaidLeave
         } else {
-            textInputLayout.error = "input valid input"
+            binding.textInputLayout.error = "input valid input"
         }
-
-
     }
 
 
@@ -310,16 +283,16 @@ private val leaveModel: LeaveViewModel by viewModels()
     }
 
     override fun onStarted(callFrom: String) {
-        progress_bar?.start()
+        binding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
-        progress_bar?.stop()
+        binding.progressBar.stop()
 
-        if (callFrom.equals("approveLeaves")) {
+        if (callFrom == "approveLeaves") {
             context?.toast("Leave Approved Successfully!!!")
 
-        } else if (callFrom.equals("disApproveLeaves")) {
+        } else if (callFrom == "disApproveLeaves") {
             context?.toast("Leave Rejected Successfully!!!")
 
         }
@@ -328,7 +301,7 @@ private val leaveModel: LeaveViewModel by viewModels()
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-        progress_bar?.stop()
+        binding.progressBar.stop()
         context?.toast(message)
     }
 

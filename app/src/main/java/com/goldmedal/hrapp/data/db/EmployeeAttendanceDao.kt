@@ -11,7 +11,7 @@ import com.goldmedal.hrapp.data.db.entities.EmployeeAttendanceData
 interface EmployeeAttendanceDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertEmpAttendanceData(empAttData: List<EmployeeAttendanceData?>): List<Long>
+    suspend fun insertEmpAttendanceData(empAttData: List<EmployeeAttendanceData>): List<Long>
 
     @Query("SELECT * FROM EmployeeAttendanceData")
     fun getEmpAttendanceData(): LiveData<List<EmployeeAttendanceData>>

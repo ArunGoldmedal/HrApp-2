@@ -13,7 +13,7 @@ interface BirthdayDao{
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBirthDate(birthData: List<BirthdayData?>)
+    suspend fun insertBirthDate(birthData: List<BirthdayData>)
 
     @Query("SELECT * FROM BirthdayData")
     fun getBirthDate() : LiveData<List<BirthdayData>>

@@ -16,7 +16,7 @@ public class BirthdayViewHolder extends BaseViewHolder<BirthdayData> {
 
     public BirthdayViewHolder(@NonNull View itemView, int roundCorner) {
         super(itemView);
-        CornerImageView imageView = findView(R.id.banner_image);
+        CornerImageView imageView = findViewById(R.id.banner_image);
         imageView.setRoundCorner(roundCorner);
 
     }
@@ -29,10 +29,10 @@ public class BirthdayViewHolder extends BaseViewHolder<BirthdayData> {
     @Override
     public void bindData(BirthdayData data, int position, int pageSize) {
 
-        AppCompatTextView txtEmployee = findView(R.id.txt_employee);
-        AppCompatTextView txtBirthDayDate = findView(R.id.txt_message);
+        AppCompatTextView txtEmployee = findViewById(R.id.txt_employee);
+        AppCompatTextView txtBirthDayDate = findViewById(R.id.txt_message);
 
-        ImageView imageView = findView(R.id.avatarImageView);
+        ImageView imageView = findViewById(R.id.avatarImageView);
 
 
         int avatar = R.drawable.male_avatar;

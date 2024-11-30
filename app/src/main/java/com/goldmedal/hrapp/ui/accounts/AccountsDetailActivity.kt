@@ -23,7 +23,6 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com. xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_accounts_detail.*
 
 @AndroidEntryPoint
 class AccountsDetailActivity : AppCompatActivity(), DetailListener {
@@ -32,11 +31,12 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
 //    private val factory: AccountsViewModelFactory by instance()
 
     private  val limitData: AccountsViewModel by viewModels()
+    private lateinit var binding: ActivityAccountsDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityAccountsDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_accounts_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_accounts_detail)
 
 //        limitData = ViewModelProviders.of(this, factory).get(AccountsViewModel::class.java)
         binding.viewmodel = limitData
@@ -64,7 +64,7 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
         val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
             addAll(toAgingParty)
         }
-        rvList.apply {
+        binding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter
@@ -72,13 +72,13 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
     }
 
     override fun onStarted() {
-        progress_bar.show()
+        binding.progressBar.show()
     }
 
     override fun onSuccess(partyList: List<IncreaseLimitPartyData?>?, agingList: List<AgingDetail?>?, partyDetailList: List<LimitPartyDetailData?>?){
         bindUI(agingList)
         initSpinner(partyList)
-        progress_bar.hide()
+        binding.progressBar.hide()
         print("Party List - - - " + partyList)
         print("Aging List - - - " + agingList)
     }
@@ -106,8 +106,8 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
 
 
     override fun onFailure(message: String, reason: String) {
-        progress_bar?.hide()
-        root_layout?.snackbar(message)
+        binding.progressBar.hide()
+        binding.rootLayout.snackbar(message)
     }
 
 }

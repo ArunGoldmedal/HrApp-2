@@ -17,14 +17,9 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.leave_type_activity.*
 
 @AndroidEntryPoint
 class LeaveTypeActivity : AppCompatActivity(), ApiStageListener<Any>, LeaveTypeItem.OnLeaveTypeClickedListener {
-
-
-
-
     private val leaveTypeModel: LeaveViewModel by viewModels()
 
     private lateinit var leaveTypeBinding : LeaveTypeActivityBinding
@@ -70,7 +65,7 @@ class LeaveTypeActivity : AppCompatActivity(), ApiStageListener<Any>, LeaveTypeI
             addAll(toLeaveType)
         }
 
-        rvList.apply {
+        leaveTypeBinding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter
@@ -82,29 +77,29 @@ class LeaveTypeActivity : AppCompatActivity(), ApiStageListener<Any>, LeaveTypeI
     }
 
     override fun onStarted(callFrom: String) {
-        view_common.showProgressBar()
+        leaveTypeBinding.viewCommon.showProgressBar()
 
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
 
-        view_common?.hide()
+        leaveTypeBinding.viewCommon.hide()
         bindUI(_object as List<LeaveTypeData?>)
 
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
 if(isNetworkError){
-    view_common?.showNoInternet()
+    leaveTypeBinding.viewCommon.showNoInternet()
 }else {
-    view_common?.showNoData()
+    leaveTypeBinding.viewCommon.showNoData()
 }
 
-        root_layout?.snackbar(message)
+        leaveTypeBinding.rootLayout.snackbar(message)
     }
 
     override fun onValidationError(message: String, callFrom: String) {
-        root_layout?.snackbar(message)
+        leaveTypeBinding.rootLayout.snackbar(message)
     }
 
     override fun onLeaveTypeClicked(model: LeaveTypeData?) {
@@ -112,8 +107,6 @@ if(isNetworkError){
         intent.putExtra(ARG_LEAVE_TYPE, model)
         setResult(Activity.RESULT_OK, intent)
         finish()
-
-
     }
 
 companion object {

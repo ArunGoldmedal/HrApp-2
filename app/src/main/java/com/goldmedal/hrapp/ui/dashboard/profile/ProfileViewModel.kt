@@ -119,8 +119,8 @@ class ProfileViewModel @Inject constructor(
                         strAnniversaryDate = strAnniversaryDate ?: "",strFatherDOB = strFatherDOB ?: "",strMotherDOB = strMotherDOB ?: "",strSpouseDOB = strSpouseDOB ?: "",strPersonalEmail = strPersonalEmail,
                         strMobileNo = strMobileNo,strHomeAddress = strHomeAddress,maritalStatus = maritalStatus,strChildName1 = strChildName1,strChildName2 = strChildName2,
                         strOfficeEmail = strOfficeEmail,strChildName3 = strChildName3,strChildDOB1 = strChild1DOB ?: "",strChildDOB2 = strChild2DOB ?: "" ,strChildDOB3 = strChild3DOB ?: "")
-                if (outputResponse?.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!outputResponse?.user?.isNullOrEmpty()!!) {
+                if (outputResponse.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
+                    if (!outputResponse.user?.isEmpty()!!) {
                         outputResponse.user.let {
                             repository.updateUserProfile(it[0])
                             apiListener?.onSuccess(it, "editProfile")
@@ -128,8 +128,8 @@ class ProfileViewModel @Inject constructor(
                         }
                     }
                 }else {
-                    val errorResponse = outputResponse?.Errors
-                    if (!errorResponse?.isNullOrEmpty()!!) {
+                    val errorResponse = outputResponse.Errors
+                    if (!errorResponse?.isEmpty()!!) {
                         errorResponse[0]?.ErrorMsg?.let { apiListener?.onError(it, "editProfile", false) }
 
 

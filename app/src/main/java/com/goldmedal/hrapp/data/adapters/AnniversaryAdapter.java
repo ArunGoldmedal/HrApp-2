@@ -1,6 +1,9 @@
 package com.goldmedal.hrapp.data.adapters;
 
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 import com.goldmedal.hrapp.R;
 import com.goldmedal.hrapp.data.db.entities.AnniversaryData;
@@ -11,7 +14,7 @@ import com.zhpan.bannerview.BaseBannerAdapter;
 import com.zhpan.bannerview.BaseViewHolder;
 
 
-public class AnniversaryAdapter extends BaseBannerAdapter<AnniversaryData, BaseViewHolder<AnniversaryData>> {
+public class AnniversaryAdapter extends BaseBannerAdapter<AnniversaryData> {
 
     private int roundCorner;
 
@@ -21,12 +24,20 @@ public class AnniversaryAdapter extends BaseBannerAdapter<AnniversaryData, BaseV
 
 
     @Override
-    protected void onBind(BaseViewHolder<AnniversaryData> holder, AnniversaryData data, int position, int pageSize) {
+    protected void bindData(BaseViewHolder<AnniversaryData> holder, AnniversaryData data, int position, int pageSize) {
         holder.bindData(data, position, pageSize);
     }
 
-    @Override
+    /*@Override
     public BaseViewHolder<AnniversaryData> createViewHolder(View itemView, int viewType) {
+        if (viewType == GlobalConstant.TYPE_NO_DATA) {
+            return new NoDataAnniversaryHolder(itemView, roundCorner);
+        }
+        return new AnniversaryViewHolder(itemView, roundCorner);
+    }*/
+
+    @Override
+    public BaseViewHolder<AnniversaryData> createViewHolder(@NonNull ViewGroup parent, View itemView, int viewType) {
         if (viewType == GlobalConstant.TYPE_NO_DATA) {
             return new NoDataAnniversaryHolder(itemView, roundCorner);
         }

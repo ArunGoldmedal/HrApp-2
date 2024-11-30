@@ -1,6 +1,7 @@
 package com.goldmedal.hrapp.ui.leftdrawer
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ImageSelectionListener
@@ -27,12 +27,13 @@ import com.goldmedal.hrapp.util.convertBitmapToBase64
 import com.goldmedal.hrapp.util.saveImage
 import com.goldmedal.hrapp.util.scaleDown
 import com.goldmedal.hrapp.util.snackbar
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.apply_leave_detail.*
 import java.io.IOException
 
 @AndroidEntryPoint
-class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSelectionListener {
+class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSelectionListener, EasyPermissions.PermissionCallbacks {
     private val sourcingDataViewModel: SourcingDataViewModel by viewModels()
     private lateinit var mBinding: ActivitySourcingDataBinding
     private var mSelectedView = UploadView.VISITING_CARD_1
@@ -41,6 +42,7 @@ class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSe
     companion object {
         const val GALLERY = 1
         const val CAMERA = 2
+        const val CAMERA_PERM = 121
 
         enum class UploadView {
             VISITING_CARD_1,
@@ -152,7 +154,20 @@ class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSe
     }
 
     override fun takePhotoFromCamera() {
-        askPermission(Manifest.permission.CAMERA) {
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, CAMERA)
+        } else {
+            // Request one permission
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.str_camera_permission),
+                CAMERA_PERM,
+                Manifest.permission.CAMERA
+            )
+        }
+
+        /*askPermission(Manifest.permission.CAMERA) {
             //all permissions already granted or just granted
 
             // your action
@@ -186,7 +201,7 @@ class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSe
                 // you need to open setting manually if you really need it
                 e.goToSettings()
             }
-        }
+        }*/
     }
 
     override fun onStarted(callFrom: String) {
@@ -340,5 +355,24 @@ class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSe
                 mBinding.ivUploadProduct5.setImageBitmap(bitmap)
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            SettingsDialog.Builder(this).build().show()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA)
     }
 }

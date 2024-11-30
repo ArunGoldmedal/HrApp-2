@@ -28,7 +28,6 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_leave_requests.*
 import java.lang.IndexOutOfBoundsException
 import java.util.*
 
@@ -65,15 +64,15 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
         leaveModel.apiListener = this
 
 
-        leaveModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+        leaveModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 leaveModel.getLeaveRequests(user.UserID, 1)
             }
-        })
+        }
 
 
 
-        editTextSearch?.addTextChangedListener(object : TextWatcher {
+        leaveRequestsActivityBinding.editTextSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun afterTextChanged(editable: Editable) {
@@ -91,7 +90,7 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
 
 
         //set up the layout manager and set the adapter
-        rvList?.apply {
+        leaveRequestsActivityBinding.rvList.apply {
             layoutManager = LinearLayoutManager(requireActivity())
             addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
             adapter = groupAdapter
@@ -116,13 +115,13 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
         val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
             addAll(data)
         }
-        rvList.apply {
+        leaveRequestsActivityBinding.rvList.apply {
             adapter = mAdapter
         }
         if (data.isEmpty()) {
-            view_common.showNoData()
+            leaveRequestsActivityBinding.viewCommon.showNoData()
         } else {
-            view_common.hide()
+            leaveRequestsActivityBinding.viewCommon.hide()
         }
 
     }
@@ -143,7 +142,7 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
     }
 
     override fun onStarted(callFrom: String) {
-        view_common?.showProgressBar()
+        leaveRequestsActivityBinding.viewCommon.showProgressBar()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
@@ -152,9 +151,9 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
 
 
         if (requestsList.isNullOrEmpty()) {
-            view_common?.showNoData()
+            leaveRequestsActivityBinding.viewCommon.showNoData()
         } else {
-            view_common?.hide()
+            leaveRequestsActivityBinding.viewCommon.hide()
         }
 
         bindUI(requestsList)
@@ -162,21 +161,21 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
         if (isNetworkError) {
-            view_common?.showNoInternet()
+            leaveRequestsActivityBinding.viewCommon.showNoInternet()
         } else {
-            view_common?.showNoData()
+            leaveRequestsActivityBinding.viewCommon.showNoData()
         }
 
-        root_layout?.snackbar(message)
+        leaveRequestsActivityBinding.rootLayout.snackbar(message)
     }
 
     override fun observeRequests(removeAt: Int?) {
         removeAt?.let {
             try {
-                val adapter: GroupAdapter<GroupieViewHolder> = rvList.adapter as GroupAdapter<GroupieViewHolder>
+                val adapter: GroupAdapter<GroupieViewHolder> = leaveRequestsActivityBinding.rvList.adapter as GroupAdapter<GroupieViewHolder>
             adapter.removeGroupAtAdapterPosition(it)
             if (adapter.itemCount == 0) {
-                view_common?.showNoData()
+                leaveRequestsActivityBinding.viewCommon.showNoData()
             }
             Log.d("count", adapter.itemCount.toString())
         } catch (e: IndexOutOfBoundsException) {
@@ -185,6 +184,6 @@ class LeaveRequestsFragment : Fragment(), ApiStageListener<Any>, ILeaveListener 
     }
 
     override fun onValidationError(message: String, callFrom: String) {
-        root_layout?.snackbar(message)
+        leaveRequestsActivityBinding.rootLayout.snackbar(message)
     }
 }

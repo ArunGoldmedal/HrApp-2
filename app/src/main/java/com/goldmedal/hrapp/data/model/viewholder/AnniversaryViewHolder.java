@@ -17,7 +17,7 @@ public class AnniversaryViewHolder extends BaseViewHolder<AnniversaryData> {
 
     public AnniversaryViewHolder(@NonNull View itemView, int roundCorner) {
         super(itemView);
-       CornerImageView imageView = findView(R.id.banner_image);
+       CornerImageView imageView = findViewById(R.id.banner_image);
       imageView.setRoundCorner(roundCorner);
 
     }
@@ -32,10 +32,10 @@ public class AnniversaryViewHolder extends BaseViewHolder<AnniversaryData> {
       //  CornerImageView imageView = findView(R.id.banner_image);
         // Glide.with(imageView).load(data.getDescription()).placeholder(R.drawable.gandhi_jayanti).into(imageView);
 
-        AppCompatTextView txtEmployee = findView(R.id.txt_employee);
-        AppCompatTextView txtBirthDayDate = findView(R.id.txt_message);
+        AppCompatTextView txtEmployee = findViewById(R.id.txt_employee);
+        AppCompatTextView txtBirthDayDate = findViewById(R.id.txt_message);
 
-        ImageView imageView = findView(R.id.avatarImageView);
+        ImageView imageView = findViewById(R.id.avatarImageView);
 
 
         int avatar = R.drawable.male_avatar;

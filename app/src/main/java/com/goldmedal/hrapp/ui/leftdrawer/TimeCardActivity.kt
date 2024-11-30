@@ -23,7 +23,6 @@ import com.xwray.groupie.ExpandableGroup
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Section
-import com.xwray.groupie.groupiex.plusAssign
 import dagger.hilt.android.AndroidEntryPoint
 
 import java.util.*
@@ -206,11 +205,13 @@ class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallb
             layoutManager = groupLayoutManager
             adapter = groupAdapter
         }
+
+        // todo - test
         groupAdapter.apply {
             for (i in parentList.indices) {
-                this += ExpandableGroup(parentList[i]).apply {
+                add(ExpandableGroup(parentList[i]).apply {
                     add(Section(childList[i]))
-                }
+                })
             }
         }
     }

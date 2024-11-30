@@ -1,9 +1,9 @@
 package com.goldmedal.hrapp.data.model.viewholder;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.goldmedal.hrapp.R;
 import com.goldmedal.hrapp.common.CornerImageView;
@@ -15,7 +15,7 @@ public class NoDataAnniversaryHolder extends BaseViewHolder<AnniversaryData> {
 
     public NoDataAnniversaryHolder(@NonNull View itemView, int roundCorner) {
         super(itemView);
-        CornerImageView imageView = findView(R.id.banner_image);
+        CornerImageView imageView = findViewById(R.id.banner_image);
         imageView.setRoundCorner(roundCorner);
 
     }
@@ -30,7 +30,7 @@ public class NoDataAnniversaryHolder extends BaseViewHolder<AnniversaryData> {
         //  CornerImageView imageView = findView(R.id.banner_image);
         // Glide.with(imageView).load(data.getDescription()).placeholder(R.drawable.gandhi_jayanti).into(imageView);
 
-        AppCompatTextView txtInfo = findView(R.id.txtInfo);
+        TextView txtInfo = findViewById(R.id.txtInfo);
 
         txtInfo.setText(data.getMessage());
 

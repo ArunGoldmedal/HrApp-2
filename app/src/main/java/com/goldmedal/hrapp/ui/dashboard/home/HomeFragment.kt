@@ -54,13 +54,13 @@ import com.goldmedal.hrapp.ui.manager.ShortLeavesRequestsActivity
 import com.goldmedal.hrapp.ui.map.MapsActivity
 import com.goldmedal.hrapp.util.*
 import com.zhpan.bannerview.BannerViewPager
+import com.zhpan.bannerview.BannerViewPager.OnPageClickListener
 import com.zhpan.bannerview.BaseViewHolder
 import com.zhpan.bannerview.constants.IndicatorGravity
 import com.zhpan.bannerview.utils.BannerUtils
 import com.zhpan.indicator.enums.IndicatorSlideMode
 import com.zhpan.indicator.enums.IndicatorStyle
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.home_fragment.*
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -106,9 +106,9 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
 
     //Banner
-    private lateinit var holidayBanner: BannerViewPager<HolidayData?, BaseViewHolder<HolidayData?>?>
-    private lateinit var birthdayBanner: BannerViewPager<BirthdayData?, BaseViewHolder<BirthdayData?>?>
-    private lateinit var anniversaryBanner: BannerViewPager<AnniversaryData?, BaseViewHolder<AnniversaryData?>>
+    private lateinit var holidayBanner: BannerViewPager<HolidayData>
+    private lateinit var birthdayBanner: BannerViewPager<BirthdayData>
+    private lateinit var anniversaryBanner: BannerViewPager<AnniversaryData>
 
     private val runnable = Runnable { formatTimer() }
 
@@ -132,7 +132,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         val timeLeftFormatted: String =
                 TimeDurationUtil.formatHoursMinutesSeconds(millisecondTime)
 
-        text_view_timer?.text = timeLeftFormatted
+        homeFragmentBinding.textViewTimer.text = timeLeftFormatted
 
         handler?.postDelayed(runnable, 1000)
     }
@@ -145,16 +145,15 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     }
 
     private fun disableCheckoutButton() {
-        btnCheckout?.isEnabled = false
-        btnCheckout?.alpha = 0.4f
+        homeFragmentBinding.btnCheckout.isEnabled = false
+        homeFragmentBinding.btnCheckout.alpha = 0.4f
     }
 
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         homeFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.home_fragment, container, false)
         return homeFragmentBinding.root
     }
@@ -164,33 +163,32 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         homeFragmentBinding.viewmodelHome = viewModel
 
 
+
         checkNotificationPermission()
         GlobalConstant.createNotificationChannel(requireContext())
+
+
 
         birthdayBanner = requireView().findViewById(R.id.birthdayBanner)
         anniversaryBanner = requireView().findViewById(R.id.anniversaryBanner)
         holidayBanner = requireView().findViewById(R.id.holidayBanner)
 
-
-
         viewModel.apiListener = this
         attViewModel.apiListener = this
         notiViewModel.apiListener = this
 
-        btnCheckIn.setOnClickListener(this)
-        btnCheckout.setOnClickListener(this)
-        llRequests1.setOnClickListener(this)
-        llRequests2.setOnClickListener(this)
-        llRequests3.setOnClickListener(this)
-        llRequests4.setOnClickListener(this)
-        btn_reg.setOnClickListener(this)
+        homeFragmentBinding.btnCheckIn.setOnClickListener(this)
+        homeFragmentBinding.btnCheckout.setOnClickListener(this)
+        homeFragmentBinding.llRequests1.setOnClickListener(this)
+        homeFragmentBinding.llRequests2.setOnClickListener(this)
+        homeFragmentBinding.llRequests3.setOnClickListener(this)
+        homeFragmentBinding.llRequests4.setOnClickListener(this)
+        homeFragmentBinding.btnReg.setOnClickListener(this)
 
         //Attendance Details Block - - - - - - - - -
         getCheckedChip()
 
-
-
-        viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+        viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 notiViewModel.fetchNotifications(user.UserID)
                 viewModel.upcomingHolidays(user.UserID)
@@ -198,18 +196,15 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                 viewModel.upcomingAnniversary(user.UserID)
 
                 if (user.ISHr == 1 || user.IsReportingPerson == 1) {
-                    viewHr?.visibility = View.VISIBLE
+                    homeFragmentBinding.viewHr.visibility = View.VISIBLE
                     viewModel.employeeAttendance(user.UserID)
                     viewModel.getPendingRequestsCount(user.UserID)
                 }
             }
-        })
+        }
 
         initBanner()
-
-
         handler = Handler()
-
     }
 
     /*
@@ -228,7 +223,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                 setInterval(9000)
                 setIndicatorGravity(IndicatorGravity.END)
                 disallowInterceptTouchEvent(true)
-                setIndicatorView(indicator_view)
+                setIndicatorView(homeFragmentBinding.indicatorView)
                 val checkedWidth = resources.getDimensionPixelOffset(R.dimen.dp_10)
                 val normalWidth = resources.getDimensionPixelOffset(R.dimen.dp_10)
                 setIndicatorSliderColor(getColor(requireActivity(), R.color.red_normal_color), getColor(requireActivity(), R.color.red_checked_color))
@@ -245,22 +240,21 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                         BannerUtils.log("position:$position")
 
                         val bannerData: HolidayData? = holidayBanner.data[position]
-                        tv_holiday_title?.text = bannerData?.HolidayName
+                        homeFragmentBinding.tvHolidayTitle.text = bannerData?.HolidayName
 
                         if (bannerData?.FromDateFormat.equals(bannerData?.ToDateFormat)) {
-                            tv_holiday_date?.text = bannerData?.FromDateFormat
+                            homeFragmentBinding.tvHolidayDate.text = bannerData?.FromDateFormat
                         } else {
-                            tv_holiday_date?.text = bannerData?.FromDateFormat + " - " + bannerData?.ToDateFormat
+                            homeFragmentBinding.tvHolidayDate.text = bannerData?.FromDateFormat + " - " + bannerData?.ToDateFormat
                         }
                     }
                 })
 
-                setOnPageClickListener {
+                setOnPageClickListener { clickedView, position ->
                     activity?.let {
                         val intent = Intent(it, HolidayListActivity::class.java)
                         it.startActivity(intent)
                     }
-
                 }
             }
                     .create()
@@ -358,7 +352,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
 
     private fun loadAttendanceDetails(userID: Int?) {
-        viewEmployee?.visibility = View.VISIBLE
+        homeFragmentBinding.viewEmployee.visibility = View.VISIBLE
 //        val calendar = Calendar.getInstance()
 //        val today = calendar.time
 //
@@ -435,19 +429,16 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     override fun onStart() {
         super.onStart()
 
-        viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+        viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 viewModel.punchInoutStatus(user.UserID)
                 //By Default last 7 Days to be shown
 
                 homeFragmentBinding.chipGroupChoice.check(R.id.chipLast7Days)
-               last7DaysAttendance()
-               loadAttendanceDetails(user.UserID)
-
+                last7DaysAttendance()
+                loadAttendanceDetails(user.UserID)
             }
-        })
-
-
+        }
     }
 
     override fun onStop() {
@@ -462,26 +453,26 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
         if (requestCode == REFRESH_DASHBOARD) {
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+                viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
                     if (user != null) {
                         homeFragmentBinding.chipGroupChoice.check(R.id.chipLast7Days)
                         last7DaysAttendance()
                         loadAttendanceDetails(user.UserID)
                     }
-                })
+                }
             }
         }
     }
 
     override fun onStarted(callFrom: String) {
         if (callFrom == "holidays") {
-            holidays_progress_bar?.start()
+            homeFragmentBinding.holidaysProgressBar.start()
         }
         if (callFrom == "birthday") {
-            birthday_progress_bar?.start()
+            homeFragmentBinding.birthdayProgressBar.start()
         }
         if (callFrom == "anniversary") {
-            anniversary_progress_bar?.start()
+            homeFragmentBinding.anniversaryProgressBar.start()
         }
     }
 
@@ -492,25 +483,23 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
             if (callFrom == "notification_feeds") {
                 val data = _object as ArrayList<NotificationFeeds?>
-                if (!data.isNullOrEmpty()) {
-                    viewAnnouncements?.visibility = View.VISIBLE
+                if (data.isNotEmpty()) {
+                    homeFragmentBinding.viewAnnouncements.visibility = View.VISIBLE
 
                     for (feeds in data) {
-                        txt_announcement?.append("     \u2022     ${feeds?.Body}")
+                        homeFragmentBinding.txtAnnouncement.append("     \u2022     ${feeds?.Body}")
                     }
 
                     val animBlink = AnimationUtils.loadAnimation(requireContext(),
                             R.anim.blink)
-                    txt_announcement?.startScroll()
+                    homeFragmentBinding.txtAnnouncement.startScroll()
 
                     // load the animation
-                    txt_announcement?.startAnimation(animBlink)
-
-
+                    homeFragmentBinding.txtAnnouncement.startAnimation(animBlink)
                 }
             }
 
-            if (callFrom.equals("punchStatus")) {
+            if (callFrom == "punchStatus") {
 
                 val punchStatusData = _object as List<PunchInOutStatusData>
                 isGeoFenceLock = punchStatusData[0].IsGeoFenceLock
@@ -546,8 +535,8 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                 }
 
             }
-            if (callFrom.equals("holidays")) {
-                holidays_progress_bar?.stop()
+            if (callFrom == "holidays") {
+                homeFragmentBinding.holidaysProgressBar.stop()
                 val data = _object as MutableList<HolidayData?>
                 if (data.isEmpty()) {
 
@@ -555,14 +544,14 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                     noData.ViewType = GlobalConstant.TYPE_NO_DATA
                     data.add(noData)
                 } else {
-                    layout_indicator?.visibility = View.VISIBLE
+                    homeFragmentBinding.layoutIndicator.visibility = View.VISIBLE
 
                 }
                 holidayBanner.refreshData(data)
             }
-            if (callFrom.equals("birthday")) {
+            if (callFrom == "birthday") {
 
-                birthday_progress_bar?.stop()
+                homeFragmentBinding.birthdayProgressBar.stop()
 
                 val data = _object as MutableList<BirthdayData?>
 
@@ -576,8 +565,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
             }
 
             if (callFrom == "anniversary") {
-                anniversary_progress_bar?.stop()
-
+                homeFragmentBinding.anniversaryProgressBar.stop()
 
                 val data = _object as MutableList<AnniversaryData?>
 
@@ -591,10 +579,9 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                 anniversaryBanner.refreshData(data)
             }
 
-            if (callFrom.equals("employee_attendance")) {
+            if (callFrom == "employee_attendance") {
                 updateChart(_object as List<EmployeeAttendanceData?>)
             }
-
 
             if (callFrom == "pending_requests_cnt") {
                 bindPendingRequestsCount(_object as List<RequestsCountData?>?)
@@ -627,17 +614,18 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
                 val summaryData = data[0]
 
-                txt_total_days?.text = formatNumber(summaryData?.TotalDays.toString())
-                txt_present_days?.text = formatNumber(summaryData?.PresentDays.toString())
-                txt_absent_days?.text = formatNumber(summaryData?.AbsentDays.toString())
-                txt_missed_punch_days?.text = formatNumber(summaryData?.punchoutmissing.toString())
-                txt_open_leaves?.text = formatNumber(summaryData?.Openleave.toString())
-                txt_approved_leaves?.text = formatNumber(summaryData?.Approvedleave.toString())
-                txt_company_holiday?.text = formatNumber(summaryData?.CompanyHoliday.toString())
-                txt_weekend?.text = formatNumber(summaryData?.WeekendDays.toString())
+                homeFragmentBinding.txtTotalDays.text = formatNumber(summaryData?.TotalDays.toString())
+                homeFragmentBinding.txtPresentDays.text = formatNumber(summaryData?.PresentDays.toString())
+                homeFragmentBinding.txtAbsentDays.text = formatNumber(summaryData?.AbsentDays.toString())
+                homeFragmentBinding.txtMissedPunchDays.text = formatNumber(summaryData?.punchoutmissing.toString())
+                homeFragmentBinding.txtOpenLeaves.text = formatNumber(summaryData?.Openleave.toString())
+                homeFragmentBinding.txtApprovedLeaves.text = formatNumber(summaryData?.Approvedleave.toString())
+                homeFragmentBinding.txtCompanyHoliday.text = formatNumber(summaryData?.CompanyHoliday.toString())
+                homeFragmentBinding.txtWeekend.text = formatNumber(summaryData?.WeekendDays.toString())
             }
         }
     }
+
 
 
     private fun checkNotificationPermission() {
@@ -684,6 +672,8 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
 
 
+
+
     private fun formatWorkingHours(hours: Int, min: Int): String {
         return String.format("%02d:%02d", hours, ((min.toDouble() * 60) / 100).roundToInt())
     }
@@ -692,95 +682,94 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
         list?.let {
 
-            viewRequests?.visibility = View.VISIBLE
+            homeFragmentBinding.viewRequests.visibility = View.VISIBLE
 
             for (i in list.indices) {
                 when (list[i]?.ModuleId) {
                     1 -> {
-                        txt_header_1?.text = list[i]?.ModuleName
-                        tv_count_1?.text = list[i]?.CountData?.toString() ?: "0"
-                        imv_req_1?.setImageResource(R.drawable.reg_req)
+                        homeFragmentBinding.txtHeader1.text = list[i]?.ModuleName
+                        homeFragmentBinding.tvCount1.text = list[i]?.CountData?.toString() ?: "0"
+                        homeFragmentBinding.imvReq1.setImageResource(R.drawable.reg_req)
                     }
                     2 -> {
-                        txt_header_2?.text = list[i]?.ModuleName
-                        tv_count_2?.text = list[i]?.CountData?.toString() ?: "0"
-                        imv_req_2?.setImageResource(R.drawable.od_req)
+                        homeFragmentBinding.txtHeader2.text = list[i]?.ModuleName
+                        homeFragmentBinding.tvCount2.text = list[i]?.CountData?.toString() ?: "0"
+                        homeFragmentBinding.imvReq2.setImageResource(R.drawable.od_req)
                     }
                     3 -> {
-                        txt_header_3?.text = list[i]?.ModuleName
-                        tv_count_3?.text = list[i]?.CountData?.toString() ?: "0"
-                        imv_req_3?.setImageResource(R.drawable.leave_req)
+                        homeFragmentBinding.txtHeader3.text = list[i]?.ModuleName
+                        homeFragmentBinding.tvCount3.text = list[i]?.CountData?.toString() ?: "0"
+                        homeFragmentBinding.imvReq3.setImageResource(R.drawable.leave_req)
                     }
                     4 -> {
-                        txt_header_4?.text = list[i]?.ModuleName
-                        tv_count_4?.text = list[i]?.CountData?.toString() ?: "0"
-                        imv_req_4?.setImageResource(R.drawable.sl_req)
+                        homeFragmentBinding.txtHeader4.text = list[i]?.ModuleName
+                        homeFragmentBinding.tvCount4.text = list[i]?.CountData?.toString() ?: "0"
+                        homeFragmentBinding.imvReq4.setImageResource(R.drawable.sl_req)
                     }
                     else -> {
                     }
                 }
             }
         }
-
-
     }
 
 
+
     @RequiresApi(Build.VERSION_CODES.M)
+
+
     private fun showCheckoutView() {
-        viewCheckout?.visibility = View.VISIBLE
-        viewCheckIn?.visibility = View.GONE
+        homeFragmentBinding.viewCheckout.visibility = View.VISIBLE
+        homeFragmentBinding.viewCheckIn.visibility = View.GONE
 
         val lastPunchTime = lastCheckInTime?.let { formatDateString(it, "MM/dd/yyyy hh:mm:ss a", "dd/MM/yyyy hh:mm:ss a") }
 
         if (punchInTime.equals(lastCheckInTime)) {
             startTimer()
-            txtPunchTime?.text = "Your last check-in was: ${lastPunchTime}"
+            homeFragmentBinding.txtPunchTime.text = "Your last check-in was: $lastPunchTime"
         } else {
             stopTimer()
             calculateWorkingHrs()
-            txtPunchTime?.text = "Your last check-out was: ${lastPunchTime}"
+            homeFragmentBinding.txtPunchTime.text = "Your last check-out was: $lastPunchTime"
         }
-        viewModel.getLoggedInUser().observe(this,
-                { user ->
+        viewModel.getLoggedInUser().observe(this
+        ) { user ->
             if (user != null) {
                 if (user.IsExecutive == 1) {
-                    btnCheckout?.visibility = View.GONE
+                    homeFragmentBinding.btnCheckout.visibility = View.GONE
                 }
 
             }
-        })
+        }
     }
 
 
     private fun showCheckInView() {
 
-        viewCheckIn?.visibility = View.VISIBLE
-        viewCheckout?.visibility = View.GONE
+        homeFragmentBinding.viewCheckIn.visibility = View.VISIBLE
+        homeFragmentBinding.viewCheckout.visibility = View.GONE
 
         val calendar = Calendar.getInstance()
 
         val currentDate = calendar.get(Calendar.DAY_OF_MONTH)
         val currentMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault())
 
-        textViewDate?.text = currentDate.toString()
-        textViewMonth?.text = currentMonth
+        homeFragmentBinding.textViewDate.text = currentDate.toString()
+        homeFragmentBinding.textViewMonth.text = currentMonth
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
         if (callFrom == "holidays") {
-            holidays_progress_bar?.stop()
+            homeFragmentBinding.holidaysProgressBar.stop()
 
-
-
-            viewModel.getHolidayDataDetail().observe(this, { data ->
+            viewModel.getHolidayDataDetail().observe(this) { data ->
                 print("outside holiday- - - " + data.size)
                 if (data == null) {
-                    viewModel.getLoggedInUser().observe(this, { user ->
+                    viewModel.getLoggedInUser().observe(this) { user ->
                         if (user != null) {
                             viewModel.upcomingHolidays(user.UserID)
                         }
-                    })
+                    }
                 } else {
 
                     val holidayData = data as MutableList<HolidayData?>
@@ -792,28 +781,27 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                         noData.ViewType = GlobalConstant.TYPE_NO_DATA
                         holidayData.add(noData)
                     } else {
-                        layout_indicator?.visibility = View.VISIBLE
+                        homeFragmentBinding.layoutIndicator.visibility = View.VISIBLE
                     }
                     holidayBanner.refreshData(holidayData)
-
                 }
-            })
+            }
         }
 
 
         if (callFrom == "birthday") {
 
-            birthday_progress_bar?.stop()
+            homeFragmentBinding.birthdayProgressBar.stop()
 
-            viewModel.getBirthDataDetail().observe(this, { data ->
+            viewModel.getBirthDataDetail().observe(this) { data ->
                 print("outside - - - " + data.size)
                 Log.d("Outside", "Msg - - - -" + data.size)
                 if (data == null) {
-                    viewModel.getLoggedInUser().observe(this, { user ->
+                    viewModel.getLoggedInUser().observe(this) { user ->
                         if (user != null) {
                             viewModel.upcomingBirthdays(user.UserID)
                         }
-                    })
+                    }
                 } else {
                     val birthdayData = data as MutableList<BirthdayData?>
 
@@ -828,38 +816,38 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                     birthdayBanner.refreshData(birthdayData)
 
                 }
-            })
+            }
         }
 
         if (callFrom == "employee_attendance") {
-            viewModel.getEmployeeAttendanceData().observe(this, { data ->
+            viewModel.getEmployeeAttendanceData().observe(this) { data ->
                 if (data == null) {
-                    viewModel.getLoggedInUser().observe(this,  { user ->
+                    viewModel.getLoggedInUser().observe(this) { user ->
                         if (user != null) {
                             viewModel.employeeAttendance(user.UserID)
                         }
-                    })
+                    }
                 } else {
                     updateChart(data)
 
                 }
-            })
+            }
         }
 
 
         if (callFrom == "anniversary") {
 
-            anniversary_progress_bar?.stop()
+            homeFragmentBinding.anniversaryProgressBar.stop()
 
-            viewModel.getAnniversaryDataDetail().observe(this,  { data ->
+            viewModel.getAnniversaryDataDetail().observe(this) { data ->
                 print("outside anniversary- - - " + data.size)
                 Log.d("Outside anniversary", "Msg - - - -" + data.size)
                 if (data == null) {
-                    viewModel.getLoggedInUser().observe(this,  { user ->
+                    viewModel.getLoggedInUser().observe(this) { user ->
                         if (user != null) {
                             viewModel.upcomingAnniversary(user.UserID)
                         }
-                    })
+                    }
                 } else {
                     val anniversaryData = data as MutableList<AnniversaryData?>
                     if (anniversaryData.isEmpty()) {
@@ -871,7 +859,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                     anniversaryBanner.refreshData(anniversaryData)
 
                 }
-            })
+            }
         }
 
     }
@@ -888,8 +876,8 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         } else if (id == R.id.llRequests2) {
             ODRequestsActivity.start(requireContext())
         } else if (id == R.id.llRequests3) {
-            val _context = activityContext(context) as? DashboardActivity
-            _context?.showRequestsFragment()
+            val context = activityContext(context) as? DashboardActivity
+            context?.showRequestsFragment()
         } else if (id == R.id.llRequests4) {
             ShortLeavesRequestsActivity.start(requireContext())
         }
@@ -931,8 +919,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         val timeLeftFormatted: String =
                 TimeDurationUtil.formatHoursMinutesSeconds(timeDiffMilliSecs)
 
-        text_view_timer?.text = timeLeftFormatted
-
+        homeFragmentBinding.textViewTimer.text = timeLeftFormatted
 
     }
 
@@ -954,7 +941,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
             if (isAdded) {
                 val view = layoutInflater.inflate(R.layout.pie_chart_layout, null)
 
-                hr_analytics_layout?.addView(view)
+                homeFragmentBinding.hrAnalyticsLayout.addView(view)
 
 
                 val layoutPresent = view?.findViewById<ConstraintLayout>(R.id.present_constraintLayout)

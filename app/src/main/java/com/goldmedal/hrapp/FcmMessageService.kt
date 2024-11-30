@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.goldmedal.hrapp.ui.dashboard.DashboardActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -34,7 +35,13 @@ class FcmMessageService : FirebaseMessagingService() {
                 extras.putString(key, value)
             }
             if(extras.containsKey("message") && !extras.getString("message").isNullOrBlank()) {
-                sendNotification(extras.getString("message")!!)
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    sendNotification(extras.getString("message")!!)
+                } else {
+                    if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                        sendNotification(extras.getString("message")!!)
+                    }
+                }
             }
         }
     }

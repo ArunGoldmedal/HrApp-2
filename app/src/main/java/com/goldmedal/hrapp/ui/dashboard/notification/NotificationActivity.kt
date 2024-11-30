@@ -15,19 +15,16 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_notification.*
 
 @AndroidEntryPoint
 class NotificationActivity : TransitionsActivity(), ApiStageListener<Any> {
+    private val viewModel: NotificationViewModel by viewModels()
+    private lateinit var binding: ActivityNotificationBinding
 
-
-
-
-private val viewModel: NotificationViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityNotificationBinding = DataBindingUtil.setContentView(this, R.layout.activity_notification)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_notification)
         binding.viewmodel = viewModel
 
         viewModel.apiListener = this
@@ -51,7 +48,7 @@ private val viewModel: NotificationViewModel by viewModels()
             addAll(toLeaveRecord)
         }
 
-        rvList.apply {
+        binding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter
@@ -63,31 +60,30 @@ private val viewModel: NotificationViewModel by viewModels()
         }
     }
     override fun onStarted(callFrom: String) {
-        view_common?.showProgressBar()
+        binding.viewCommon.showProgressBar()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
         val data = _object as List<NotificationFeeds?>
-        if (data.isNullOrEmpty()) {
-            view_common?.showNoData()
+        if (data.isEmpty()) {
+            binding.viewCommon.showNoData()
         } else {
-            view_common?.hide()
+            binding.viewCommon.hide()
         }
 
         bindUI(data)
-
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
         if(isNetworkError){
-            view_common?.showNoInternet()
+            binding.viewCommon.showNoInternet()
         }else{
-            view_common?.showNoData()
+            binding.viewCommon.showNoData()
         }
-        root_layout?.snackbar(message)
+        binding.rootLayout.snackbar(message)
     }
 
     override fun onValidationError(message: String, callFrom: String) {
-        root_layout?.snackbar(message)
+        binding.rootLayout.snackbar(message)
     }
 }

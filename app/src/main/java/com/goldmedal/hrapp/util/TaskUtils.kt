@@ -75,10 +75,11 @@ fun getDateFromString(rawString: String, format: String, locale: Locale = Locale
 
 fun  getAddressFromLatLong(mContext: Context?, latitude: Double, longitude: Double): String? {
     val addresses: List<Address>
-    val geocoder = Geocoder(mContext, Locale.getDefault())
+    val geocoder = mContext?.let { Geocoder(it, Locale.getDefault()) }
     var cityAdd: String? = ""
     try {
-        addresses = geocoder.getFromLocation(latitude, longitude, 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder?.getFromLocation(latitude, longitude, 1) as List<Address>
+        // Here 1 represent max location result to returned, by documents it recommended 1 to 5
         if (addresses.isNotEmpty()) {
             cityAdd = addresses[0].getAddressLine(0)
         }
@@ -89,12 +90,12 @@ fun  getAddressFromLatLong(mContext: Context?, latitude: Double, longitude: Doub
 }
 
 fun getLocationFromAddress(context: Context?, strAddress: String?): LatLng? {
-    val coder = Geocoder(context)
+    val coder = context?.let { Geocoder(it) }
     val address: List<Address>?
     var p1: LatLng? = null
     try {
         // May throw an IOException
-        address = coder.getFromLocationName(strAddress, 5)
+        address = strAddress?.let { coder?.getFromLocationName(it, 5) }
         if (address == null) {
             return null
         }

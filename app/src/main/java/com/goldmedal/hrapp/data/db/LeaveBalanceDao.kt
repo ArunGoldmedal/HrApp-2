@@ -11,7 +11,7 @@ import com.goldmedal.hrapp.data.db.entities.LeaveBalanceData
 interface LeaveBalanceDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLeaveBalanceData(leaveBalData: List<LeaveBalanceData?>): List<Long>
+    suspend fun insertLeaveBalanceData(leaveBalData: List<LeaveBalanceData>): List<Long>
 
     @Query("SELECT * FROM LeaveBalanceData")
     fun getLeaveBalanceData(): LiveData<List<LeaveBalanceData>>
