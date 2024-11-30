@@ -1,8 +1,14 @@
 package com.goldmedal.hrapp.ui.dashboard.home
 
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -12,8 +18,11 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -21,6 +30,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
+import com.goldmedal.hrapp.common.NotificationReceiver
 import com.goldmedal.hrapp.data.adapters.AnniversaryAdapter
 import com.goldmedal.hrapp.data.adapters.BirthdayAdapter
 import com.goldmedal.hrapp.data.adapters.HolidayAdapter
@@ -60,6 +70,9 @@ const val REFRESH_DASHBOARD = 322
 @AndroidEntryPoint
 class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 100
+    }
 
     private val viewModel: HomeViewModel by viewModels()
     private val notiViewModel: NotificationViewModel by viewModels()
@@ -151,6 +164,8 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         homeFragmentBinding.viewmodelHome = viewModel
 
 
+        checkNotificationPermission()
+        GlobalConstant.createNotificationChannel(requireContext())
 
         birthdayBanner = requireView().findViewById(R.id.birthdayBanner)
         anniversaryBanner = requireView().findViewById(R.id.anniversaryBanner)
@@ -470,6 +485,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
 
         Coroutines.main {
@@ -624,6 +640,47 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     }
 
 
+    private fun checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API level 33
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    PERMISSION_REQUEST_CODE
+                )
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun scheduleNotificationAfter9Hours() {
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        // Intent to trigger the NotificationReceiver
+        val intent = Intent(requireContext(), NotificationReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            requireContext(),
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // Calculate the trigger time: Current time + 9 hours in milliseconds
+        val triggerTime = lastCheckInTime?.toLong()?.plus(9 * 60 * 60 * 1000 ) // 9 hours in ms
+
+        // Set the alarm to trigger after 9 hours
+        if (triggerTime != null) {
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                triggerTime,
+                pendingIntent
+            )
+        }
+    }
 
 
 
@@ -669,6 +726,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun showCheckoutView() {
         viewCheckout?.visibility = View.VISIBLE
         viewCheckIn?.visibility = View.GONE
@@ -878,11 +936,13 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun startTimer() {
         val punchTime = punchInTime?.let { getDateFromString(it, "MM/dd/yyyy hh:mm:ss a") }
         startTime = punchTime?.time ?: 0
 
         handler?.postDelayed(runnable, 0)
+        scheduleNotificationAfter9Hours()
     }
 
 
@@ -984,5 +1044,20 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     }
 
     override fun onValidationError(message: String, callFrom: String) {}
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "Permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
 
