@@ -23,14 +23,19 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import androidx.work.OneTimeWorkRequest
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
-import com.goldmedal.hrapp.common.NotificationReceiver
+import com.goldmedal.hrapp.common.NotificationWorker
 import com.goldmedal.hrapp.data.adapters.AnniversaryAdapter
 import com.goldmedal.hrapp.data.adapters.BirthdayAdapter
 import com.goldmedal.hrapp.data.adapters.HolidayAdapter
@@ -61,7 +66,9 @@ import com.zhpan.bannerview.utils.BannerUtils
 import com.zhpan.indicator.enums.IndicatorSlideMode
 import com.zhpan.indicator.enums.IndicatorStyle
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 
@@ -71,7 +78,7 @@ const val REFRESH_DASHBOARD = 322
 class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
     companion object {
-        private const val PERMISSION_REQUEST_CODE = 100
+        private val PERMISSION_REQUEST_CODE = 1
     }
 
     private val viewModel: HomeViewModel by viewModels()
@@ -109,6 +116,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     private lateinit var holidayBanner: BannerViewPager<HolidayData>
     private lateinit var birthdayBanner: BannerViewPager<BirthdayData>
     private lateinit var anniversaryBanner: BannerViewPager<AnniversaryData>
+    var isUserCheckedOut = false
 
     private val runnable = Runnable { formatTimer() }
 
@@ -141,6 +149,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     private fun stopTimer() {
         timeBuff += millisecondTime
         handler?.removeCallbacks(runnable)
+        isUserCheckedOut = true
         //disableCheckoutButton()
     }
 
@@ -158,6 +167,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         return homeFragmentBinding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         homeFragmentBinding.viewmodelHome = viewModel
@@ -165,9 +175,6 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
 
         checkNotificationPermission()
-        GlobalConstant.createNotificationChannel(requireContext())
-
-
 
         birthdayBanner = requireView().findViewById(R.id.birthdayBanner)
         anniversaryBanner = requireView().findViewById(R.id.anniversaryBanner)
@@ -476,7 +483,6 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
 
         Coroutines.main {
@@ -626,11 +632,40 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         }
     }
 
+    private fun scheduleNotificationWork() {
+        // Define the delay (9.5 hours)
+        val delayInMillis = TimeUnit.HOURS.toMillis(9) + TimeUnit.MINUTES.toMillis(30)
+        val loginTimeInMillis = lastCheckInTime?.let { extractTimeAndConvertToMillis(it) } ?: 0L
+        val currentTime = System.currentTimeMillis()
+
+        if (loginTimeInMillis <= 0) {
+            Log.e("punchoutnoti", "Invalid login time: $lastCheckInTime")
+            return
+        }
+        // Calculate remaining delay
+        val remainingDelay = (loginTimeInMillis + delayInMillis) - currentTime
+        Log.d("punchoutnoti", "remainingDelay: $remainingDelay\nloginTime: $loginTimeInMillis\n delayInMillis: " +
+                "$delayInMillis\n currentTime: $currentTime")
+        if (remainingDelay <= 0 || isUserCheckedOut) {
+            // If the notification time has already passed, no need to schedule
+            return
+        }
+
+        // Cancel any existing work with the same tag to avoid duplicate notifications
+        WorkManager.getInstance(requireContext()).cancelAllWorkByTag("NotiPunchOutReminder")
 
 
+        val notificationWorkRequest: WorkRequest = OneTimeWorkRequest.Builder(NotificationWorker::class.java)
+            .setInitialDelay(remainingDelay, TimeUnit.MILLISECONDS)
+            .addTag("NotiPunchOutReminder")
+            .build()
+
+        // Enqueue the work
+        WorkManager.getInstance(requireContext()).enqueue(notificationWorkRequest)
+    }
     private fun checkNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API level 33
-            if (ActivityCompat.checkSelfPermission(
+            if (ContextCompat.checkSelfPermission(
                     requireContext(),
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
@@ -644,35 +679,16 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun scheduleNotificationAfter9Hours() {
-        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        // Intent to trigger the NotificationReceiver
-        val intent = Intent(requireContext(), NotificationReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            requireContext(),
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        // Calculate the trigger time: Current time + 9 hours in milliseconds
-        val triggerTime = lastCheckInTime?.toLong()?.plus(9 * 60 * 60 * 1000 ) // 9 hours in ms
-
-        // Set the alarm to trigger after 9 hours
-        if (triggerTime != null) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                triggerTime,
-                pendingIntent
-            )
+    private fun extractTimeAndConvertToMillis(dateTime: String): Long {
+        return try {
+            val dateTimeFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a", Locale.getDefault())
+            val date = dateTimeFormat.parse(dateTime)
+            date?.time ?: -1L // Return the timestamp in milliseconds
+        } catch (e: Exception) {
+            e.printStackTrace()
+            -1L // Return -1 for invalid input
         }
     }
-
-
-
-
 
     private fun formatWorkingHours(hours: Int, min: Int): String {
         return String.format("%02d:%02d", hours, ((min.toDouble() * 60) / 100).roundToInt())
@@ -715,7 +731,6 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
 
 
     private fun showCheckoutView() {
@@ -923,13 +938,12 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun startTimer() {
         val punchTime = punchInTime?.let { getDateFromString(it, "MM/dd/yyyy hh:mm:ss a") }
         startTime = punchTime?.time ?: 0
 
         handler?.postDelayed(runnable, 0)
-        scheduleNotificationAfter9Hours()
+        scheduleNotificationWork()
     }
 
 
@@ -1033,9 +1047,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
     override fun onValidationError(message: String, callFrom: String) {}
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST_CODE) {
