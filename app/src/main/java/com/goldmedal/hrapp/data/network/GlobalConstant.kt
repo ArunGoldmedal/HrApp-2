@@ -26,17 +26,5 @@ object GlobalConstant {
     const val ADD_COMPANY_DETAILS_API = "add_company_details"
     const val GET_COMPANY_DETAILS_API = "get_company_details"
     const val DELETE_COMPANY_DETAILS_API = "delete_company_details"
-    const val NOTIFICATION_CHANNEL_ID = "your_channel_id"
-    fun createNotificationChannel(context: Context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Default Channel"
-            val descriptionText = "This is the default notification channel"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
+    const val BLOCK_MONTH_DATE_API = "block_month_date"
 }

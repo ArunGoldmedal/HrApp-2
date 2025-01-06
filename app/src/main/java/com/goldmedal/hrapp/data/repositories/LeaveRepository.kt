@@ -150,5 +150,7 @@ class LeaveRepository @Inject constructor(
         return apiRequest { api.approveRejectOD(userId,requestId,type, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET) }
     }
 
-
+    suspend fun getBlockMonthDate(userId: Int): BlockMonthDateResponse {
+        return apiRequest { api.getBlockMonthDate(userId) }
+    }
 }

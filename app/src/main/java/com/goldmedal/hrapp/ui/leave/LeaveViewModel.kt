@@ -884,6 +884,39 @@ class LeaveViewModel @Inject constructor(
 
     }
 
+    fun getBlockMonthDate() {
+        if (userId == null) {
+            apiListener?.onValidationError("User id cannot be nil", "approveRejectSL")
+            return
+        }
+        apiListener?.onStarted(GlobalConstant.BLOCK_MONTH_DATE_API)
+        Coroutines.main {
+            try {
+                val response = repository.getBlockMonthDate(userId!!)
+                if (response.statusCode == 200) {
+                    if (response.blockMonthDateData.isNotEmpty()) {
+                        response.blockMonthDateData.let {
+                            apiListener?.onSuccess(it, GlobalConstant.BLOCK_MONTH_DATE_API)
+                            return@main
+                        }
+                    }
+                } else {
+                    val errorResponse = response.errors
+                    if (errorResponse.isNotEmpty()) {
+                        errorResponse[0].ErrorMsg?.let { apiListener?.onError(it, GlobalConstant.BLOCK_MONTH_DATE_API, false) }
+                    }
+                }
+            } catch (e: ApiException) {
+                apiListener?.onError(e.message!!, GlobalConstant.BLOCK_MONTH_DATE_API, true)
+            } catch (e: NoInternetException) {
+                apiListener?.onError(e.message!!, GlobalConstant.BLOCK_MONTH_DATE_API, true)
+            } catch (e: SocketTimeoutException) {
+                apiListener?.onError(e.message!!, GlobalConstant.BLOCK_MONTH_DATE_API, true)
+            }
+        }
+
+    }
+
 
 
 

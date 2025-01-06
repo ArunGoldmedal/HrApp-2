@@ -689,6 +689,12 @@ interface MyApi {
         @Field("Remark") remark: String
     ): Response<AddCompanyResponse>
 
+    @FormUrlEncoded
+    @POST("leaves/getblockmonthDate")
+    suspend fun getBlockMonthDate(
+        @Field("UserID") userId: Int
+    ): Response<BlockMonthDateResponse>
+
     companion object {
         operator fun invoke(
                 networkConnectionInterceptor: NetworkConnectionInterceptor

@@ -30,10 +30,10 @@ android {
         applicationId "com.goldmedal.hrapp"
         minSdk 21
         targetSdk 34
-        versionCode 17
+        versionCode 20
 //        versionName "1.0_distribute_build"
 //        versionName "1.0_development_build"
-        versionName "1.6"
+        versionName "1.8"
         multiDexEnabled true
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

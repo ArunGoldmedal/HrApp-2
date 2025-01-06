@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,9 @@ import com.goldmedal.hrapp.data.model.AppliedLeaveCountData
 import com.goldmedal.hrapp.data.model.LeaveApplyData
 import com.goldmedal.hrapp.data.model.LeaveReasonsData
 import com.goldmedal.hrapp.data.model.LeaveTypeData
+import com.goldmedal.hrapp.data.network.GlobalConstant
 import com.goldmedal.hrapp.data.network.GlobalConstant.IMAGE_DIRECTORY
+import com.goldmedal.hrapp.data.network.responses.BlockMonthDateData
 import com.goldmedal.hrapp.databinding.ApplyLeaveDetailBinding
 import com.goldmedal.hrapp.util.*
 import com.vmadalin.easypermissions.EasyPermissions
@@ -46,8 +49,10 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
     private lateinit var minEndDate: Calendar
     private lateinit var maxStartDate: Calendar
     private var dayTypeSegmentIndex: Int = 0
-
     private var totalLeavesCount: String? = null
+    private lateinit var mBlockMonthDateData: BlockMonthDateData
+
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -73,6 +78,7 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
 
                 applyLeaveModel.leaveTypeData()
                 applyLeaveModel.leaveReasons()
+                applyLeaveModel.getBlockMonthDate()
                 applyLeaveModel.leaveBalanceApi(getCurrentFiscalYear())
             }
         })
@@ -123,6 +129,13 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
         if (callFrom == "leaveReasons") {
             populateLeaveReasonsSpinner(_object as List<LeaveReasonsData>)
         }
+
+        if (callFrom == GlobalConstant.BLOCK_MONTH_DATE_API) {
+            val blockMonthDateList = _object as List<BlockMonthDateData>
+            mBlockMonthDateData = blockMonthDateList[0]
+            //Log.d("TAG", "Block Date: ${mBlockMonthDateData.monthblockdate}")
+        }
+
         if (callFrom == "appliedLeavesCount") {
             val leaveCountData = _object as List<AppliedLeaveCountData>
 
@@ -185,8 +198,13 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
 
                 val previousCalendar = Calendar.getInstance()
                 val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
-                previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
-
+                if (::mBlockMonthDateData.isInitialized) {
+                    previousCalendar.set(Calendar.DAY_OF_MONTH, mBlockMonthDateData.blockDay)
+                    previousCalendar.set(Calendar.YEAR, mBlockMonthDateData.blockYear)
+                    previousCalendar.set(Calendar.MONTH, mBlockMonthDateData.blockMonth - 1)
+                } else {
+                    previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
+                }
 
                 val startDatePicker = DatePickerDialog(requireContext(),
                         { view, year, monthOfYear, dayOfMonth ->
@@ -224,7 +242,13 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
 
                 val previousCalendar = Calendar.getInstance()
                 val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
-                previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
+                if (::mBlockMonthDateData.isInitialized) {
+                    previousCalendar.set(Calendar.DAY_OF_MONTH, mBlockMonthDateData.blockDay)
+                    previousCalendar.set(Calendar.YEAR, mBlockMonthDateData.blockYear)
+                    previousCalendar.set(Calendar.MONTH, mBlockMonthDateData.blockMonth - 1)
+                } else {
+                    previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
+                }
 
                 val endDatePicker = DatePickerDialog(requireContext(),
                         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
