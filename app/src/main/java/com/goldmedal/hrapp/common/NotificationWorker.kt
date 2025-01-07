@@ -41,6 +41,7 @@ class NotificationWorker(context: Context, workerParams: WorkerParameters) : Wor
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Punch Out Reminder")
             .setContentText("It looks like you forgot to Punch Out.")
+//            .setWhen(System.currentTimeMillis())
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent) // Attach PendingIntent
             .setAutoCancel(true) // Dismiss notification when clicked
