@@ -83,7 +83,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
 
         private const val GEO_DURATION = 60 * 60 * 1000.toLong()
         private const val GEOFENCE_REQ_ID = "My Geofence"
-        private const val GEOFENCE_RADIUS = 500.0f // in meters
+        private const val GEOFENCE_RADIUS = 50.0f // in meters
     }
 
 
