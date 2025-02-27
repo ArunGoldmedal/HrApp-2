@@ -21,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-<!--            <include-->
-<!--                layout="@layout/header_common" />-->
+            <!--            <include-->
+            <!--                layout="@layout/header_common" />-->
 
 
             <LinearLayout
@@ -31,8 +31,19 @@
                 android:layout_marginTop="60dp"
                 android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/btnLimitDetails"
+                    style="@style/default_red_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_20"
+                    android:onClick="@{viewmodel::onLimitDetails}"
+                    android:text="Limit Details" />
 
-                <RelativeLayout
+
+                <!--<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -48,19 +59,10 @@
                         android:text="NAME"
                         android:textAlignment="textStart" />
 
-                    <Button
-                        android:id="@+id/btnLimitDetails"
-                        style="@style/default_red_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_margin="@dimen/dp_20"
-                        android:onClick="@{viewmodel::onLimitDetails}"
-                        android:text="Limit Details"
-                        android:layout_height="wrap_content" />
 
 
-                </RelativeLayout>
+
+                </RelativeLayout>-->
 
 
                 <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
@@ -69,8 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_20"
-                    app:smsp_errorText="Error"
-                    app:smsp_hint="Searchable Spinner"
+                    app:smsp_hint="Searchable Party"
                     app:smsp_isSearchable="true"
                     app:smsp_multilineError="false"
                     app:smsp_searchHeaderBackgroundColor="@color/smsp_search_header_background"
@@ -80,40 +81,73 @@
                     app:smsp_searchTextColor="@color/search_text_color" />
 
 
-                <LinearLayout
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="30dp"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    android:weightSum="2">-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="0dp"-->
+                <!--                        android:layout_height="match_parent"-->
+                <!--                        android:layout_marginRight="@dimen/dp_2"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:background="@color/colorPrimary"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:text="Period (Days)" />-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="0dp"-->
+                <!--                        android:layout_height="match_parent"-->
+                <!--                        android:layout_marginRight="@dimen/dp_2"-->
+                <!--                        android:layout_weight="1"-->
+                <!--                        android:background="@color/colorPrimary"-->
+                <!--                        android:gravity="center"-->
+                <!--                        android:text="Amount" />-->
+
+                <!--                </LinearLayout>-->
+
+
+                <!--                <androidx.recyclerview.widget.RecyclerView-->
+                <!--                    android:id="@+id/rvList"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    tools:listitem="@layout/item_aging">-->
+
+                <!--                </androidx.recyclerview.widget.RecyclerView>-->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_amount"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="12dp"
+                    android:hint="Amount">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/dp_2"
-                        android:layout_weight="1"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="Period (Days)" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/dp_2"
-                        android:layout_weight="1"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:text="Amount" />
-
-                </LinearLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvList"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_aging">
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
-                </androidx.recyclerview.widget.RecyclerView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUpdateLimit"
+                    style="@style/default_red_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/dp_20"
+                    android:text="Submit" />
 
             </LinearLayout>
 

@@ -9,19 +9,17 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.lifecycle.Observer
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.IncreaseLimitPartyData
 import com.goldmedal.hrapp.data.model.AgingDetail
 import com.goldmedal.hrapp.data.model.LimitPartyDetailData
 import com.goldmedal.hrapp.databinding.ActivityAccountsDetailBinding
-import com.goldmedal.hrapp.util.Coroutines
 import com.goldmedal.hrapp.util.hide
 import com.goldmedal.hrapp.util.show
 import com.goldmedal.hrapp.util.snackbar
-import com.xwray.groupie.GroupAdapter
-import com. xwray.groupie.GroupieViewHolder
+import com.goldmedal.hrapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,8 +40,29 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
         binding.viewmodel = limitData
 
         limitData.getAccountDetailData()
-        limitData.getAgingData()
+        //limitData.getAgingData()
         limitData.detailListener = this
+
+        binding.btnUpdateLimit.setOnClickListener {
+            if (limitData.strPartyCin == null) {
+                toast("Please select a party")
+            } else if (binding.etAmount.text.toString().isEmpty()) {
+                toast("Please enter amount")
+            } else {
+                limitData.updateAmount = binding.etAmount.text.toString()
+                limitData.getLoggedInUser().observe(this) { user ->
+                    if (user != null) {
+                        user.UserID?.let { userId ->
+                            limitData.updateLimit(
+                                limitData.strPartyCin!!,
+                                limitData.updateAmount!!,
+                                userId
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
@@ -54,33 +73,44 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
     }
 
 
-    private fun bindUI(list: List<AgingDetail?>?) = Coroutines.main {
-        list?.let {
-            initRecyclerView(it.toAgingParty())
-        }
-    }
-
-    private fun initRecyclerView(toAgingParty: List<AgingItem?>) {
-        val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
-            addAll(toAgingParty)
-        }
-        binding.rvList.apply {
-            layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
-            adapter = mAdapter
-        }
-    }
+//    private fun bindUI(list: List<AgingDetail?>?) = Coroutines.main {
+//        list?.let {
+//            initRecyclerView(it.toAgingParty())
+//        }
+//    }
+//
+//    private fun initRecyclerView(toAgingParty: List<AgingItem?>) {
+//        val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
+//            addAll(toAgingParty)
+//        }
+//        binding.rvList.apply {
+//            layoutManager = LinearLayoutManager(context)
+//            setHasFixedSize(true)
+//            adapter = mAdapter
+//        }
+//    }
 
     override fun onStarted() {
         binding.progressBar.show()
     }
 
-    override fun onSuccess(partyList: List<IncreaseLimitPartyData?>?, agingList: List<AgingDetail?>?, partyDetailList: List<LimitPartyDetailData?>?){
-        bindUI(agingList)
+    override fun onSuccess(
+        limitIncreaseMessage: String?,
+        partyList: List<IncreaseLimitPartyData?>?,
+        agingList: List<AgingDetail?>?,
+        partyDetailList: List<LimitPartyDetailData?>?
+    ) {
+        //bindUI(agingList)
+        limitIncreaseMessage?.let {
+            limitData.updateAmount = null
+            binding.etAmount.setText("")
+            binding.etAmount.clearFocus()
+            binding.rootLayout.snackbar(it)
+        }
         initSpinner(partyList)
         binding.progressBar.hide()
         print("Party List - - - " + partyList)
-        print("Aging List - - - " + agingList)
+        //print("Aging List - - - " + agingList)
     }
 
     private fun initSpinner(partyList: List<IncreaseLimitPartyData?>?) {
@@ -90,13 +120,17 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
         listLimitParty = ArrayList()
         partyList.let {
             for (i in 1..((it?.size) ?: 0)) {
-//      println(i)
-                listLimitParty.add((it?.get(i-1)?.displaynm ?: "NO ITEM"))
+                listLimitParty.add((it?.get(i-1)?.displaynm ?: ""))
             }
              spLimitParty.item = listLimitParty
              spLimitParty.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                  override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-                    Toast.makeText(this@AccountsDetailActivity, listLimitParty[position], Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this@AccountsDetailActivity, listLimitParty[position], Toast.LENGTH_SHORT).show()
+                     for (party in partyList!!) {
+                         if (party?.displaynm == listLimitParty[position]) {
+                             limitData.strPartyCin = party.cin
+                         }
+                     }
 
                 }
                 override fun onNothingSelected(adapterView: AdapterView<*>) {}

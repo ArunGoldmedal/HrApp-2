@@ -6,6 +6,7 @@ import com.goldmedal.hrapp.data.db.entities.SendOtpResponse
 import com.goldmedal.hrapp.data.model.AddCompanyResponse
 import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
 import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
+import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
 import com.goldmedal.hrapp.data.network.responses.*
@@ -473,8 +474,10 @@ interface MyApi {
     suspend fun updateLimitParty(
             @Url url : String = "${BASE_URL}UpdateIncreaseLimitParty",
             @Field("CIN") strCin: String,
-            @Field("ClientSecret") strClientSecret: String
-    ): Response<List<AgingResponse>>
+            @Field("limitamt") limitAmount: String,
+            @Field("userid") userId: Int,
+            @Field("Category") category: String
+    ): Response<List<UpdateLimitResponse>>
 
 
     // - - - - - -  API for getting increase limit party detail - - - - - - - - - - -

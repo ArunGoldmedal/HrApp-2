@@ -6,6 +6,6 @@ import com.goldmedal.hrapp.data.model.LimitPartyDetailData
 
 interface DetailListener {
     fun onStarted()
-    fun onSuccess(partyList: List<IncreaseLimitPartyData?>?, agingList: List<AgingDetail?>?, partyDetailList: List<LimitPartyDetailData?>?)
+    fun onSuccess(limitIncreaseMessage: String?, partyList: List<IncreaseLimitPartyData?>?, agingList: List<AgingDetail?>?, partyDetailList: List<LimitPartyDetailData?>?)
     fun onFailure(message: String, reason: String)
 }

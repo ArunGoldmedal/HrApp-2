@@ -104,7 +104,12 @@ class PartyDetailActivity : AppCompatActivity(), DetailListener {
     }
 
 
-    override fun onSuccess(partyList: List<IncreaseLimitPartyData?>?, agingList: List<AgingDetail?>?, partyDetailList: List<LimitPartyDetailData?>?) {
+    override fun onSuccess(
+        limitIncreaseMessage: String?,
+        partyList: List<IncreaseLimitPartyData?>?,
+        agingList: List<AgingDetail?>?,
+        partyDetailList: List<LimitPartyDetailData?>?
+    ) {
         bindUI(partyDetailList)
 
         // progress_bar.hide()
