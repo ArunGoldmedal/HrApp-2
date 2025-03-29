@@ -1,4 +1,4 @@
-package com.goldmedal.hrapp.data.db.entities
+package com.goldmedal.hrapp.data.network.responses
 
 import com.goldmedal.hrapp.data.model.AgingData
 import com.google.gson.annotations.SerializedName

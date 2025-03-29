@@ -3,6 +3,7 @@ package com.goldmedal.hrapp.ui.accounts
 //import kotlinx.android.synthetic.main.activity_login.progress_bar
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -10,16 +11,20 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.IncreaseLimitPartyData
 import com.goldmedal.hrapp.data.model.AgingDetail
 import com.goldmedal.hrapp.data.model.LimitPartyDetailData
 import com.goldmedal.hrapp.databinding.ActivityAccountsDetailBinding
+import com.goldmedal.hrapp.util.Coroutines
 import com.goldmedal.hrapp.util.hide
 import com.goldmedal.hrapp.util.show
 import com.goldmedal.hrapp.util.snackbar
 import com.goldmedal.hrapp.util.toast
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -73,22 +78,22 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
     }
 
 
-//    private fun bindUI(list: List<AgingDetail?>?) = Coroutines.main {
-//        list?.let {
-//            initRecyclerView(it.toAgingParty())
-//        }
-//    }
-//
-//    private fun initRecyclerView(toAgingParty: List<AgingItem?>) {
-//        val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
-//            addAll(toAgingParty)
-//        }
-//        binding.rvList.apply {
-//            layoutManager = LinearLayoutManager(context)
-//            setHasFixedSize(true)
-//            adapter = mAdapter
-//        }
-//    }
+    private fun bindUI(list: List<AgingDetail?>?) = Coroutines.main {
+        list?.let {
+            initRecyclerView(it.toAgingParty())
+        }
+    }
+
+    private fun initRecyclerView(toAgingParty: List<AgingItem?>) {
+        val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
+            addAll(toAgingParty)
+        }
+        binding.rvList.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = mAdapter
+        }
+    }
 
     override fun onStarted() {
         binding.progressBar.show()
@@ -100,17 +105,25 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
         agingList: List<AgingDetail?>?,
         partyDetailList: List<LimitPartyDetailData?>?
     ) {
-        //bindUI(agingList)
+        agingList?.let {
+            binding.llAgingHeader.visibility = View.VISIBLE
+            bindUI(it)
+        }
+
         limitIncreaseMessage?.let {
             limitData.updateAmount = null
             binding.etAmount.setText("")
             binding.etAmount.clearFocus()
             binding.rootLayout.snackbar(it)
         }
-        initSpinner(partyList)
+
+        partyList?.let {
+            initSpinner(it)
+        }
+
         binding.progressBar.hide()
-        print("Party List - - - " + partyList)
-        //print("Aging List - - - " + agingList)
+        Log.d("TAG", " Party List - ${partyList.toString()}")
+        Log.d("TAG", " Aging List - ${agingList.toString()}")
     }
 
     private fun initSpinner(partyList: List<IncreaseLimitPartyData?>?) {
@@ -128,7 +141,10 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
                     //Toast.makeText(this@AccountsDetailActivity, listLimitParty[position], Toast.LENGTH_SHORT).show()
                      for (party in partyList!!) {
                          if (party?.displaynm == listLimitParty[position]) {
+                             binding.llAgingHeader.visibility = View.GONE
+                             bindUI(emptyList())
                              limitData.strPartyCin = party.cin
+                             limitData.getAgingData()
                          }
                      }
 

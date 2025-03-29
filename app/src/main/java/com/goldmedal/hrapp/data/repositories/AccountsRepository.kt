@@ -1,7 +1,7 @@
 package com.goldmedal.hrapp.data.repositories
 
 import com.goldmedal.hrapp.data.db.AppDatabase
-import com.goldmedal.hrapp.data.db.entities.AgingResponse
+import com.goldmedal.hrapp.data.network.responses.AgingResponse
 import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.MyApi
 import com.goldmedal.hrapp.data.network.SafeApiRequest

@@ -75,19 +75,28 @@ class AccountsViewModel @Inject constructor(
 
         Coroutines.main {
             try {
-                val getAgingResponse = repository.getAgingDetail("999999", "clientsecret")
+                val getAgingResponse = repository.getAgingDetail(strPartyCin ?: "", "clientsecret")
 
-                getAgingResponse[0].data!![0]?.agingDetails.let {
+                if (getAgingResponse[0].data?.size!! > 0) {
+                    detailListener?.onSuccess(null, null, getAgingResponse[0].data!![0]?.agingDetails, null)
+                    return@main
+                } else {
+                    detailListener?.onSuccess(null, null, null, null)
+                }
+                /*getAgingResponse[0].data!![0]?.agingDetails.let {
                     detailListener?.onSuccess(null, null, it, null)
                     return@main
-                }
-                detailListener?.onFailure("Error","server")
+                }*/
+                //detailListener?.onFailure("Error","server")
 
             } catch (e: ApiException) {
                 detailListener?.onFailure(e.message!!,"server")
             } catch (e: NoInternetException) {
                 detailListener?.onFailure(e.message!!,"net")
+            } catch (e: Exception) {
+                detailListener?.onFailure(e.message!!,"server")
             }
+
         }
 
     }

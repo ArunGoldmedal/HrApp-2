@@ -1,6 +1,6 @@
 package com.goldmedal.hrapp.data.network
 
-import com.goldmedal.hrapp.data.db.entities.AgingResponse
+import com.goldmedal.hrapp.data.network.responses.AgingResponse
 import com.goldmedal.hrapp.data.db.entities.ResetPasswordResponse
 import com.goldmedal.hrapp.data.db.entities.SendOtpResponse
 import com.goldmedal.hrapp.data.model.AddCompanyResponse

@@ -80,50 +80,14 @@
                     app:smsp_searchHintColor="@color/search_hint_color"
                     app:smsp_searchTextColor="@color/search_text_color" />
 
-
-                <!--                <LinearLayout-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="30dp"-->
-                <!--                    android:orientation="horizontal"-->
-                <!--                    android:weightSum="2">-->
-
-                <!--                    <TextView-->
-                <!--                        android:layout_width="0dp"-->
-                <!--                        android:layout_height="match_parent"-->
-                <!--                        android:layout_marginRight="@dimen/dp_2"-->
-                <!--                        android:layout_weight="1"-->
-                <!--                        android:background="@color/colorPrimary"-->
-                <!--                        android:gravity="center"-->
-                <!--                        android:text="Period (Days)" />-->
-
-                <!--                    <TextView-->
-                <!--                        android:layout_width="0dp"-->
-                <!--                        android:layout_height="match_parent"-->
-                <!--                        android:layout_marginRight="@dimen/dp_2"-->
-                <!--                        android:layout_weight="1"-->
-                <!--                        android:background="@color/colorPrimary"-->
-                <!--                        android:gravity="center"-->
-                <!--                        android:text="Amount" />-->
-
-                <!--                </LinearLayout>-->
-
-
-                <!--                <androidx.recyclerview.widget.RecyclerView-->
-                <!--                    android:id="@+id/rvList"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="match_parent"-->
-                <!--                    tools:listitem="@layout/item_aging">-->
-
-                <!--                </androidx.recyclerview.widget.RecyclerView>-->
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_amount"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="@dimen/dp_12"
                     android:hint="Amount">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -135,10 +99,52 @@
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <View
+
+                <LinearLayout
+                    android:id="@+id/ll_aging_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_2"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:text="Period (Days)" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/dp_2"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:text="Amount" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_aging"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:layout_weight="1">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />-->
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUpdateLimit"
