@@ -54,6 +54,7 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
          const val TAG_HOLIDAY = "HOLIDAY"
          const val TAG_WEEKEND = "WEEKEND"
          const val TAG_CHECKOUT_MISSING = "CHECKOUT MISSING"
+         const val TAG_OUTDOOR_REQUEST = "OUTDOOR REQUEST"
 
          const val TAG_PUNCH_TYPE_MOBILE  = "MOBILE"
          const val TAG_CHECKOUT_BIOMETRIC = "BIOMETRIC"
@@ -128,25 +129,26 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
         attFragmentBinding.recyclerViewLegends.layoutManager = GridLayoutManager(activity, 3)
 
         Coroutines.main {
-            viewModel.getLoggedInUser().observe(viewLifecycleOwner, Observer { user ->
+            viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
                 if (user != null) {
                     viewModel.userId = user.UserID
                     attFragmentBinding.textViewEmployeeName.text = user.EmployeeFullName
 
-                    val avatar = if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
+                    val avatar =
+                        if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
 
                     Glide.with(this)
-                            .load(user.ProfilePicture)
-                            .fitCenter()
-                            .placeholder(avatar)
-                            .into(attFragmentBinding.imgProfilePic)
+                        .load(user.ProfilePicture)
+                        .fitCenter()
+                        .placeholder(avatar)
+                        .into(attFragmentBinding.imgProfilePic)
 
                     Coroutines.main {
                         attFragmentBinding.progressBar.start()
                         val attendance = viewModel.attendanceData.await()
 
-                 //If used viewLifecycleOwner app crashes ,let context be this
-                        attendance.observe(this@AttendanceFragment, Observer { it ->
+                        //If used viewLifecycleOwner app crashes ,let context be this
+                        attendance.observe(this@AttendanceFragment) { it ->
 
                             attFragmentBinding.progressBar.stop()
                             if (it != null) {
@@ -154,13 +156,18 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
                                 Coroutines.main {
 
                                     setDecorator()
-                                    attendanceData?.let { setPreviousAddress(it, CalendarDay.today().date) }
+                                    attendanceData?.let {
+                                        setPreviousAddress(
+                                            it,
+                                            CalendarDay.today().date
+                                        )
+                                    }
                                 }
                             }
-                        })
+                        }
                     }
                 }
-            })
+            }
         }
 
 
@@ -418,6 +425,9 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
                     }
                     calendarDays[i].status.equals(TAG_CHECKOUT_MISSING, ignoreCase = true) -> {
                         punchMiss.add(CalendarDay.from(LocalDate.of(calendarDays[i].year, calendarDays[i].month, calendarDays[i].days)))
+                    }
+                    calendarDays[i].status.equals(TAG_OUTDOOR_REQUEST, ignoreCase = true) -> {
+                        calPresent.add(CalendarDay.from(LocalDate.of(calendarDays[i].year, calendarDays[i].month, calendarDays[i].days)))
                     }
                     else -> {
                         holiday.add(CalendarDay.from(LocalDate.of(calendarDays[i].year, calendarDays[i].month, calendarDays[i].days)))

@@ -79,7 +79,7 @@ class LeaveRequestsItem(private val leaveRequests: LeaveRequestsData?, private v
             chipLeaveReason.chipBackgroundColor = ColorStateList.valueOf(leaveRequests?.ChipBackgroundColor!!)
             itemView.setOnClickListener {
                 if (context != null) {
-                val modalBottomSheet = RespondRequestsBottomSheet.newInstance(leaveRequests,position,listener)
+                    val modalBottomSheet = RespondRequestsBottomSheet.newInstance(leaveRequests,position,listener)
                     modalBottomSheet.show(context.supportFragmentManager, RespondRequestsBottomSheet.TAG)
                 }
             }
