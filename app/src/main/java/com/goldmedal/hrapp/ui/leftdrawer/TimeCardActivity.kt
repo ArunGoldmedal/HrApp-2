@@ -8,6 +8,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.AttendanceDetailsData
 
@@ -29,7 +30,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
-class TimeCardActivity : AppCompatActivity(), ApiStageListener<Any>,AdapterCallbackListener {
+class TimeCardActivity : BaseActivity(), ApiStageListener<Any>,AdapterCallbackListener {
     private lateinit var binding: ActivityTimeCardBinding
 
     private val viewModel: AttendanceViewModel by viewModels()

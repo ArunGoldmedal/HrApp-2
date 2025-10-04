@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root_layout"
+    android:fitsSystemWindows="true"
     tools:context=".ui.dashboard.leave.ODApplicationActivity">
 
 
@@ -133,7 +134,6 @@
             android:layout_height="match_parent"
             android:minLines="4"
             android:inputType="textMultiLine" />
-Don
     </com.google.android.material.textfield.TextInputLayout>
 
 

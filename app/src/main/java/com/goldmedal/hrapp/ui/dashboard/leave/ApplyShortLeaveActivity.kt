@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.databinding.ActivityApplyShortLeaveBinding
 import com.goldmedal.hrapp.ui.leave.LeaveViewModel
@@ -15,7 +16,7 @@ import org.angmarch.views.OnSpinnerItemSelectedListener
 import java.util.*
 
 @AndroidEntryPoint
-class ApplyShortLeaveActivity : AppCompatActivity(), ApiStageListener<Any> {
+class ApplyShortLeaveActivity : BaseActivity(), ApiStageListener<Any> {
 
     private lateinit var binding: ActivityApplyShortLeaveBinding
     private val viewModel: LeaveViewModel by viewModels()

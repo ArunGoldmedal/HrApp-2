@@ -3,11 +3,12 @@ package com.goldmedal.hrapp.ui.dashboard
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 
 
 
-open class TransitionsActivity : AppCompatActivity() {
+open class TransitionsActivity : BaseActivity() {
     override fun finish() {
         super.finish()
         overridePendingTransitionExit()

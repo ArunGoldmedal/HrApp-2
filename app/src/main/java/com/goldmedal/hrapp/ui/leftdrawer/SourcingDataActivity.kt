@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ImageSelectionListener
@@ -33,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.IOException
 
 @AndroidEntryPoint
-class SourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, ImageSelectionListener, EasyPermissions.PermissionCallbacks {
+class SourcingDataActivity : BaseActivity(), ApiStageListener<Any>, ImageSelectionListener, EasyPermissions.PermissionCallbacks {
     private val sourcingDataViewModel: SourcingDataViewModel by viewModels()
     private lateinit var mBinding: ActivitySourcingDataBinding
     private var mSelectedView = UploadView.VISITING_CARD_1

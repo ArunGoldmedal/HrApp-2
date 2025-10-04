@@ -25,11 +25,11 @@ plugins {
 
 android {
     namespace 'com.goldmedal.hrapp'
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "com.goldmedal.hrapp"
-        minSdk 21
-        targetSdk 34
+        minSdk 24
+        targetSdk 35
         versionCode 25
 //        versionName "1.0_distribute_build"
 //        versionName "1.0_development_build"
@@ -54,6 +54,7 @@ android {
     buildFeatures {
        viewBinding true
         dataBinding true
+        buildConfig = true
     }
 
     compileOptions {
@@ -68,43 +69,43 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core-ktx:1.16.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'androidx.palette:palette-ktx:1.0.0'
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test:runner:1.6.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
 //New Material Design
 //    implementation 'com.google.android.material:material:1.2.0-alpha04'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.13.0'
 
     //Retrofit and GSON
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
 //    implementation 'com.squareup.okhttp3:logging-interceptor:4.1.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
 
     //Kotlin Coroutines
 
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
-    implementation "androidx.activity:activity-ktx:1.6.0"
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2"
+    implementation "androidx.activity:activity-ktx:1.10.1"
+    implementation 'androidx.fragment:fragment-ktx:1.8.8'
 
 
 
     //Work Manager
     //    implementation "androidx.work:work-runtime-ktx:2.2.0"
-    implementation "androidx.work:work-runtime-ktx:2.7.1"
+    implementation "androidx.work:work-runtime-ktx:2.10.5"
 
 
 
@@ -112,7 +113,7 @@ dependencies {
 //    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 //    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4'
 
     //Kodein Dependency Injection
 //    implementation 'org.kodein.di:kodein-di-generic-jvm:6.5.0'
@@ -128,9 +129,9 @@ dependencies {
 
 
     //Android Room
-    implementation 'androidx.room:room-runtime:2.6.1'
-    implementation 'androidx.room:room-ktx:2.6.1'
-    kapt 'androidx.room:room-compiler:2.6.1'
+    implementation 'androidx.room:room-runtime:2.8.1'
+    implementation 'androidx.room:room-ktx:2.8.1'
+    kapt 'androidx.room:room-compiler:2.8.1'
 
     //Android Navigation Architecture
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -151,23 +152,23 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
 
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.13.1'
 
 
 
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
     implementation 'com.github.arcadefire:nice-spinner:1.4.5'
 
     //ViewPager 2
-    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation "androidx.viewpager2:viewpager2:1.1.0"
 
 
     //Glide
 
-    implementation 'com.github.bumptech.glide:glide:4.13.2'
-    kapt 'com.github.bumptech.glide:compiler:4.13.2'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    kapt 'com.github.bumptech.glide:compiler:4.16.0'
 
 
     //Auto-Read OTP
@@ -189,20 +190,20 @@ dependencies {
     //Preference Manager
 
 //    implementation 'androidx.preference:preference-ktx:1.1.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
 
 
     //Banner - update
-    implementation 'com.github.zhpanvip:BannerViewPager:3.4.0'
+    implementation 'com.github.zhpanvip:BannerViewPager:3.5.10'
 
-    implementation 'com.airbnb.android:lottie:3.4.1'
+    implementation 'com.airbnb.android:lottie:6.6.7'
 
 
 //Firebase crashlytics
 
     // Import the Firebase BoM
 //    implementation platform('com.google.firebase:firebase-bom:25.12.0')
-    implementation platform('com.google.firebase:firebase-bom:30.5.0')
+    implementation platform('com.google.firebase:firebase-bom:33.16.0')
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-crashlytics-ktx'

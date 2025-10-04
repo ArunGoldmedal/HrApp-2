@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.HexColors
@@ -31,7 +32,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class AttendanceReportActivity : AppCompatActivity(), OnDateSelectedListener, ApiStageListener<Any> {
+class AttendanceReportActivity : BaseActivity(), OnDateSelectedListener, ApiStageListener<Any> {
     private lateinit var binding: ActivityAttendanceDetailBinding
     private  val viewModel: AttendanceViewModel by viewModels()
     private var item: AttendanceHistoryData? = null

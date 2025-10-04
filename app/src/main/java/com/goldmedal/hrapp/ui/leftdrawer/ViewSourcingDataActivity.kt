@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.AddCompanyData
@@ -29,7 +30,7 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ViewSourcingDataActivity : AppCompatActivity(), ApiStageListener<Any>, CompanyDetailsItem.OnItemClickListener {
+class ViewSourcingDataActivity : BaseActivity(), ApiStageListener<Any>, CompanyDetailsItem.OnItemClickListener {
     private val sourcingDataViewModel: SourcingDataViewModel by viewModels()
     private lateinit var mBinding: ActivityViewSourcingDataBinding
     private var mUserId = 0

@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.AttendanceRegularizationListData
@@ -24,7 +25,7 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegularizationHistoryActivity : AppCompatActivity(), ApiStageListener<Any>,RegularizationHistoryItem.OnCancelClickedListener {
+class RegularizationHistoryActivity : BaseActivity(), ApiStageListener<Any>,RegularizationHistoryItem.OnCancelClickedListener {
     private lateinit var binding: ActivityRegularizationHistoryBinding
     private val viewModel: AttendanceViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {

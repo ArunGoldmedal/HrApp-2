@@ -145,7 +145,8 @@ fun getIPAddress(useIPv4: Boolean): String {
                     } else {
                         if (!isIPv4) {
                             val delim = sAddr.indexOf('%') // drop ip6 zone suffix
-                            return if (delim < 0) sAddr.toUpperCase(Locale.getDefault()) else sAddr.substring(0, delim).toUpperCase(Locale.getDefault())
+                            return if (delim < 0) sAddr.uppercase(Locale.getDefault()) else sAddr.substring(0, delim)
+                                .uppercase(Locale.getDefault())
                         }
                     }
                 }

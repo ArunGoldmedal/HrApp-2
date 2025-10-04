@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chivorn.smartmaterialspinner.SmartMaterialSpinner
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.IncreaseLimitPartyData
 import com.goldmedal.hrapp.data.model.AgingDetail
@@ -28,7 +29,7 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AccountsDetailActivity : AppCompatActivity(), DetailListener {
+class AccountsDetailActivity : BaseActivity(), DetailListener {
 
 
 //    private val factory: AccountsViewModelFactory by instance()
@@ -127,7 +128,7 @@ class AccountsDetailActivity : AppCompatActivity(), DetailListener {
     }
 
     private fun initSpinner(partyList: List<IncreaseLimitPartyData?>?) {
-        var spLimitParty: SmartMaterialSpinner<*>? = null
+        var spLimitParty: SmartMaterialSpinner<String>? = null
         var listLimitParty: List<String>? = null
         spLimitParty = findViewById(R.id.sp_searchable)
         listLimitParty = ArrayList()

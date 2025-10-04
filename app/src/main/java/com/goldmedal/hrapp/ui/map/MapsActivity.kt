@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.GoogleMapInfoAdapter
 import com.goldmedal.hrapp.data.model.InsertPunchData
@@ -50,7 +51,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener, OnMapReadyCallback, SuccessMessageDialog.OnDashboardRefresh, OnMapClickListener, OnMarkerClickListener, ResultCallback<Status>, PunchAttendanceDialog.OnShowSuccessMsg {
+class MapsActivity : BaseActivity(), View.OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener, OnMapReadyCallback, SuccessMessageDialog.OnDashboardRefresh, OnMapClickListener, OnMarkerClickListener, ResultCallback<Status>, PunchAttendanceDialog.OnShowSuccessMsg {
     private var map: GoogleMap? = null
     private lateinit var mBinding: ActivityMapsBinding
     private var googleApiClient: GoogleApiClient? = null
@@ -313,7 +314,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
             //set view for info window
             map!!.setInfoWindowAdapter(GoogleMapInfoAdapter(this))
 
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this)
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient!!, locationRequest!!, this)
         }
     }
 
@@ -347,7 +348,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
         get() {
             Log.d(TAG, "getLastKnownLocation()")
             if (checkPermission()) {
-                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
+                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient!!)
                 if (lastLocation != null) {
                     Log.i(TAG, "LasKnown location. " +
                             "Long: " + lastLocation!!.longitude +
@@ -458,7 +459,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
     private fun addGeofence(request: GeofencingRequest) {
         Log.d(TAG, "addGeofence")
         if (checkPermission()) LocationServices.GeofencingApi.addGeofences(
-                googleApiClient,
+                googleApiClient!!,
                 request,
                 createGeofencePendingIntent()
         ).setResultCallback(this)
@@ -546,7 +547,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
     private fun clearGeofence() {
         Log.d(TAG, "clearGeofence()")
         LocationServices.GeofencingApi.removeGeofences(
-                googleApiClient,
+                googleApiClient!!,
                 createGeofencePendingIntent()
         ).setResultCallback { status ->
             if (status.isSuccess) { // remove drawing

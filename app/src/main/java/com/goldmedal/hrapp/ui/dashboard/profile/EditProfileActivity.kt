@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.databinding.ActivityEditProfileBinding
@@ -19,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class EditProfileActivity : AppCompatActivity(), ApiStageListener<Any> {
+class EditProfileActivity : BaseActivity(), ApiStageListener<Any> {
 
     private lateinit var binding: ActivityEditProfileBinding
 

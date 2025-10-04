@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.LeaveRecordData
@@ -26,7 +27,7 @@ import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
-class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRecordItem.OnCancelClickedListener {
+class LeaveStatusActivity : BaseActivity(), ApiStageListener<Any>,  LeaveRecordItem.OnCancelClickedListener {
     private val leaveModel: LeaveViewModel by viewModels()
     private lateinit var leaveStatusActivityBinding: LeaveStatusActivityBinding
     private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>

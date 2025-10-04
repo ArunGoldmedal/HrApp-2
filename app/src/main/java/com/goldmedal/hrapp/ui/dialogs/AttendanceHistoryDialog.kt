@@ -96,7 +96,7 @@ private val viewModel: AttendanceHistoryViewModel by viewModels()
         //looping through existing elements
         Coroutines.io {
             val filteredNames = attendanceHistoryData.filter {
-                (it?.Username?.toLowerCase(Locale.getDefault())?.contains(text.toLowerCase(Locale.getDefault())) == true)
+                (it?.Username?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true)
             }
             filterUI(filteredNames)
         }

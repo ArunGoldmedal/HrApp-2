@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.db.entities.AllHolidayData
@@ -19,7 +20,7 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HolidayListActivity : AppCompatActivity(), ApiStageListener<Any> {
+class HolidayListActivity : BaseActivity(), ApiStageListener<Any> {
     private val holidayModel: HomeViewModel by viewModels()
     private lateinit var holidayActivityBinding : HolidayListActivityBinding
 
@@ -31,11 +32,11 @@ class HolidayListActivity : AppCompatActivity(), ApiStageListener<Any> {
 
         holidayModel.apiListener = this
 
-            holidayModel.getLoggedInUser().observe(this, Observer { user ->
-                if (user != null) {
-                    holidayModel.allHolidays(user.UserID)
-                }
-            })
+        holidayModel.getLoggedInUser().observe(this, Observer { user ->
+            if (user != null) {
+                holidayModel.allHolidays(user.UserID)
+            }
+        })
 
     }
 

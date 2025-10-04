@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.databinding.ActivityODApplicationBinding
 import com.goldmedal.hrapp.ui.leave.LeaveViewModel
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class ODApplicationActivity : AppCompatActivity(), ApiStageListener<Any> {
+class ODApplicationActivity : BaseActivity(), ApiStageListener<Any> {
 
 
     private lateinit var binding: ActivityODApplicationBinding

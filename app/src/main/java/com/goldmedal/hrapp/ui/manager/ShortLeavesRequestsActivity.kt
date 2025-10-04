@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.DefaultMessageData
@@ -27,7 +28,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class ShortLeavesRequestsActivity : AppCompatActivity(), ApiStageListener<Any> ,SLRequestsItem.OnApprovalClickListener {
+class ShortLeavesRequestsActivity : BaseActivity(), ApiStageListener<Any> ,SLRequestsItem.OnApprovalClickListener {
 //Commit
     private lateinit var binding: ActivityShortLeavesRequestsBinding
     private var filteredList: List<SLForApprovalData?> = emptyList()
@@ -85,7 +86,7 @@ class ShortLeavesRequestsActivity : AppCompatActivity(), ApiStageListener<Any> ,
     private fun filter(text: String) {
         Coroutines.io {
             val filteredNames = filteredList.filter {
-                (it?.EmployeeName?.toLowerCase(Locale.getDefault())?.contains(text.toLowerCase(Locale.getDefault())) == true)
+                (it?.EmployeeName?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true)
             }
             filterUI(filteredNames)
         }

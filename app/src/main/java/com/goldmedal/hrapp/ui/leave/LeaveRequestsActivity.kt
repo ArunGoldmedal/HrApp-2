@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ColorTemplate.rgb
@@ -20,7 +21,7 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LeaveRequestsActivity : AppCompatActivity(), ApiStageListener<Any>, ILeaveListener {
+class LeaveRequestsActivity : BaseActivity(), ApiStageListener<Any>, ILeaveListener {
     private val leaveModel: LeaveViewModel by viewModels()
 
     private val `2DChipColors`: Array<IntArray> = arrayOf(

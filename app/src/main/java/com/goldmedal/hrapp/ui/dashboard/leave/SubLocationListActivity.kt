@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.SubLocationsData
 import com.goldmedal.hrapp.databinding.ActivitySubLocationListBinding
@@ -22,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class SubLocationListActivity : AppCompatActivity() ,  ApiStageListener<Any>,OnListClickListener {
+class SubLocationListActivity : BaseActivity() ,  ApiStageListener<Any>,OnListClickListener {
 
 
     private lateinit var binding: ActivitySubLocationListBinding

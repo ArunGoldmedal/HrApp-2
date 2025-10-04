@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.DefaultMessageData
@@ -28,7 +29,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
-class ODRequestsActivity : AppCompatActivity(), ApiStageListener<Any>, ODApprovalItem.OnApprovalClickListener {
+class ODRequestsActivity : BaseActivity(), ApiStageListener<Any>, ODApprovalItem.OnApprovalClickListener {
 
 
     private lateinit var binding: ActivityODRequestsBinding
@@ -81,7 +82,7 @@ class ODRequestsActivity : AppCompatActivity(), ApiStageListener<Any>, ODApprova
     private fun filter(text: String) {
         Coroutines.io {
             val filteredNames = filteredList.filter {
-                (it?.EmployeeName?.toLowerCase(Locale.getDefault())?.contains(text.toLowerCase(Locale.getDefault())) == true)
+                (it?.EmployeeName?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true)
             }
             filterUI(filteredNames)
         }

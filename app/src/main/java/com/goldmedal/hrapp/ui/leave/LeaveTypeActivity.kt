@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.LeaveTypeData
@@ -19,7 +20,7 @@ import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LeaveTypeActivity : AppCompatActivity(), ApiStageListener<Any>, LeaveTypeItem.OnLeaveTypeClickedListener {
+class LeaveTypeActivity : BaseActivity(), ApiStageListener<Any>, LeaveTypeItem.OnLeaveTypeClickedListener {
     private val leaveTypeModel: LeaveViewModel by viewModels()
 
     private lateinit var leaveTypeBinding : LeaveTypeActivityBinding

@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.db.entities.MyTeamData
 import com.goldmedal.hrapp.databinding.ActivityMyTeamBinding
@@ -20,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class MyTeamActivity : AppCompatActivity(), ApiStageListener<Any> {
+class MyTeamActivity : BaseActivity(), ApiStageListener<Any> {
 
 
 private val viewModel: HomeViewModel by viewModels()
@@ -53,7 +54,7 @@ private val viewModel: HomeViewModel by viewModels()
     private fun filter(text: String) {
 Coroutines.io {
     val filteredNames = filteredList.filter {
-        (it?.EmployeeName?.toLowerCase(Locale.getDefault())?.contains(text.toLowerCase(Locale.getDefault())) == true)
+        (it?.EmployeeName?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true)
     }
     filterUI(filteredNames)
 }
