@@ -1,177 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leftdrawer.ChannelFinanceActivity">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilChannelFinanceDealer"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="12dp"
-        android:background="@drawable/dropdown_bg"
-        android:hint="Select Dealer"
-        android:clickable="false"
-        android:focusable="false"
-        app:boxBackgroundColor="#F7F7F7"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/appBg"
+        tools:context=".ui.leftdrawer.ChannelFinanceActivity">
 
-        <AutoCompleteTextView
-            android:id="@+id/filterChannelFinanceDealer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:dropDownSelector="@drawable/dropdown_bg"
-            android:clickable="true"
-            android:focusable="true"
-            android:ellipsize="end"
-            android:inputType="none"
-            android:maxLines="1"
-            android:paddingBottom="10dp"
-            android:singleLine="true"
-            android:textColor="@color/colorBlack"
-            android:textSize="14sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/tvTotalLimitLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/total_limit"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilChannelFinanceDealer" />
-
-    <TextView
-        android:id="@+id/tvTotalLimitValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvTotalLimitLabel"
-        app:layout_constraintStart_toEndOf="@+id/tvTotalLimitLabel"
-        tools:text="₹ 5,00,000" />
-
-    <TextView
-        android:id="@+id/tvOutstandingLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/outstanding"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTotalLimitLabel" />
-
-    <TextView
-        android:id="@+id/tvOutstandingValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvOutstandingLabel"
-        app:layout_constraintStart_toEndOf="@+id/tvOutstandingLabel"
-        tools:text="₹ 2,00,000" />
-
-    <TextView
-        android:id="@+id/tvBalanceLimitLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/balance_limit"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOutstandingLabel" />
-
-    <TextView
-        android:id="@+id/tvBalanceLimitValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textColor="@color/colorBlack"
-        android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvBalanceLimitLabel"
-        app:layout_constraintStart_toEndOf="@+id/tvBalanceLimitLabel"
-        tools:text="₹ 3,00,000" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilInputAmt"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_20"
-        android:hint="Update Amount"
-        app:boxBackgroundColor="#F7F7F7"
-        app:boxCornerRadiusBottomEnd="@dimen/dp_20"
-        app:boxCornerRadiusBottomStart="@dimen/dp_20"
-        app:boxCornerRadiusTopEnd="@dimen/dp_20"
-        app:boxCornerRadiusTopStart="@dimen/dp_20"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvBalanceLimitLabel">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUpdateAmount"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilChannelFinanceDealer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/dropdown_bg"
+            android:clickable="false"
+            android:focusable="false"
+            android:hint="Select Dealer"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnUpdateAmount"
-        style="@style/default_red_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/dp_20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tilInputAmt"
-        android:text="@string/update" />
+            <AutoCompleteTextView
+                android:id="@+id/filterChannelFinanceDealer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:clickable="true"
+                android:dropDownSelector="@drawable/dropdown_bg"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:inputType="none"
+                android:maxLines="1"
+                android:paddingBottom="10dp"
+                android:singleLine="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/amtGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:constraint_referenced_ids="tvTotalLimitLabel, tvTotalLimitValue,
-        tvOutstandingLabel, tvOutstandingValue, tvBalanceLimitLabel,
-        tvBalanceLimitValue, tilInputAmt, btnUpdateAmount"/>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardFinanceSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilChannelFinanceDealer">
 
-    <com.goldmedal.hrapp.common.RotateLoading
-        android:id="@+id/progress_bar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:loading_color="@color/darkBackground"
-        app:loading_width="@dimen/dp_2" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvTotalLimitLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_limit"
+                        android:textColor="@color/fontLightText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvTotalLimitValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="₹ 5,00,000" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="12dp"
+                    android:background="@color/lightGray" />
+
+                <!-- Outstanding -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvOutstandingLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/outstanding"
+                        android:textColor="@color/fontLightText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvOutstandingValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/colorRed"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="₹ 2,00,000" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="12dp"
+                    android:background="@color/lightGray" />
+
+                <!-- Balance Limit -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvBalanceLimitLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/balance_limit"
+                        android:textColor="@color/fontLightText"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvBalanceLimitValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:textColor="@color/colorGreen"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        tools:text="₹ 3,00,000" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilInputAmt"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="Update Amount"
+            android:visibility="gone"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardFinanceSummary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etUpdateAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpdateAmount"
+            style="@style/default_red_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="12dp"
+            android:text="@string/update"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilInputAmt" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/amtGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="cardFinanceSummary, tilInputAmt, btnUpdateAmount" />
+
+        <com.goldmedal.hrapp.common.RotateLoading
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loading_color="@color/colorPrimary"
+            app:loading_width="@dimen/dp_2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -227,7 +227,11 @@
         <activity android:name=".ui.dashboard.TransitionsActivity" />
         <activity
             android:name=".ui.leftdrawer.ChannelFinanceActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/channel_finance"
+            android:theme="@style/ThemeWithActionBar" />
         <!-- <receiver -->
         <!-- android:name=".MySMSBroadcastReceiver" -->
         <!-- android:exported="true"> -->

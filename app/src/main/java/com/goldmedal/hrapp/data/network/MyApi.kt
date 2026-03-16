@@ -8,6 +8,7 @@ import com.goldmedal.hrapp.data.model.ChannelFinanceDealerResponse
 import com.goldmedal.hrapp.data.model.ChannelFinanceDealerWiseResponse
 import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
 import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
+import com.goldmedal.hrapp.data.model.UpdateCNAmountResponse
 import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
@@ -709,6 +710,15 @@ interface MyApi {
     suspend fun getCFDealerWiseData(
         @Field("CIN") cinNumber: String
     ): Response<ChannelFinanceDealerWiseResponse>
+
+    @FormUrlEncoded
+    @POST("events/UpdateChannelFinanceAmount")
+    suspend fun updateCFAmount(
+        @Field("CIN") cinNumber: String,
+        @Field("UserId") userId: Int,
+        @Field("Amount") amount: String,
+        @Field("Slno") slNo: Int
+    ): Response<UpdateCNAmountResponse>
 
     companion object {
         operator fun invoke(

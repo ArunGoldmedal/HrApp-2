@@ -68,14 +68,13 @@
         android:name="com.goldmedal.hrapp.ui.policy.PaySlipActivity"
         android:label="activity_pay_slip"
         tools:layout="@layout/activity_pay_slip" />
-<!--    <activity-->
-<!--        android:id="@+id/accountsDetailActivity"-->
-<!--        android:name="com.goldmedal.hrapp.ui.accounts.AccountsDetailActivity"-->
-<!--        android:label="activity_acounts_detail"-->
-<!--        tools:layout="@layout/activity_accounts_detail" />-->
-<!--    Just for testing-->
     <activity
         android:id="@+id/accountsDetailActivity"
+        android:name="com.goldmedal.hrapp.ui.accounts.AccountsDetailActivity"
+        android:label="activity_acounts_detail"
+        tools:layout="@layout/activity_accounts_detail" />
+    <activity
+        android:id="@+id/channelFinanceActivity"
         android:name="com.goldmedal.hrapp.ui.leftdrawer.ChannelFinanceActivity"
         android:label="Channel Finance"
         tools:layout="@layout/activity_channel_finance" />

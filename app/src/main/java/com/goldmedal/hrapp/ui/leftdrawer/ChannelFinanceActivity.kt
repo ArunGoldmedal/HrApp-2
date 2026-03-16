@@ -16,17 +16,17 @@ import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.ChannelFinanceDealerItem
 import com.goldmedal.hrapp.data.model.DealerWiseData
 import com.goldmedal.hrapp.data.model.NotificationFeeds
+import com.goldmedal.hrapp.data.model.UpdateCNAmountItem
 import com.goldmedal.hrapp.data.model.viewholder.SearchableListViewHolder
 import com.goldmedal.hrapp.databinding.ActivityChannelFinanceBinding
 import com.goldmedal.hrapp.databinding.DialogSearchableListBinding
 import com.goldmedal.hrapp.databinding.RowSearchableListBinding
 import com.goldmedal.hrapp.util.BaseGenericRecyclerViewAdapter
 import com.goldmedal.hrapp.util.Coroutines
+import com.goldmedal.hrapp.util.alertDialog
 import com.goldmedal.hrapp.util.formatCurrency
-import com.goldmedal.hrapp.util.toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import org.checkerframework.checker.units.qual.Length
 import java.util.ArrayList
 
 @AndroidEntryPoint
@@ -36,10 +36,10 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
     private var dealersList = arrayListOf <ChannelFinanceDealerItem>()
     private var userId: Int? = null
     private var cinNumber = ""
+    private var slNo: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityChannelFinanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -62,14 +62,30 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
     private fun setClickListeners() {
         binding.apply {
             filterChannelFinanceDealer.setOnClickListener { showDealerDialog() }
+
+            btnUpdateAmount.setOnClickListener {
+                val inputAmount = etUpdateAmount.text.toString().trim()
+                if (inputAmount.isNotEmpty()) {
+                    viewModel.updateCFAmount(cinNumber, userId ?: 0, inputAmount, slNo ?: 0)
+                } else {
+                    alertDialog("Please enter amount to update")
+                    etUpdateAmount.clearFocus()
+                }
+            }
         }
     }
 
     override fun onStarted(callFrom: String) {
-        if (callFrom == "channel_finance_dealers") {
-            binding.progressBar.start()
-        } else if (callFrom == "channel_finance_dealer_wise_data") {
-            binding.progressBar.start()
+        when (callFrom) {
+            "channel_finance_dealers" -> {
+                binding.progressBar.start()
+            }
+            "channel_finance_dealer_wise_data" -> {
+                binding.progressBar.start()
+            }
+            "update_channel_finance_amount" -> {
+                binding.progressBar.start()
+            }
         }
     }
 
@@ -86,12 +102,28 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
                 val dealerWiseData = _object as ArrayList<DealerWiseData>
                 if (dealerWiseData.isNotEmpty()) {
                     val dealerData = dealerWiseData[0]
+                    slNo = dealerData.slno
                     binding.apply {
                         amtGroup.visibility = View.VISIBLE
                         tvTotalLimitValue.text = formatCurrency(dealerData.totallimit)
                         tvOutstandingValue.text = formatCurrency(dealerData.outstanding)
                         tvBalanceLimitValue.text = formatCurrency(dealerData.balancelimit)
                     }
+                } else {
+                    binding.amtGroup.visibility = View.VISIBLE
+                    slNo = null
+                }
+            } else if (callFrom == "update_channel_finance_amount") {
+                binding.progressBar.stop()
+                val data = _object as ArrayList<UpdateCNAmountItem>
+                if (data.isNotEmpty()) {
+                    val message = data[0].result
+                    alertDialog(message)
+
+                    binding.etUpdateAmount.setText("")
+                    viewModel.getChannelFinanceDealerWiseData(cinNumber)
+                } else {
+                    alertDialog("Something went wrong")
                 }
             }
         }
@@ -102,10 +134,18 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
         callFrom: String,
         isNetworkError: Boolean,
     ) {
-        if (callFrom == "channel_finance_dealers") {
-            binding.progressBar.stop()
-        } else if (callFrom == "channel_finance_dealer_wise_data") {
-            binding.progressBar.stop()
+        when (callFrom) {
+            "channel_finance_dealers" -> {
+                binding.progressBar.stop()
+            }
+            "channel_finance_dealer_wise_data" -> {
+                binding.progressBar.stop()
+                binding.amtGroup.visibility = View.GONE
+                slNo = null
+            }
+            "update_channel_finance_amount" -> {
+                binding.progressBar.stop()
+            }
         }
     }
 

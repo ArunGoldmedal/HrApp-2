@@ -3,9 +3,9 @@ package com.goldmedal.hrapp.ui.auth
 import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.User
@@ -135,11 +135,11 @@ val savedPasswordOnDevice = viewModel.getUserPassword()
         forceUpdate = data?.get(0)?.forceUpdate
         playStoreVersionCode = data?.get(0)?.VersionCode?.toInt() ?: 0
         val versionName = data?.get(0)?.VersionName
+        val isCFUser = data?.get(0)?.IsCFSUser
+        Log.d("TAG", "Is CF User - $isCFUser")
 
-
-
-        viewModel.saveInitialData(playStoreVersionCode, versionName, isActive ?: true, forceUpdate
-                ?: false)
+        viewModel.saveInitialData(playStoreVersionCode, versionName, isActive ?: true,
+            forceUpdate ?: false, isCFUser ?: false)
         if (isVideoCompleted) {
             userAccountStatus()
         }

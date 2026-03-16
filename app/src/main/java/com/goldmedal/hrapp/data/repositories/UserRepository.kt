@@ -99,12 +99,16 @@ class UserRepository @Inject constructor(
     fun introInit() = prefs.introInit(true)
     fun isIntroInit() = prefs.isIntroInit()
 
-    fun saveInitialData(verCode: Int,verName: String?,isActive: Boolean,forceUpdate: Boolean) =
-            prefs.saveInitialData(verCode, verName, isActive, forceUpdate)
+    fun saveInitialData(verCode: Int,verName: String?,isActive: Boolean,forceUpdate: Boolean,
+                        isCFUser: Boolean) =
+            prefs.saveInitialData(verCode, verName, isActive, forceUpdate, isCFUser)
 
     fun getVersionCode() = prefs.getVersionCode()
     fun getForceUpdateFlag() = prefs.getForceUpdateFlag()
 
     fun saveFCMToken(token: String?) = prefs.saveFCMToken(token)
     fun getFCMToken() = prefs.getFCMToken()
+
+    fun setCFUser(isCFUser: Boolean) = prefs.setIsCFUser(isCFUser)
+    fun isCFUser() = prefs.isCFUser()
 }

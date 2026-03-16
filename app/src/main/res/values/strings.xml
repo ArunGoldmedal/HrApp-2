@@ -11,6 +11,7 @@
     <string name="holiday_list">Holiday List</string>
     <string name="sourcing_data">Add Sourcing Data</string>
     <string name="view_sourcing_data">Sourcing Data History</string>
+    <string name="channel_finance">Channel Finance</string>
 
     <!--Leave management-->
     <string name="leave_management">LEAVE MANAGEMENT</string>

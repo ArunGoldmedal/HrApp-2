@@ -135,15 +135,17 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                     setTitle("HR")
                 }
 
-                // todo - just for testing
-//                if (user.ShowLimitDetails == false) {
-//                    hideLimitDetails()
-//                }
+                if (user.ShowLimitDetails == false) {
+                    hideLimitDetails()
+                }
 
                 if (user.IsReportingPerson == 0 && user.ISHr == 0) {
                     hideAdminOptions()
                 }
 
+                if (!viewModel.isCFUser()) {
+                    hideChannelFinance()
+                }
 
             }
         })
@@ -173,6 +175,11 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                 crossCheckPlayStoreVersion()
             }
         })
+    }
+
+    fun hideChannelFinance() {
+        val navMenu = binding.navigationView.menu
+        navMenu.findItem(R.id.channelFinanceActivity).isVisible = false
     }
 
     private fun askNotificationPermission() {

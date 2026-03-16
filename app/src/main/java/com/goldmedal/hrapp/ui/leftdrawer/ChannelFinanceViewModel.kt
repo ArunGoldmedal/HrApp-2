@@ -95,4 +95,37 @@ class ChannelFinanceViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateCFAmount(cinNumber: String, userId: Int, amount: String, slNo: Int) {
+        apiListener?.onStarted("update_channel_finance_amount")
+
+        Coroutines.main {
+            try {
+                val response = repository.updateCFAmount(cinNumber, userId, amount, slNo)
+
+                if (response.statusCode == 200) {
+                    if (response.updateItemList.isNotEmpty()) {
+                        response.updateItemList.let {
+                            apiListener?.onSuccess(it, "update_channel_finance_amount")
+                            return@main
+                        }
+                    }
+                } else {
+                    val errorResponse = response.errors
+                    if (errorResponse.isNotEmpty()) {
+                        errorResponse[0].ErrorMsg?.let {
+                            apiListener?.onError(it, "update_channel_finance_amount", false)
+                        }
+                    }
+                }
+            } catch (e: ApiException) {
+                apiListener?.onError(e.message.toString(), "update_channel_finance_amount", true)
+            } catch (e: NoInternetException) {
+                print("Internet not available")
+                apiListener?.onError(e.message.toString(), "update_channel_finance_amount", true)
+            } catch (e: SocketTimeoutException) {
+                apiListener?.onError(e.message.toString(), "update_channel_finance_amount", true)
+            }
+        }
+    }
 }
