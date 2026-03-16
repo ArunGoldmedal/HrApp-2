@@ -135,9 +135,10 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                     setTitle("HR")
                 }
 
-                if (user.ShowLimitDetails == false) {
-                    hideLimitDetails()
-                }
+                // todo - just for testing
+//                if (user.ShowLimitDetails == false) {
+//                    hideLimitDetails()
+//                }
 
                 if (user.IsReportingPerson == 0 && user.ISHr == 0) {
                     hideAdminOptions()

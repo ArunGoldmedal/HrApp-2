@@ -15,6 +15,7 @@ import java.math.BigDecimal
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -128,6 +129,21 @@ fun formatNumber(value: String?): String? {
 
     }
     return strNumber
+}
+
+fun formatCurrency(value: Double?): String {
+    return try {
+        val format = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+        //format.minimumFractionDigits = 0
+        format.maximumFractionDigits = 2
+        var result = format.format(value ?: 0.0)
+        if (result.startsWith("Rs.")) {
+            result = result.replace("Rs.", "₹ ")
+        }
+        result
+    } catch (e: Exception) {
+        value?.toString() ?: "0"
+    }
 }
 
 

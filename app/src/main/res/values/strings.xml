@@ -178,5 +178,11 @@
     <string name="org_name">Company Name</string>
     <string name="org_address">Company Address</string>
 
+    <string name="total_limit">Total Limit</string>
+    <string name="rupees_amount">₹ %s</string>
+    <string name="outstanding">Outstanding</string>
+    <string name="balance_limit">Balance Limit</string>
+    <string name="update">Update</string>
+
 
 </resources>

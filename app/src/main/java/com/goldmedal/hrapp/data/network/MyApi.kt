@@ -4,6 +4,8 @@ import com.goldmedal.hrapp.data.network.responses.AgingResponse
 import com.goldmedal.hrapp.data.db.entities.ResetPasswordResponse
 import com.goldmedal.hrapp.data.db.entities.SendOtpResponse
 import com.goldmedal.hrapp.data.model.AddCompanyResponse
+import com.goldmedal.hrapp.data.model.ChannelFinanceDealerResponse
+import com.goldmedal.hrapp.data.model.ChannelFinanceDealerWiseResponse
 import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
 import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
 import com.goldmedal.hrapp.data.model.UpdateLimitResponse
@@ -17,6 +19,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
@@ -697,6 +700,15 @@ interface MyApi {
     suspend fun getBlockMonthDate(
         @Field("UserID") userId: Int
     ): Response<BlockMonthDateResponse>
+
+    @GET("events/GetCFDealerCinnumber")
+    suspend fun getCFDealer(): Response<ChannelFinanceDealerResponse>
+
+    @FormUrlEncoded
+    @POST("events/GetChannelFinanceData")
+    suspend fun getCFDealerWiseData(
+        @Field("CIN") cinNumber: String
+    ): Response<ChannelFinanceDealerWiseResponse>
 
     companion object {
         operator fun invoke(

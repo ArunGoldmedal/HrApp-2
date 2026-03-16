@@ -21,10 +21,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-
-    <!--Required if app targets Android 13-->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- Required if app targets Android 13 -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
@@ -210,9 +207,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.auth.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme"
-            android:exported="true">
+            android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -227,7 +224,11 @@
             android:name=".ui.auth.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme" />
-        <activity android:name=".ui.dashboard.TransitionsActivity" /> <!-- <receiver -->
+        <activity android:name=".ui.dashboard.TransitionsActivity" />
+        <activity
+            android:name=".ui.leftdrawer.ChannelFinanceActivity"
+            android:exported="false" />
+        <!-- <receiver -->
         <!-- android:name=".MySMSBroadcastReceiver" -->
         <!-- android:exported="true"> -->
         <!-- <intent-filter> -->
@@ -260,8 +261,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-<!--        <receiver android:name=".common.NotificationReceiver" />-->
-
     </application>
 
 </manifest>
