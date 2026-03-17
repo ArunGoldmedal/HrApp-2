@@ -36,6 +36,7 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
     private var dealersList = arrayListOf <ChannelFinanceDealerItem>()
     private var userId: Int? = null
     private var cinNumber = ""
+    private var totalLimit: Double = 0.0
     private var slNo: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,11 +66,12 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
 
             btnUpdateAmount.setOnClickListener {
                 val inputAmount = etUpdateAmount.text.toString().trim()
-                if (inputAmount.isNotEmpty()) {
-                    viewModel.updateCFAmount(cinNumber, userId ?: 0, inputAmount, slNo ?: 0)
-                } else {
+                if (inputAmount.isEmpty()) {
                     alertDialog("Please enter amount to update")
-                    etUpdateAmount.clearFocus()
+                } else if (inputAmount.toDouble() > totalLimit) {
+                    alertDialog("Amount should not be greater than total limit")
+                } else {
+                    viewModel.updateCFAmount(cinNumber, userId ?: 0, inputAmount, slNo ?: 0)
                 }
             }
         }
@@ -103,6 +105,7 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
                 if (dealerWiseData.isNotEmpty()) {
                     val dealerData = dealerWiseData[0]
                     slNo = dealerData.slno
+                    totalLimit = dealerData.totallimit
                     binding.apply {
                         amtGroup.visibility = View.VISIBLE
                         tvTotalLimitValue.text = formatCurrency(dealerData.totallimit)
@@ -121,6 +124,7 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
                     alertDialog(message)
 
                     binding.etUpdateAmount.setText("")
+                    binding.etUpdateAmount.clearFocus()
                     viewModel.getChannelFinanceDealerWiseData(cinNumber)
                 } else {
                     alertDialog("Something went wrong")

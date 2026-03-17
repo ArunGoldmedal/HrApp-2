@@ -55,7 +55,8 @@ data class User(
         val Sublocation: String? = null,
         val UserID: Int? = null,
         val ShowLimitDetails: Boolean? = false,
-        val joiningDate: String? = null
+        val joiningDate: String? = null,
+        val IsCFSUser: Boolean? = false
 
 //        val ShowLimitDetails: Boolean? = false,
 

@@ -82,21 +82,20 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
         initialApiCalled = true
     }
 
-
     private fun comparePassword() {
-val savedPasswordOnDevice = viewModel.getUserPassword()
+        val savedPasswordOnDevice = viewModel.getUserPassword()
 
         //Password was not found re-direct to Login screen
-        if(savedPasswordOnDevice == null){
+        if (savedPasswordOnDevice == null) {
             viewModel.logoutUser()
-        }else{
+        } else {
             if (strUserPasswordOnServer == savedPasswordOnDevice) {
                 //Account is Active,Proceed
                 Intent(this@SplashActivity, DashboardActivity::class.java).also {
                     it.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(it)
                 }
-            }else{
+            } else {
                 //User has been compromised
                 viewModel.logoutUser()
             }
@@ -109,8 +108,8 @@ val savedPasswordOnDevice = viewModel.getUserPassword()
         if (isIntroScreenShown) {
             if (user != null) {
                 if (isActive == true) {
-                        //Check If Password was changed
-                            comparePassword()
+                    //Check If Password was changed
+                    comparePassword()
                 } else {
                     //Impostor was Ejected
                     toast("${user?.FirstName}, Your Account has been Disabled.")
@@ -138,8 +137,10 @@ val savedPasswordOnDevice = viewModel.getUserPassword()
         val isCFUser = data?.get(0)?.IsCFSUser
         Log.d("TAG", "Is CF User - $isCFUser")
 
-        viewModel.saveInitialData(playStoreVersionCode, versionName, isActive ?: true,
-            forceUpdate ?: false, isCFUser ?: false)
+        viewModel.saveInitialData(
+            playStoreVersionCode, versionName, isActive ?: true,
+            forceUpdate ?: false, isCFUser ?: false
+        )
         if (isVideoCompleted) {
             userAccountStatus()
         }

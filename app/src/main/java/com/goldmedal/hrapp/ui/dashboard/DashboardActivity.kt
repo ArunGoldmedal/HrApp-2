@@ -31,11 +31,12 @@ import com.goldmedal.hrapp.inappupdates.UpdateManager
 import com.goldmedal.hrapp.inappupdates.UpdateManagerConstant
 import com.goldmedal.hrapp.ui.auth.*
 import com.goldmedal.hrapp.ui.dashboard.notification.NotificationActivity
-import com.goldmedal.hrapp.util.alertDialog
 import com.goldmedal.hrapp.util.shortToast
 import com.goldmedal.hrapp.util.toast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import androidx.core.net.toUri
+import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager
 
 @AndroidEntryPoint
 class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancelUpdate {
@@ -64,11 +65,8 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
     }
 
     companion object {
-
-
         private const val TAG = "DashboardActivity"
         private const val MEGABYTES = 1024L * 1024L
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +78,6 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         setSupportActionBar(binding.appBarHomeScreen.appBarToolbar.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-
         mToast = Toast.makeText(this@DashboardActivity, R.string.press_back_again, Toast.LENGTH_SHORT)
 
         val toggle = ActionBarDrawerToggle(
@@ -89,13 +86,11 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navFragment) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.appBarHomeScreen.bottomNavContent.bottomNav.setupWithNavController(navController)
         binding.navigationView.setupWithNavController(navController)
-
 
         val logoutItem = binding.navigationView.menu.findItem(R.id.actionLogout)
         logoutItem.setOnMenuItemClickListener {
@@ -111,7 +106,6 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         playStoreVersionCode = viewModel.getVersionCode() ?: 1
         forceUpdate = viewModel.getForceUpdateFlag()
 
-
         // Initialize the Update Manager with the Activity and the Update Mode
         mUpdateManager = UpdateManager.Builder(this)
 
@@ -121,7 +115,6 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                 mHeaderBinding.textViewMsg.text = "Hello, " + user.FirstName
 
                 val avatar = if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
-
 
                 Glide.with(this)
                         .load(user.ProfilePicture)
@@ -143,10 +136,9 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                     hideAdminOptions()
                 }
 
-                if (!viewModel.isCFUser()) {
+                if (!viewModel.isCFUser() && user.IsCFSUser == false) {
                     hideChannelFinance()
                 }
-
             }
         })
 
@@ -175,6 +167,20 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                 crossCheckPlayStoreVersion()
             }
         })
+
+        //testUpdate()
+    }
+
+    private fun testUpdate() {
+        val fakeUpdateManager = FakeAppUpdateManager(this)
+        mUpdateManager?.setAppUpdateManager(fakeUpdateManager)
+
+        fakeUpdateManager.setUpdateAvailable(101); // High version code
+
+        fakeUpdateManager.userAcceptsUpdate();
+        fakeUpdateManager.downloadStarts();
+
+        fakeUpdateManager.downloadCompletes();
     }
 
     fun hideChannelFinance() {
@@ -210,8 +216,6 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         }
     }
 
-
-
     override fun onResume() {
         super.onResume()
         // Check App Update here
@@ -220,9 +224,6 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         }
 
     }
-
-
-
 
     private fun logout() {
         viewModel.logoutUser()
@@ -323,19 +324,17 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         val pInfo: PackageInfo = packageManager.getPackageInfo(packageName, 0)
         val longVersionCode = PackageInfoCompat.getLongVersionCode(pInfo)
         return longVersionCode.toInt()
-
     }
-
-
 
     override fun pressedNoThanks() {}
 
     override fun pressedUpdate() {
         val appPackageName = packageName
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+            startActivity(Intent(Intent.ACTION_VIEW, "market://details?id=$appPackageName".toUri()))
         } catch (anfe: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+            startActivity(Intent(Intent.ACTION_VIEW,
+                "https://play.google.com/store/apps/details?id=$appPackageName".toUri()))
         }
     }
 

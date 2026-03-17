@@ -66,6 +66,12 @@ public class UpdateManager implements LifecycleObserver {
         return this;
     }
 
+    // For testing purposes
+    public void setAppUpdateManager(AppUpdateManager manager) {
+        this.appUpdateManager = manager;
+        this.appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+    }
+
     public void start() {
         if (mode == FLEXIBLE) {
             setUpListener();
