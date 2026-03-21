@@ -136,8 +136,8 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
                     hideAdminOptions()
                 }
 
-                if (!viewModel.isCFUser() && user.IsCFSUser == false) {
-                    hideChannelFinance()
+                if (viewModel.isCFUser() || user.IsCFSUser == true) {
+                    showChannelFinance()
                 }
             }
         })
@@ -183,9 +183,9 @@ class DashboardActivity : AppCompatActivity(),  UpdateAppDialogFragment.OnCancel
         fakeUpdateManager.downloadCompletes();
     }
 
-    fun hideChannelFinance() {
+    fun showChannelFinance() {
         val navMenu = binding.navigationView.menu
-        navMenu.findItem(R.id.channelFinanceActivity).isVisible = false
+        navMenu.findItem(R.id.channelFinanceActivity).isVisible = true
     }
 
     private fun askNotificationPermission() {

@@ -86,7 +86,8 @@
                 android:title="@string/limit_details" />
             <item
                 android:id="@+id/channelFinanceActivity"
-                android:title="@string/channel_finance" />
+                android:title="@string/channel_finance"
+                android:visible="false"/>
         </menu>
     </item>
 
