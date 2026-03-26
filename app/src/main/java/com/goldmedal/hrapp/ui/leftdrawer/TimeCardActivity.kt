@@ -4,9 +4,9 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
@@ -17,7 +17,6 @@ import com.goldmedal.hrapp.ui.dashboard.attendance.AttendanceFragment.Companion.
 import com.goldmedal.hrapp.ui.dashboard.attendance.AttendanceFragment.Companion.TAG_CHECKOUT_MISSING
 import com.goldmedal.hrapp.ui.dashboard.attendance.AttendanceFragment.Companion.TAG_PRESENT
 import com.goldmedal.hrapp.ui.dashboard.attendance.AttendanceViewModel
-import com.goldmedal.hrapp.ui.dashboard.leave.FullscreenImageActivity
 import com.goldmedal.hrapp.ui.dialogs.RegularizeAttendanceDialog
 import com.goldmedal.hrapp.util.*
 import com.xwray.groupie.ExpandableGroup
@@ -52,7 +51,7 @@ class TimeCardActivity : BaseActivity(), ApiStageListener<Any>,AdapterCallbackLi
 
         maxStartDate = Calendar.getInstance()
         minEndDate = Calendar.getInstance()
-        minEndDate.add(Calendar.MONTH, -1)
+//        minEndDate.add(Calendar.MONTH, -1)
         val calendar = Calendar.getInstance()
         val today = calendar.time
 
@@ -107,7 +106,12 @@ class TimeCardActivity : BaseActivity(), ApiStageListener<Any>,AdapterCallbackLi
             val mDay = minEndDate[Calendar.DAY_OF_MONTH]
 
             val previousCalendar = Calendar.getInstance()
-            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+            val minDay = getMinDateToApplyLeaves(
+                previousCalendar[Calendar.YEAR],
+                previousCalendar[Calendar.MONTH] + 1,
+                previousCalendar[Calendar.DAY_OF_MONTH])
+//            Log.d("TAG", "Min Day - $minDay, Year-$mYear, Month-$mMonth, Day-$mDay")
+
             previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
             val startDatePicker = DatePickerDialog(this,
@@ -131,6 +135,7 @@ class TimeCardActivity : BaseActivity(), ApiStageListener<Any>,AdapterCallbackLi
             if (viewModel.strEndDate?.isNotEmpty() == true) {
                 startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
             }
+//            Log.d("TAG", "End Date - ${viewModel.strStartDate}")
             startDatePicker.show()
         }
 
