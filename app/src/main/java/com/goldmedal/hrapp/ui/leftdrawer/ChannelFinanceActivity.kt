@@ -25,6 +25,7 @@ import com.goldmedal.hrapp.util.BaseGenericRecyclerViewAdapter
 import com.goldmedal.hrapp.util.Coroutines
 import com.goldmedal.hrapp.util.alertDialog
 import com.goldmedal.hrapp.util.formatCurrency
+import com.goldmedal.hrapp.util.snackbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
@@ -78,29 +79,18 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
     }
 
     override fun onStarted(callFrom: String) {
-        when (callFrom) {
-            "channel_finance_dealers" -> {
-                binding.progressBar.start()
-            }
-            "channel_finance_dealer_wise_data" -> {
-                binding.progressBar.start()
-            }
-            "update_channel_finance_amount" -> {
-                binding.progressBar.start()
-            }
-        }
+        binding.viewCommon.showProgressBar()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
         Coroutines.main {
+            binding.viewCommon.hide()
             if (callFrom == "channel_finance_dealers") {
-                binding.progressBar.stop()
                 dealersList = _object as ArrayList<ChannelFinanceDealerItem>
                 if (dealersList.isNotEmpty()) {
                     showDealerDialog()
                 }
             } else if (callFrom == "channel_finance_dealer_wise_data") {
-                binding.progressBar.stop()
                 val dealerWiseData = _object as ArrayList<DealerWiseData>
                 if (dealerWiseData.isNotEmpty()) {
                     val dealerData = dealerWiseData[0]
@@ -108,6 +98,8 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
                     totalLimit = dealerData.totallimit
                     binding.apply {
                         amtGroup.visibility = View.VISIBLE
+                        tvAgingAmtValue.text = formatCurrency(dealerData.outstandingAmount)
+                        tvAccountFrozenValue.text = dealerData.accountFrozen
                         tvTotalLimitValue.text = formatCurrency(dealerData.totallimit)
                         tvOutstandingValue.text = formatCurrency(dealerData.outstanding)
                         tvBalanceLimitValue.text = formatCurrency(dealerData.balancelimit)
@@ -117,7 +109,6 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
                     slNo = null
                 }
             } else if (callFrom == "update_channel_finance_amount") {
-                binding.progressBar.stop()
                 val data = _object as ArrayList<UpdateCNAmountItem>
                 if (data.isNotEmpty()) {
                     val message = data[0].result
@@ -138,23 +129,22 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
         callFrom: String,
         isNetworkError: Boolean,
     ) {
-        when (callFrom) {
-            "channel_finance_dealers" -> {
-                binding.progressBar.stop()
-            }
-            "channel_finance_dealer_wise_data" -> {
-                binding.progressBar.stop()
-                binding.amtGroup.visibility = View.GONE
-                slNo = null
-            }
-            "update_channel_finance_amount" -> {
-                binding.progressBar.stop()
-            }
+        binding.viewCommon.hide()
+        if (callFrom == "channel_finance_dealer_wise_data") {
+            binding.amtGroup.visibility = View.GONE
+            slNo = null
         }
+
+        if (isNetworkError) {
+            binding.viewCommon.showNoInternet()
+        } else {
+            binding.viewCommon.showNoDataImage()
+        }
+        binding.rootLayout.snackbar(message)
     }
 
     override fun onValidationError(message: String, callFrom: String) {
-        TODO("Not yet implemented")
+        binding.rootLayout.snackbar(message)
     }
 
     private fun showDealerDialog() {

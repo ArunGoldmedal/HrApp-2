@@ -34,5 +34,9 @@ data class DealerWiseData(
     @SerializedName("totallimit")
     val totallimit: Double,
     @SerializedName("typecat")
-    val typecat: Int
+    val typecat: Int,
+    @SerializedName("AccountFrozon")
+    val accountFrozen: String,
+    @SerializedName("OutstandingAmount")
+    val outstandingAmount: Double
 )

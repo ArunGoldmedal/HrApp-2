@@ -184,6 +184,8 @@
     <string name="outstanding">Outstanding</string>
     <string name="balance_limit">Balance Limit</string>
     <string name="update">Update</string>
+    <string name="account_frozen">Account Frozen</string>
+    <string name="aging_amount">Aging Amount</string>
 
 
 </resources>
