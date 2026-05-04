@@ -629,6 +629,10 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                 homeFragmentBinding.txtCompanyHoliday.text = formatNumber(summaryData?.CompanyHoliday.toString())
                 homeFragmentBinding.txtWeekend.text = formatNumber(summaryData?.WeekendDays.toString())
             }
+
+            if (callFrom == "restrict_checkin") {
+                showMap("IN")
+            }
         }
     }
 
@@ -877,13 +881,23 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
             }
         }
 
+        if (callFrom == "restrict_checkin") {
+            requireContext().alertDialog(message)
+        }
+
     }
 
     override fun onClick(v: View?) {
         val id = v?.id
 
         if (id == R.id.btnCheckIn) {
-            showMap("IN")
+         //   showMap("IN")
+
+            viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
+                if (user != null) {
+                    viewModel.restrictEmployeeToCheckIn(user.UserID)
+                }
+            }
         } else if (id == R.id.btnCheckout) {
             showMap("OUT")
         } else if (id == R.id.llRequests1) {

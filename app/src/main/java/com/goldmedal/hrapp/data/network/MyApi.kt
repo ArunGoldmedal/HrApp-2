@@ -12,6 +12,7 @@ import com.goldmedal.hrapp.data.model.UpdateCNAmountResponse
 import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
+import com.goldmedal.hrapp.data.network.GlobalConstant.TEST_BASE_URL
 import com.goldmedal.hrapp.data.network.responses.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -719,6 +720,13 @@ interface MyApi {
         @Field("Amount") amount: String,
         @Field("Slno") slNo: Int
     ): Response<UpdateCNAmountResponse>
+
+    @FormUrlEncoded
+    @POST("punchdata/RestrictEmployeeToCheckIn")
+    suspend fun restrictEmployeeToCheckIn(
+        @Field("UserID") userId: Int
+    ): Response<DefaultMessageResponse>
+
 
     companion object {
         operator fun invoke(

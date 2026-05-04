@@ -10,6 +10,7 @@ object GlobalConstant {
 
     const val TYPE_NO_DATA = 10000
     const val BASE_URL = "https://api.goldmedalindia.in/api/"
+    const val  TEST_BASE_URL ="https://goldapi-uat.goldmedalindia.in/api/hrm/v1/"
     const val HRM_BASE_URL = "https://goldapi.goldmedalindia.in/api/hrm/v1.0/"
     const val SUCCESS_CODE = "200"
     const val NO_DATA_CODE = "2002"
