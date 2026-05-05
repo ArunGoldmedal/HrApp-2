@@ -42,9 +42,6 @@ fun formatDateString(rawString: String, inputFormat: String, outputFormat: Strin
 }
 
 fun getCurrentDateTime(): Date {
-
-
-
     return Calendar.getInstance().time
 }
 

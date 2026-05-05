@@ -747,7 +747,7 @@ interface MyApi {
 
             return Retrofit.Builder()
                     .client(okkHttpclient)
-                    .baseUrl(HRM_BASE_URL)
+                    .baseUrl(GlobalConstant.BASE_URL_MAIN)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(MyApi::class.java)
