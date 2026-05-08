@@ -325,12 +325,20 @@ class MapsActivity : BaseActivity(), View.OnClickListener, ConnectionCallbacks, 
     }
 
     // GoogleApiClient.ConnectionCallbacks connected
+    // fixed: even if isGeofence is false the geofencing was visible
     override fun onConnected(bundle: Bundle?) {
         Log.i(TAG, "onConnected()")
         lastKnownLocation
 
-        saveGeofence()
-        recoverGeofenceMarker()
+        if (isGeoFenceLock == true) {
+            saveGeofence()
+            recoverGeofenceMarker()
+        } else {
+            clearGeofence()
+        }
+
+//        saveGeofence()
+//        recoverGeofenceMarker()
     }
 
     // GoogleApiClient.ConnectionCallbacks suspended
@@ -564,9 +572,19 @@ class MapsActivity : BaseActivity(), View.OnClickListener, ConnectionCallbacks, 
 
     private fun checkIfWithinGeofenceRange(): Boolean {
 
+        Log.d(
+            "LOcation",
+            "checkIfWithinGeofenceRange: officeLatitude='$officeLatitude', officeLongitude='$officeLongitude'"
+        )
 
+        Log.d(
+            "LOcation",
+            "checkIfWithinGeofenceRange: lastLocation=(${lastLocation?.latitude}, ${lastLocation?.longitude})"
+        )
         val results1 = FloatArray(1)
         Location.distanceBetween(lastLocation!!.latitude, lastLocation!!.longitude, officeLatitude!!.toDouble(), officeLongitude!!.toDouble(), results1)
+
+
         val distanceInMeters = results1[0]
 
         return distanceInMeters < GEOFENCE_RADIUS
