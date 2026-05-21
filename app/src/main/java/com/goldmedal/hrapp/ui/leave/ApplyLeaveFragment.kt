@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.goldmedal.hrapp.R
@@ -33,6 +34,7 @@ import com.goldmedal.hrapp.data.network.GlobalConstant
 import com.goldmedal.hrapp.data.network.GlobalConstant.IMAGE_DIRECTORY
 import com.goldmedal.hrapp.data.network.responses.BlockMonthDateData
 import com.goldmedal.hrapp.databinding.ApplyLeaveDetailBinding
+import com.goldmedal.hrapp.ui.dashboard.attendance.AttendanceViewModel
 import com.goldmedal.hrapp.util.*
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
@@ -44,13 +46,15 @@ import java.util.*
 class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener, ImageSelectionListener,
     EasyPermissions.PermissionCallbacks {
     private val applyLeaveModel: LeaveViewModel by viewModels()
-
+    private val viewModel: AttendanceViewModel by activityViewModels()
     private lateinit var applyLeaveBinding: ApplyLeaveDetailBinding
     private lateinit var minEndDate: Calendar
     private lateinit var maxStartDate: Calendar
     private var dayTypeSegmentIndex: Int = 0
     private var totalLeavesCount: String? = null
     private lateinit var mBlockMonthDateData: BlockMonthDateData
+    private var leaveCount = ""
+    private var leaveId = ""
 
 
     override fun onCreateView(
@@ -70,6 +74,13 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
         applyLeaveBinding.applyLeaveModel = applyLeaveModel
         applyLeaveModel.apiListener = this
         applyLeaveModel.imageSelectionListener = this
+
+        // Use post{} so data binding executes first, then our listener overrides it
+        applyLeaveBinding.btnSubmit.post {
+            applyLeaveBinding.btnSubmit.setOnClickListener {
+                onApplyLeaveClicked()
+            }
+        }
 
         applyLeaveModel.getLoggedInUser().observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
@@ -145,7 +156,11 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
             applyLeaveBinding.tvDuration.text = applyLeaveModel.strActualLeaveDays
         }
         if (callFrom == "leaveType") {
-            bindUI(_object as List<LeaveTypeData?>)
+            //bindUI(_object as List<LeaveTypeData?>)
+            val leaveTypeData = _object as List<LeaveTypeData>
+            leaveId = leaveTypeData[0].LeaveTypeID.toString()
+            leaveCount = leaveTypeData[0].LeaveTypeName?.substringAfter("~", "")?.trim().toString()
+            bindUI(leaveTypeData)
         }
 
         if (callFrom == "applyLeave") {
@@ -189,22 +204,9 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
         when (id) {
             R.id.rlSelectStartDate -> {
 
-
-                // Get Current Date
-//                val c = Calendar.getInstance()
                 mYear = minEndDate[Calendar.YEAR]
                 mMonth = minEndDate[Calendar.MONTH]
                 mDay = minEndDate[Calendar.DAY_OF_MONTH]
-
-                val previousCalendar = Calendar.getInstance()
-                val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
-                if (::mBlockMonthDateData.isInitialized) {
-                    previousCalendar.set(Calendar.DAY_OF_MONTH, mBlockMonthDateData.blockDay)
-                    previousCalendar.set(Calendar.YEAR, mBlockMonthDateData.blockYear)
-                    previousCalendar.set(Calendar.MONTH, mBlockMonthDateData.blockMonth - 1)
-                } else {
-                    previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
-                }
 
                 val startDatePicker = DatePickerDialog(requireContext(),
                         { view, year, monthOfYear, dayOfMonth ->
@@ -212,24 +214,32 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
                             minEndDate.set(year, monthOfYear, dayOfMonth)
                             applyLeaveModel.strStartDate = (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
 
-                            if (applyLeaveModel.strEndDate.isNullOrEmpty()) {
-                                applyLeaveBinding.rootLayout.snackbar("Please Select End Date")
-                            } else {
-                                applyLeaveModel.appliedLeavesCount()
-                            }
+                            // Reset end date and duration whenever start date changes
+                            applyLeaveModel.strEndDate = ""
+                            applyLeaveModel.strActualLeaveDays = "0"
+                            applyLeaveModel.strAppliedLeaveDays = "0"
+                            applyLeaveBinding.tvDuration.text = "-"
+                            applyLeaveBinding.tvSelectEndDate.text = "Select"
+                            maxStartDate = Calendar.getInstance()
+
+                            applyLeaveBinding.rootLayout.snackbar("Please Select End Date")
 
                         }, mYear, mMonth, mDay)
-                startDatePicker.datePicker.minDate = previousCalendar.timeInMillis
 
-                if (dayTypeSegmentIndex > 0) {
-                    if (applyLeaveModel.strEndDate?.isNotEmpty() == true) {
-                        startDatePicker.datePicker.minDate = maxStartDate.timeInMillis
-                        startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
-                    }
+                //Log.d("monStartLeave", "monthStartDate: ${viewModel.monthStartDate}")
+                //Log.d("monStartLeave", "monthEndDate: ${viewModel.monthEndDate}")
+
+                // Set minDate from API (monthStartDate), fallback to today
+                val startMinCalendar = if (!viewModel.monthStartDate.isNullOrEmpty()) {
+                    getCalendarFromDateTimeString(viewModel.monthStartDate!!)
                 } else {
-                    if (applyLeaveModel.strEndDate?.isNotEmpty() == true) {
-                        startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
-                    }
+                    Calendar.getInstance()
+                }
+                startDatePicker.datePicker.minDate = startMinCalendar.timeInMillis
+
+                // Set maxDate from API (monthEndDate), fallback to no max
+                if (!viewModel.monthEndDate.isNullOrEmpty()) {
+                    startDatePicker.datePicker.maxDate = getCalendarFromDateTimeString(viewModel.monthEndDate!!).timeInMillis
                 }
 
                 startDatePicker.show()
@@ -240,40 +250,33 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
                 mMonth = maxStartDate[Calendar.MONTH]
                 mDay = maxStartDate[Calendar.DAY_OF_MONTH]
 
-                val previousCalendar = Calendar.getInstance()
-                val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
-                if (::mBlockMonthDateData.isInitialized) {
-                    previousCalendar.set(Calendar.DAY_OF_MONTH, mBlockMonthDateData.blockDay)
-                    previousCalendar.set(Calendar.YEAR, mBlockMonthDateData.blockYear)
-                    previousCalendar.set(Calendar.MONTH, mBlockMonthDateData.blockMonth - 1)
-                } else {
-                    previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
-                }
-
                 val endDatePicker = DatePickerDialog(requireContext(),
                         OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                             applyLeaveBinding.tvSelectEndDate.text = String.format(Locale.getDefault(), "%d/%d/%d", dayOfMonth, monthOfYear + 1, year)
                             maxStartDate.set(year, monthOfYear, dayOfMonth)
                             applyLeaveModel.strEndDate = (monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
                             if (applyLeaveModel.strStartDate.isNullOrEmpty()) {
+                                applyLeaveBinding.tvDuration.text = "-"
                                 applyLeaveBinding.rootLayout.snackbar("Please Select Start Date")
                             } else {
                                 applyLeaveModel.appliedLeavesCount()
                             }
                         }, mYear, mMonth, mDay)
 
+                // Set minDate: start date if selected, else monthStartDate, else today
+                if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
+                    endDatePicker.datePicker.minDate = minEndDate.timeInMillis
+                } else if (!viewModel.monthStartDate.isNullOrEmpty()) {
+                    endDatePicker.datePicker.minDate = getCalendarFromDateTimeString(viewModel.monthStartDate!!).timeInMillis
+                }
 
-                if (dayTypeSegmentIndex > 0) {
-                    if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
-                        endDatePicker.datePicker.minDate = minEndDate.timeInMillis
-                        endDatePicker.datePicker.maxDate = minEndDate.timeInMillis
-                    }
-                } else {
-                    if (applyLeaveModel.strStartDate?.isNotEmpty() == true) {
-                        endDatePicker.datePicker.minDate = minEndDate.timeInMillis
-                    } else {
-                        endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
-                    }
+                // Set maxDate from API (monthEndDate)
+                if (!viewModel.monthEndDate.isNullOrEmpty()) {
+                    endDatePicker.datePicker.maxDate = getCalendarFromDateTimeString(viewModel.monthEndDate!!).timeInMillis
+                }
+
+                if (dayTypeSegmentIndex > 0 && applyLeaveModel.strStartDate?.isNotEmpty() == true) {
+                    endDatePicker.datePicker.maxDate = minEndDate.timeInMillis
                 }
 
                 endDatePicker.show()
@@ -497,6 +500,31 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
 
     override fun onValidationError(message: String, callFrom: String) {
         applyLeaveBinding.rootLayout.snackbar(message)
+    }
+
+    fun onApplyLeaveClicked() {
+        // If leave reason not yet selected, let ViewModel handle all validations in order
+        // (start date → end date → leave reason → duration)
+        if (applyLeaveModel.strLeaveReasonId.isNullOrEmpty() || applyLeaveModel.strLeaveReasonId == "-1") {
+            applyLeaveModel.onApplyLeavesButtonClick(applyLeaveBinding.root)
+            return
+        }
+
+        // Leave reason is selected — check leave balance only for leaveId == "3"
+        val duration = applyLeaveModel.strActualLeaveDays?.toDoubleOrNull() ?: 0.0
+        val totalApplied = applyLeaveModel.strAppliedLeaveDays?.toDoubleOrNull() ?: 0.0
+        val availableLeaves = leaveCount.toDoubleOrNull() ?: 0.0
+
+        if (leaveId == "3" && leaveCount.isNotEmpty() && (duration > availableLeaves || totalApplied > availableLeaves)) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Limit Exceeded")
+                .setMessage("You can apply a maximum of $availableLeaves days for this leave type. Please adjust your selected dates.")
+                .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+                .show()
+            return
+        }
+        // All other validations are handled in ViewModel
+        applyLeaveModel.onApplyLeavesButtonClick(applyLeaveBinding.root)
     }
 
     override fun onRequestPermissionsResult(

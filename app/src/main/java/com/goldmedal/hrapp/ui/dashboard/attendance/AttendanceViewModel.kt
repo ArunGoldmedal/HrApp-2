@@ -24,6 +24,10 @@ class AttendanceViewModel @Inject constructor(
     var userId: Int? = null
     var strStartDate: String? = null
     var strEndDate: String? = null
+    var monthStartDate: String? = null
+    var monthEndDate: String? = null
+    var monthStartDateRegularization: String? = null
+    var monthEndDateRegularization: String? = null
 
     // - - - - -  ge t list of all attendance till date ---- - - - - - - - - -
     val attendanceData by lazyDeferred {

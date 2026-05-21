@@ -143,12 +143,13 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
                         .into(attFragmentBinding.imgProfilePic)
 
                     Coroutines.main {
+                        if (!isAdded || view == null) return@main
                         attFragmentBinding.progressBar.start()
                         val attendance = viewModel.attendanceData.await()
 
-                        //If used viewLifecycleOwner app crashes ,let context be this
+                        //If used viewLifecycleOwner app crashes, let context be this
                         attendance.observe(viewLifecycleOwner) { it ->
-
+                            if (!isAdded || view == null) return@observe
                             attFragmentBinding.progressBar.stop()
                             if (it != null) {
                                 attendanceData = it
