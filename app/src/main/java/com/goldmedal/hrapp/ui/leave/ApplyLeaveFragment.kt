@@ -515,7 +515,7 @@ class ApplyLeaveFragment : Fragment(), ApiStageListener<Any>, View.OnClickListen
         val totalApplied = applyLeaveModel.strAppliedLeaveDays?.toDoubleOrNull() ?: 0.0
         val availableLeaves = leaveCount.toDoubleOrNull() ?: 0.0
 
-        if (leaveId == "3" && leaveCount.isNotEmpty() && (duration > availableLeaves || totalApplied > availableLeaves)) {
+        if (leaveId == "3" && leaveCount.isNotEmpty() && duration > availableLeaves) {
             AlertDialog.Builder(requireContext())
                 .setTitle("Limit Exceeded")
                 .setMessage("You can apply a maximum of $availableLeaves days for this leave type. Please adjust your selected dates.")
