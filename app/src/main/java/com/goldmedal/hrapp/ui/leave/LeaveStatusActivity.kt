@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.LeaveRecordData
@@ -20,22 +21,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.leave_status_activity.*
 import org.angmarch.views.OnSpinnerItemSelectedListener
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
-class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRecordItem.OnCancelClickedListener {
-
-
-
-
+class LeaveStatusActivity : BaseActivity(), ApiStageListener<Any>,  LeaveRecordItem.OnCancelClickedListener {
     private val leaveModel: LeaveViewModel by viewModels()
-
-    private lateinit var leaveStatusActivityBinding: LeaveStatusActivityBinding 
-
+    private lateinit var leaveStatusActivityBinding: LeaveStatusActivityBinding
     private lateinit var mAdapter: GroupAdapter<GroupieViewHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +37,6 @@ class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRe
 
         leaveStatusActivityBinding = DataBindingUtil.setContentView(this, R.layout.leave_status_activity)
         leaveStatusActivityBinding.viewmodel = leaveModel
-
-
-
 
         initSpinner()
         leaveModel.getLoggedInUser().observe(this, Observer { user ->
@@ -65,12 +56,10 @@ class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRe
         val previousYear = "${previousYearSplit[0].toInt() - 1}-${previousYearSplit[1].toInt() - 1}"
         val penultimateYear = "${previousYearSplit[0].toInt() - 2}-${previousYearSplit[1].toInt() - 2}"
 
-
-
         val dataset: List<String> = LinkedList(listOf(fiscalYear, previousYear, penultimateYear))
-        spinner_select_year?.attachDataSource(dataset)
+        leaveStatusActivityBinding.spinnerSelectYear.attachDataSource(dataset)
 
-        spinner_select_year?.onSpinnerItemSelectedListener =
+        leaveStatusActivityBinding.spinnerSelectYear.onSpinnerItemSelectedListener =
                 OnSpinnerItemSelectedListener { parent, view, position, id ->
                     val item: String = parent.getItemAtPosition(position) as String
                     leaveModel.getLoggedInUser().observe(this, Observer { user ->
@@ -101,7 +90,7 @@ class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRe
             addAll(toLeaveRecord)
         }
 
-        rvList.apply {
+        leaveStatusActivityBinding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter
@@ -109,8 +98,7 @@ class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRe
     }
 
     override fun onStarted(callFrom: String) {
-        view_common?.showProgressBar()
-
+        leaveStatusActivityBinding.viewCommon.showProgressBar()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
@@ -119,32 +107,30 @@ class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRe
 
             val data = _object as List<LeaveRecordData?>
             if (data.isNullOrEmpty()) {
-                view_common?.showNoData()
+                leaveStatusActivityBinding.viewCommon.showNoData()
             }else{
-                view_common?.hide()
+                leaveStatusActivityBinding.viewCommon.hide()
             }
             bindUI(data)
 
         } else if (callFrom.equals("leaveCancel")) {
 
-            view_common?.hide()
+            leaveStatusActivityBinding.viewCommon.hide()
             val data = _object as List<RespondLeavesData>
             data[0].StatusMessage?.let { toast(it) }
             finish()
         }
-
-
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
 
         if (isNetworkError) {
-            view_common?.showNoInternet()
+            leaveStatusActivityBinding.viewCommon.showNoInternet()
         } else {
-            view_common?.showNoData()
+            leaveStatusActivityBinding.viewCommon.showNoData()
         }
         bindUI(ArrayList())
-        root_layout?.snackbar(message)
+        leaveStatusActivityBinding.rootLayout.snackbar(message)
     }
 
     override fun onCancelClicked(item: LeaveRecordData?) {
@@ -170,8 +156,7 @@ class LeaveStatusActivity : AppCompatActivity(), ApiStageListener<Any>,  LeaveRe
     }
 
     override fun onValidationError(message: String, callFrom: String) {
-        root_layout?.snackbar(message)
+        leaveStatusActivityBinding.rootLayout.snackbar(message)
     }
-
 
 }

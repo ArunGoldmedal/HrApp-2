@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ZoomOutPageTransformer
 import com.goldmedal.hrapp.data.model.LeaveRequestsData
@@ -23,7 +24,7 @@ import java.util.*
 private const val NUM_PAGES = 3
 
 @AndroidEntryPoint
-class TeamRequestsArchiveActivity : AppCompatActivity(), ApiStageListener<Any>{
+class TeamRequestsArchiveActivity : BaseActivity(), ApiStageListener<Any>{
 
 
 

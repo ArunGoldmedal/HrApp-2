@@ -74,6 +74,11 @@
         android:label="activity_acounts_detail"
         tools:layout="@layout/activity_accounts_detail" />
     <activity
+        android:id="@+id/channelFinanceActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.ChannelFinanceActivity"
+        android:label="Channel Finance"
+        tools:layout="@layout/activity_channel_finance" />
+    <activity
         android:id="@+id/leaveStatsActivity"
         android:name="com.goldmedal.hrapp.ui.leave.LeaveStatusActivity"
         android:label="leave_stats" />
@@ -152,7 +157,16 @@
         android:id="@+id/slRequestsActivity"
         android:name="com.goldmedal.hrapp.ui.manager.ShortLeavesRequestsActivity" />
 
+    <activity
+        android:id="@+id/sourcingDataActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.SourcingDataActivity"
+        android:label="sourcing_data"
+        tools:layout="@layout/activity_sourcing_data" />
 
-
+    <activity
+        android:id="@+id/viewSourcingDataActivity"
+        android:name="com.goldmedal.hrapp.ui.leftdrawer.ViewSourcingDataActivity"
+        android:label="view_sourcing_data"
+        tools:layout="@layout/activity_view_sourcing_data" />
 
 </navigation>

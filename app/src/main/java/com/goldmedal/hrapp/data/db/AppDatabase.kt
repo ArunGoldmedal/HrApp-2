@@ -7,15 +7,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.goldmedal.hrapp.data.db.entities.*
 
-
 @Database(
-        version = 2,
+    version = 3,
     entities = [User::class, BirthdayData::class, AnniversaryData::class, HolidayData::class, GetAllAttendanceData::class, GetCurrentAttendanceData::class, AllHolidayData::class,EmployeeAttendanceData::class,LeaveBalanceData::class,MyTeamData::class],
-        autoMigrations = [
-            AutoMigration (from = 1, to = 2)],
-        exportSchema = true
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2),
+        AutoMigration(from = 2, to = 3)
+    ],
+    exportSchema = true
 )
-
 
 abstract class AppDatabase : RoomDatabase() {
 

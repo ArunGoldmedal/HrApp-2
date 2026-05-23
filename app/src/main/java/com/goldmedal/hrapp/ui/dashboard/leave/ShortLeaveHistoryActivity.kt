@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.SLHistoryData
 import com.goldmedal.hrapp.databinding.ActivityShortLeaveHistoryBinding
@@ -17,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ShortLeaveHistoryActivity : AppCompatActivity(), ApiStageListener<Any> {
+class ShortLeaveHistoryActivity : BaseActivity(), ApiStageListener<Any> {
 
     private lateinit var binding: ActivityShortLeaveHistoryBinding
     private val viewModel: LeaveViewModel by viewModels()

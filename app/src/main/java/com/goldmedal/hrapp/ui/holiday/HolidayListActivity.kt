@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.db.entities.AllHolidayData
@@ -17,15 +18,10 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.holiday_list_activity.*
 
 @AndroidEntryPoint
-class HolidayListActivity : AppCompatActivity(), ApiStageListener<Any> {
-
-
-
-private val holidayModel: HomeViewModel by viewModels()
-
+class HolidayListActivity : BaseActivity(), ApiStageListener<Any> {
+    private val holidayModel: HomeViewModel by viewModels()
     private lateinit var holidayActivityBinding : HolidayListActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,16 +30,13 @@ private val holidayModel: HomeViewModel by viewModels()
         holidayActivityBinding = DataBindingUtil.setContentView(this, R.layout.holiday_list_activity)
         holidayActivityBinding.viewmodel = holidayModel
 
-
-
         holidayModel.apiListener = this
 
-
-            holidayModel.getLoggedInUser().observe(this, Observer { user ->
-                if (user != null) {
-                    holidayModel.allHolidays(user.UserID)
-                }
-            })
+        holidayModel.getLoggedInUser().observe(this, Observer { user ->
+            if (user != null) {
+                holidayModel.allHolidays(user.UserID)
+            }
+        })
 
     }
 
@@ -66,7 +59,7 @@ private val holidayModel: HomeViewModel by viewModels()
             addAll(toHolidayData)
         }
 
-        rvList.apply {
+        holidayActivityBinding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter
@@ -74,18 +67,17 @@ private val holidayModel: HomeViewModel by viewModels()
     }
 
     override fun onStarted(callFrom: String) {
-        progress_bar?.start()
+        holidayActivityBinding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
         bindUI(_object as List<AllHolidayData?>)
-        progress_bar?.stop()
+        holidayActivityBinding.progressBar.stop()
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
-
+        holidayActivityBinding.progressBar.stop()
+        holidayActivityBinding.rootLayout.snackbar(message)
 
         holidayModel.getAllHolidayDataDetail().observe(this, Observer {
             if (it.isNotEmpty()) {
@@ -96,15 +88,8 @@ private val holidayModel: HomeViewModel by viewModels()
             }
         })
 
-
-
-
-
     }
 
-    override fun onValidationError(message: String, callFrom: String) {
-
-    }
-
+    override fun onValidationError(message: String, callFrom: String) {}
 
 }

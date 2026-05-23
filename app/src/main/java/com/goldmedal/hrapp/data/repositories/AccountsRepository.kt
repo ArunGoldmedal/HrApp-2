@@ -1,7 +1,8 @@
 package com.goldmedal.hrapp.data.repositories
 
 import com.goldmedal.hrapp.data.db.AppDatabase
-import com.goldmedal.hrapp.data.db.entities.AgingResponse
+import com.goldmedal.hrapp.data.network.responses.AgingResponse
+import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.MyApi
 import com.goldmedal.hrapp.data.network.SafeApiRequest
 import com.goldmedal.hrapp.data.network.responses.IncreaseLimitPartyResponse
@@ -21,8 +22,8 @@ class AccountsRepository @Inject constructor(
     }
 
     // - - - - - -  API for updating limit party - - - - - - - - - - -
-    suspend fun updateLimitParty(cin: String, clientsecret: String): List<AgingResponse> {
-        return apiRequest { api.updateLimitParty(strCin = cin,strClientSecret =  clientsecret) }
+    suspend fun updateLimitParty(cin: String, limitAmount: String, userId: Int, category: String): List<UpdateLimitResponse> {
+        return apiRequest { api.updateLimitParty(strCin = cin, limitAmount = limitAmount, userId = userId, category = category) }
     }
 
     // - - - - - -  API for getting Aging details - - - - - - - - - - -
@@ -34,6 +35,8 @@ class AccountsRepository @Inject constructor(
     suspend fun getIncreaseLimitDetail(partyId: String, searchText: String): List<LimitPartyDetailResponse> {
         return apiRequest { api.getIncreaseLimitDetail(strPartyId = partyId, strSearchText = searchText) }
     }
+
+    fun getUser() = db.getUserDao().getUser()
 
 }
 //  suspend fun saveParty(user: List<IncreaseLimitPartyData>) = db.getUserDao().upsert(user)

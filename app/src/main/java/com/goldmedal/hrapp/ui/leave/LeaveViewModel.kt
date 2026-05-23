@@ -202,8 +202,8 @@ class LeaveViewModel @Inject constructor(
         Coroutines.main {
             try {
                 val leaveResponse = repository.leaveBalance(userId!!,year)
-                if (leaveResponse?.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!leaveResponse?.leaveBalData?.isNullOrEmpty()!!) {
+                if (leaveResponse.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
+                    if (!leaveResponse.leaveBalData?.isEmpty()!!) {
                         leaveResponse.leaveBalData.let {
                             apiListener?.onSuccess(it, "leave_balance")
                             repository.removeLeaveBalanceData()
@@ -502,7 +502,7 @@ class LeaveViewModel @Inject constructor(
         } else if (strEndDate.isNullOrEmpty()) {
             apiListener?.onValidationError("Please Select End Date", "applyLeave")
             return
-        } else if (strLeaveReasonId == "-1") {
+        } else if (strLeaveReasonId.isNullOrEmpty() || strLeaveReasonId == "-1") {
             apiListener?.onValidationError("Please Select Leave Reason", "applyLeave")
             return
         } else if (strActualLeaveDays?.toDouble() ?: 0.0 <= 0.0) {
@@ -879,6 +879,39 @@ class LeaveViewModel @Inject constructor(
                 apiListener?.onError(e.message!!, "approveRejectSL", true)
             }catch (e: SocketTimeoutException) {
                 apiListener?.onError(e.message!!, "approveRejectSL", true)
+            }
+        }
+
+    }
+
+    fun getBlockMonthDate() {
+        if (userId == null) {
+            apiListener?.onValidationError("User id cannot be nil", "approveRejectSL")
+            return
+        }
+        apiListener?.onStarted(GlobalConstant.BLOCK_MONTH_DATE_API)
+        Coroutines.main {
+            try {
+                val response = repository.getBlockMonthDate(userId!!)
+                if (response.statusCode == 200) {
+                    if (response.blockMonthDateData.isNotEmpty()) {
+                        response.blockMonthDateData.let {
+                            apiListener?.onSuccess(it, GlobalConstant.BLOCK_MONTH_DATE_API)
+                            return@main
+                        }
+                    }
+                } else {
+                    val errorResponse = response.errors
+                    if (errorResponse.isNotEmpty()) {
+                        errorResponse[0].ErrorMsg?.let { apiListener?.onError(it, GlobalConstant.BLOCK_MONTH_DATE_API, false) }
+                    }
+                }
+            } catch (e: ApiException) {
+                apiListener?.onError(e.message!!, GlobalConstant.BLOCK_MONTH_DATE_API, true)
+            } catch (e: NoInternetException) {
+                apiListener?.onError(e.message!!, GlobalConstant.BLOCK_MONTH_DATE_API, true)
+            } catch (e: SocketTimeoutException) {
+                apiListener?.onError(e.message!!, GlobalConstant.BLOCK_MONTH_DATE_API, true)
             }
         }
 

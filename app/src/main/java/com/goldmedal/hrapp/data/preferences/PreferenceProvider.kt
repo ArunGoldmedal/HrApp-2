@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import androidx.core.content.edit
 
 
 private const val KEY_SAVED_AT = "key_saved_at"
@@ -14,6 +15,9 @@ private const val KEY_VERSION_NAME = "key_ver_name"
 private const val KEY_USER_PWD = "key_user_password"
 private const val KEY_IS_ACTIVE = "key_is_active"
 private const val KEY_FORCE_UPDATE = "key_force_update"
+private const val KEY_FCM_TOKEN = "key_fcm_token"
+private const val KEY_IS_CF_USER = "key_is_cf_user"
+
 class PreferenceProvider @Inject constructor(@ApplicationContext context: Context){
 
 
@@ -40,12 +44,16 @@ class PreferenceProvider @Inject constructor(@ApplicationContext context: Contex
     }
 
 
-    fun saveInitialData(verCode: Int,verName: String?,isActive: Boolean,forceUpdate: Boolean){
+    fun saveInitialData(
+        verCode: Int, verName: String?, isActive: Boolean, forceUpdate: Boolean,
+        isCFUser: Boolean,
+    ){
         preference.edit()
                 .putInt(KEY_VERSION_CODE,verCode)
                 .putString(KEY_VERSION_NAME,verName)
                 .putBoolean(KEY_IS_ACTIVE,isActive)
                 .putBoolean(KEY_FORCE_UPDATE,forceUpdate)
+                .putBoolean(KEY_IS_CF_USER,isCFUser)
                 .apply()
     }
 
@@ -89,13 +97,20 @@ class PreferenceProvider @Inject constructor(@ApplicationContext context: Contex
         return preference.getBoolean(KEY_FORCE_UPDATE,false)
     }
 
+    fun setIsCFUser(isCFUser: Boolean) {
+        preference.edit { putBoolean(KEY_IS_CF_USER, isCFUser) }
+    }
 
+    fun isCFUser(): Boolean {
+        return preference.getBoolean(KEY_IS_CF_USER,false)
+    }
 
+    fun saveFCMToken(password: String?) {
+        preference.edit().putString(KEY_FCM_TOKEN,password).apply()
+    }
 
-
-
-
-
-
+    fun getFCMToken(): String? {
+        return preference.getString(KEY_FCM_TOKEN,"")
+    }
 
 }

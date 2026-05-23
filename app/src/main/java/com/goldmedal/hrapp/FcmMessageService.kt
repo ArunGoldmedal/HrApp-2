@@ -8,7 +8,9 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.goldmedal.hrapp.ui.dashboard.DashboardActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -16,7 +18,7 @@ import com.google.firebase.messaging.RemoteMessage
 class FcmMessageService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-
+        Log.d("newToken", token)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -33,7 +35,13 @@ class FcmMessageService : FirebaseMessagingService() {
                 extras.putString(key, value)
             }
             if(extras.containsKey("message") && !extras.getString("message").isNullOrBlank()) {
-                sendNotification(extras.getString("message")!!)
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    sendNotification(extras.getString("message")!!)
+                } else {
+                    if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                        sendNotification(extras.getString("message")!!)
+                    }
+                }
             }
         }
     }
@@ -46,8 +54,13 @@ class FcmMessageService : FirebaseMessagingService() {
     private fun sendNotification(messageBody: String) {
         val intent = Intent(this, DashboardActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT)
+        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        } else {
+            PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+        }
 
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 

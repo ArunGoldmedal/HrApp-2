@@ -97,7 +97,7 @@ class RequestsArchiveFragment : Fragment() {
     }
     private fun filter(text: String) {
         val filteredNames = requestsList?.filter {
-            (it.EmployeeName?.toLowerCase(Locale.getDefault())?.contains(text.toLowerCase(Locale.getDefault())) == true)
+            (it.EmployeeName?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true)
         }
         filterUI(filteredNames)
     }

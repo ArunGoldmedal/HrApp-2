@@ -5,16 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.databinding.ActivityApplyShortLeaveBinding
 import com.goldmedal.hrapp.ui.leave.LeaveViewModel
+import com.goldmedal.hrapp.util.getMinDateToApplyLeaves
 import com.goldmedal.hrapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import org.angmarch.views.OnSpinnerItemSelectedListener
 import java.util.*
 
 @AndroidEntryPoint
-class ApplyShortLeaveActivity : AppCompatActivity(), ApiStageListener<Any> {
+class ApplyShortLeaveActivity : BaseActivity(), ApiStageListener<Any> {
 
     private lateinit var binding: ActivityApplyShortLeaveBinding
     private val viewModel: LeaveViewModel by viewModels()
@@ -59,7 +61,8 @@ class ApplyShortLeaveActivity : AppCompatActivity(), ApiStageListener<Any> {
 
 
             val previousCalendar = Calendar.getInstance()
-            previousCalendar.add(Calendar.DAY_OF_MONTH, -7)
+            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+            previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
 
             val datePicker = DatePickerDialog(this,

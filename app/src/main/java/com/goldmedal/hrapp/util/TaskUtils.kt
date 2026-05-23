@@ -15,6 +15,7 @@ import java.math.BigDecimal
 import java.net.InetAddress
 import java.net.NetworkInterface
 import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,9 +42,6 @@ fun formatDateString(rawString: String, inputFormat: String, outputFormat: Strin
 }
 
 fun getCurrentDateTime(): Date {
-
-
-
     return Calendar.getInstance().time
 }
 
@@ -75,10 +73,11 @@ fun getDateFromString(rawString: String, format: String, locale: Locale = Locale
 
 fun  getAddressFromLatLong(mContext: Context?, latitude: Double, longitude: Double): String? {
     val addresses: List<Address>
-    val geocoder = Geocoder(mContext, Locale.getDefault())
+    val geocoder = mContext?.let { Geocoder(it, Locale.getDefault()) }
     var cityAdd: String? = ""
     try {
-        addresses = geocoder.getFromLocation(latitude, longitude, 1) // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+        addresses = geocoder?.getFromLocation(latitude, longitude, 1) as List<Address>
+        // Here 1 represent max location result to returned, by documents it recommended 1 to 5
         if (addresses.isNotEmpty()) {
             cityAdd = addresses[0].getAddressLine(0)
         }
@@ -89,12 +88,12 @@ fun  getAddressFromLatLong(mContext: Context?, latitude: Double, longitude: Doub
 }
 
 fun getLocationFromAddress(context: Context?, strAddress: String?): LatLng? {
-    val coder = Geocoder(context)
+    val coder = context?.let { Geocoder(it) }
     val address: List<Address>?
     var p1: LatLng? = null
     try {
         // May throw an IOException
-        address = coder.getFromLocationName(strAddress, 5)
+        address = strAddress?.let { coder?.getFromLocationName(it, 5) }
         if (address == null) {
             return null
         }
@@ -129,6 +128,21 @@ fun formatNumber(value: String?): String? {
     return strNumber
 }
 
+fun formatCurrency(value: Double?): String {
+    return try {
+        val format = NumberFormat.getCurrencyInstance(Locale("en", "IN"))
+        //format.minimumFractionDigits = 0
+        format.maximumFractionDigits = 2
+        var result = format.format(value ?: 0.0)
+        if (result.startsWith("Rs.")) {
+            result = result.replace("Rs.", "₹ ")
+        }
+        result
+    } catch (e: Exception) {
+        value?.toString() ?: "0"
+    }
+}
+
 
 fun getIPAddress(useIPv4: Boolean): String {
     try {
@@ -144,7 +158,8 @@ fun getIPAddress(useIPv4: Boolean): String {
                     } else {
                         if (!isIPv4) {
                             val delim = sAddr.indexOf('%') // drop ip6 zone suffix
-                            return if (delim < 0) sAddr.toUpperCase(Locale.getDefault()) else sAddr.substring(0, delim).toUpperCase(Locale.getDefault())
+                            return if (delim < 0) sAddr.uppercase(Locale.getDefault()) else sAddr.substring(0, delim)
+                                .uppercase(Locale.getDefault())
                         }
                     }
                 }
@@ -171,4 +186,86 @@ fun bitmapDescriptorFromVector(context: Context?, resource: Int): BitmapDescript
     val canvas = Canvas(bitmap)
     vectorDrawable.draw(canvas)
     return BitmapDescriptorFactory.fromBitmap(bitmap)
+}
+
+fun getMinDateToApplyLeaves(year: Int, month: Int, dayOfMonth: Int): Int {
+    var minDay = 1
+    when (month) {
+        1, 3, 5, 7, 8, 10, 12 -> {
+            // month is of 31 days
+            minDay = if (dayOfMonth < 28) {
+                4 + dayOfMonth
+            } else {
+                dayOfMonth - 27
+            }
+        }
+        4, 6, 9, 11 -> {
+            // month is of 30 days
+            minDay = if (dayOfMonth < 27) {
+                4 + dayOfMonth
+            } else {
+                dayOfMonth - 26
+            }
+        }
+        2 -> {
+            // month of feb
+            // leap year
+            minDay = if (year % 4 == 0) {
+                if (dayOfMonth < 26) {
+                    4 + dayOfMonth
+                } else {
+                    dayOfMonth - 25
+                }
+            } else {
+                if (dayOfMonth < 25) {
+                    4 + dayOfMonth
+                } else {
+                    dayOfMonth - 24
+                }
+            }
+        }
+    }
+    return minDay
+}
+
+fun isRegularizedAllowedData(regularizeDate: String): Boolean {
+    val c = Calendar.getInstance()
+    val currentYear = c[Calendar.YEAR]
+    val currentMonth = c[Calendar.MONTH]
+    val currentDay = c[Calendar.DAY_OF_MONTH]
+    val currentTimeMillis = c.timeInMillis
+
+    val currentMinDays = getMinDateToApplyLeaves(currentYear, currentMonth, currentDay)
+    c.add(Calendar.DAY_OF_MONTH, -currentMinDays)
+    val startTimeMillis = c.timeInMillis
+
+    val regularizeTimeInMillis = getTimeInMillisForDate(regularizeDate)
+
+    return if (regularizeTimeInMillis >= startTimeMillis && regularizeTimeInMillis <= currentTimeMillis) true else false
+}
+
+fun getTimeInMillisForDate(strDate: String): Long {
+    val cal = Calendar.getInstance()
+    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+    cal.time = sdf.parse(strDate) as Date
+    return cal.timeInMillis
+}
+
+fun getCalendarFromDate(strDate: String): Calendar {
+    val cal = Calendar.getInstance()
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    cal.time = sdf.parse(strDate) as Date
+    return cal
+}
+
+// Parses dates in format "MM/dd/yyyy hh:mm:ss aa" e.g. "04/26/2026 12:00:00 AM"
+fun getCalendarFromDateTimeString(strDate: String): Calendar {
+    val cal = Calendar.getInstance()
+    return try {
+        val sdf = SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault())
+        cal.time = sdf.parse(strDate) as Date
+        cal
+    } catch (e: Exception) {
+        cal
+    }
 }

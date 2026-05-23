@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root_layout"
+    android:fitsSystemWindows="true"
     tools:context=".ui.dashboard.leave.ODApplicationActivity">
 
 
@@ -55,7 +56,10 @@
             style="@style/large_txt_bold"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/dp_8"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
             android:gravity="center"
             android:text="@string/end_date" />
 
@@ -124,13 +128,12 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextRemarks"
-            android:hint="Enter Remarks..."
+            android:hint="*Enter Remarks..."
             android:gravity="top"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minLines="4"
             android:inputType="textMultiLine" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
 

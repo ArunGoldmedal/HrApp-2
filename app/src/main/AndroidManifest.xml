@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.goldmedal.hrapp">
+    xmlns:tools="http://schemas.android.com/tools">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,6 +20,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" /> <!-- Required if app targets Android 13 -->
+<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
 
     <application
         android:name=".AppDelegate"
@@ -28,18 +34,23 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
-        <activity android:name=".ui.manager.ShortLeavesRequestsActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".BaseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.manager.ShortLeavesRequestsActivity"
             android:label="@string/sl_requests"
-            android:theme="@style/ThemeWithActionBar"
-            />
-        <activity android:name=".ui.dashboard.leave.ShortLeaveHistoryActivity"
             android:screenOrientation="portrait"
-            android:label="@string/sl_history"
             android:theme="@style/ThemeWithActionBar" />
-        <activity android:name=".ui.dashboard.leave.ApplyShortLeaveActivity"
+        <activity
+            android:name=".ui.dashboard.leave.ShortLeaveHistoryActivity"
+            android:label="@string/sl_history"
             android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.dashboard.leave.ApplyShortLeaveActivity"
             android:label="@string/apply_sl_leave"
+            android:screenOrientation="portrait"
             android:theme="@style/ThemeWithActionBar" />
         <activity
             android:name=".ui.leftdrawer.TeamRegularizationHistoryActivity"
@@ -127,21 +138,30 @@
             android:name=".ui.dashboard.notification.NotificationActivity"
             android:label="@string/notifications"
             android:theme="@style/ThemeWithActionBar" />
-
         <activity
             android:name=".ui.accounts.PartyDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.accounts.AccountsDetailActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ui.holiday.HolidayListActivity"
             android:label="@string/holiday_list"
             android:parentActivityName=".ui.dashboard.DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeWithActionBar" />
-
+        <activity
+            android:name=".ui.leftdrawer.SourcingDataActivity"
+            android:label="@string/sourcing_data"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
+        <activity
+            android:name=".ui.leftdrawer.ViewSourcingDataActivity"
+            android:label="@string/view_sourcing_data"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeWithActionBar" />
         <activity
             android:name=".ui.leave.LeaveStatusActivity"
             android:label="@string/my_record"
@@ -187,6 +207,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.auth.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
@@ -203,7 +224,15 @@
             android:name=".ui.auth.ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme" />
-        <activity android:name=".ui.dashboard.TransitionsActivity" /> <!-- <receiver -->
+        <activity android:name=".ui.dashboard.TransitionsActivity" />
+        <activity
+            android:name=".ui.leftdrawer.ChannelFinanceActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.dashboard.DashboardActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/channel_finance"
+            android:theme="@style/ThemeWithActionBar" />
+        <!-- <receiver -->
         <!-- android:name=".MySMSBroadcastReceiver" -->
         <!-- android:exported="true"> -->
         <!-- <intent-filter> -->

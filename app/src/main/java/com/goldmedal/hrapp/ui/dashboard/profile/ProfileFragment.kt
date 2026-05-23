@@ -1,6 +1,7 @@
 package com.goldmedal.hrapp.ui.dashboard.profile
 
 import android.Manifest
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.Intent
@@ -22,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.github.florent37.runtimepermission.kotlin.askPermission
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ImageSelectionListener
@@ -30,18 +30,15 @@ import com.goldmedal.hrapp.databinding.ProfileFragmentBinding
 import com.goldmedal.hrapp.util.convertBitmapToBase64
 import com.goldmedal.hrapp.util.scaleDown
 import com.goldmedal.hrapp.util.snackbar
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import com.yalantis.ucrop.UCrop
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.profile_fragment.*
 import java.io.File
 import java.io.IOException
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<Any> {
-
-
-
-
+class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<Any>, EasyPermissions.PermissionCallbacks {
 
     private val viewModel: ProfileViewModel by viewModels()
 
@@ -50,12 +47,13 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
 
     private val GALLERY = 1
     private val CAMERA = 2
+    private val CAMERA_PERM = 121
     private var userId: Int? = 0
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         profileFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.profile_fragment, container, false)
         return profileFragmentBinding.root
     }
@@ -67,7 +65,7 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
         viewModel.imageSelectionListener = this
         viewModel.apiListener = this
 
-        viewModel.getLoggedInUser().observe(viewLifecycleOwner, { user ->
+        viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 userId = user.UserID
 
@@ -78,44 +76,41 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
                     viewModel.strMobileNo = user.Officialemail
                 }
 
+                profileFragmentBinding.tvUserName.text = user.EmployeeFullName
+                profileFragmentBinding.tvUserCompanyName.text = user.MobileNumber
+                profileFragmentBinding.tvUserPost.text = user.Department + getString(R.string.dash) + user.Designation
 
 
-                tvUserName.text = user.EmployeeFullName
-                tvUserCompanyName.text = user.MobileNumber
-                tvUserPost.text = user.Department + getString(R.string.dash) + user.Designation
+                profileFragmentBinding.tvEmployeeCode.text = user.EmployeeCode
+                profileFragmentBinding.tvOfficeEmail.text = user.Officialemail
+                profileFragmentBinding.tvJoiningDate.text = user.joiningDate
+                profileFragmentBinding.tvDOB.text = user.DateOfBirth
+                profileFragmentBinding.tvReportingPerson.text = user.ReportingPerson
+                profileFragmentBinding.tvHomeAddress.text = user.HomeAddress
+                profileFragmentBinding.tvOfficeAddress.text = user.OfficeAddress
+                profileFragmentBinding.tvBranch.text = user.BranchName
 
 
-                tv_employee_code?.text = user.EmployeeCode
-                tv_office_email?.text = user.Officialemail
-                tv_joining_date?.text = user.joiningDate
-                tv_DOB?.text = user.DateOfBirth
-                tv_reporting_person?.text = user.ReportingPerson
-                tv_home_address?.text = user.HomeAddress
-                tv_office_address?.text = user.OfficeAddress
-                tv_branch?.text = user.BranchName
+                profileFragmentBinding.tvLocality.text = "${getString(R.string.locality)} ${user?.Location ?: "-"}"
+                profileFragmentBinding.tvSubLocality.text =
+                    "${getString(R.string.sub_locality)} ${user.Sublocation ?: "-"}"
 
 
-                tv_locality?.text = "${getString(R.string.locality)} ${user?.Location ?: "-"}"
-                tv_sub_locality?.text = "${getString(R.string.sub_locality)} ${user?.Sublocation ?: "-"}"
-
-
-                val avatar = if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
+                val avatar =
+                    if (user.Genderid.equals("1")) R.drawable.male_avatar else R.drawable.female_avatar
 
                 Glide.with(this)
-                        .load(user.ProfilePicture)
-                        .fitCenter()
-                        .placeholder(avatar)
-                        .into(imgprofile)
+                    .load(user.ProfilePicture)
+                    .fitCenter()
+                    .placeholder(avatar)
+                    .into(profileFragmentBinding.imgprofile)
             }
-        })
-
-        imv_edit_profile?.setOnClickListener {
-            EditProfileActivity.start(requireContext())
         }
 
-
+        profileFragmentBinding.imvEditProfile.setOnClickListener {
+            EditProfileActivity.start(requireContext())
+        }
     }
-
 
     override fun choosePhotoFromGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK,
@@ -125,9 +120,19 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
     }
 
     override fun takePhotoFromCamera() {
-
-
-        askPermission(Manifest.permission.CAMERA) {
+        if (EasyPermissions.hasPermissions(context, Manifest.permission.CAMERA)) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(intent, CAMERA)
+        } else {
+            // Request one permission
+            EasyPermissions.requestPermissions(
+                activity as Activity,
+                getString(R.string.str_camera_permission),
+                CAMERA_PERM,
+                Manifest.permission.CAMERA
+            )
+        }
+        /*askPermission(Manifest.permission.CAMERA) {
             //all permissions already granted or just granted
 
             // your action
@@ -164,14 +169,12 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
                 // you need to open setting manually if you really need it
                 e.goToSettings()
             }
-        }
+        }*/
     }
 
 
     override fun removeProfilePhoto() {
         viewModel.strBase64Image = "-"
-
-
         viewModel.updateProfilePic(userId)
     }
 
@@ -224,76 +227,66 @@ class ProfileFragment : Fragment(),  ImageSelectionListener, ApiStageListener<An
         } else if (requestCode == CAMERA) {
             if (data != null) {
                 val thumbnail = data.extras!!.get("data") as Bitmap
-
-
                 prepareImgUpload(thumbnail)
-
             }
         } else if (requestCode == UCrop.REQUEST_CROP) {
             if (resultCode == RESULT_OK) {
                 handleUCropResult(data!!)
-            } else {
-
             }
         } else if (requestCode == UCrop.RESULT_ERROR) {
-
             val cropError: Throwable? = UCrop.getError(data!!)
-            Log.e("TAG", "Crop error: " + cropError);
-
+            Log.e("TAG", "Crop error: $cropError")
         }
-
     }
 
     private fun handleUCropResult(data: Intent) {
-
         val resultUri: Uri? = UCrop.getOutput(data)
-
-
         val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, resultUri)
 
-
         prepareImgUpload(bitmap)
-
-
     }
 
     private fun prepareImgUpload(bitmap: Bitmap) {
         val scaledBitmap = scaleDown(bitmap, 675f, true)
-
-
         viewModel.strBase64Image = convertBitmapToBase64(scaledBitmap)
-
-
-
         viewModel.updateProfilePic(userId)
-
-
     }
 
     override fun onStarted(callFrom: String) {
-
-        progress_bar?.start()
-
+        profileFragmentBinding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
-
-
-        progress_bar?.stop()
-        root_layout?.snackbar("Profile Picture Updated")
+        profileFragmentBinding.progressBar.stop()
+        profileFragmentBinding.rootLayout.snackbar("Profile Picture Updated")
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-
-
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
-
+        profileFragmentBinding.progressBar.stop()
+        profileFragmentBinding.rootLayout.snackbar(message)
     }
 
     override fun onValidationError(message: String, callFrom: String) {
 
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            context?.let { SettingsDialog.Builder(it).build().show() }
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA)
+    }
 
 }

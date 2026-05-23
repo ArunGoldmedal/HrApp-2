@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ColorTemplate.rgb
@@ -18,13 +19,9 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_leave_requests.*
 
 @AndroidEntryPoint
-class LeaveRequestsActivity : AppCompatActivity(), ApiStageListener<Any>, ILeaveListener {
-
-
-
+class LeaveRequestsActivity : BaseActivity(), ApiStageListener<Any>, ILeaveListener {
     private val leaveModel: LeaveViewModel by viewModels()
 
     private val `2DChipColors`: Array<IntArray> = arrayOf(
@@ -69,7 +66,7 @@ class LeaveRequestsActivity : AppCompatActivity(), ApiStageListener<Any>, ILeave
 
 
         //set up the layout manager and set the adapter
-        rvList?.apply {
+        leaveRequestsActivityBinding.rvList.apply {
             layoutManager = LinearLayoutManager(this@LeaveRequestsActivity)
             addItemDecoration(DividerItemDecoration(this@LeaveRequestsActivity, DividerItemDecoration.VERTICAL))
             adapter = groupAdapter
@@ -94,18 +91,17 @@ class LeaveRequestsActivity : AppCompatActivity(), ApiStageListener<Any>, ILeave
     }
 
     override fun onStarted(callFrom: String) {
-        progress_bar?.start()
-
+        leaveRequestsActivityBinding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>, callFrom: String) {
         bindUI(_object as List<LeaveRequestsData?>)
-        progress_bar?.stop()
+        leaveRequestsActivityBinding.progressBar.stop()
     }
 
     override fun onError(message: String, callFrom: String, isNetworkError: Boolean) {
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
+        leaveRequestsActivityBinding.progressBar.stop()
+        leaveRequestsActivityBinding.rootLayout.snackbar(message)
     }
 
     override fun observeRequests(removeAt: Int?) {

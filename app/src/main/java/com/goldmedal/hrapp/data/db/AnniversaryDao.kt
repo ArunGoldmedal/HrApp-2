@@ -12,7 +12,7 @@ import com.goldmedal.hrapp.data.db.entities.AnniversaryData
 interface AnniversaryDao{
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAnniversaryDate(birthData: List<AnniversaryData?>) : List<Long>
+    suspend fun insertAnniversaryDate(birthData: List<AnniversaryData>) : List<Long>
 
     @Query("SELECT * FROM AnniversaryData")
     fun getAnniversaryDate() : LiveData<List<AnniversaryData>>

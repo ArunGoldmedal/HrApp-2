@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.AttendanceRegularizeByUserData
 import com.goldmedal.hrapp.data.model.ODApprovalData
@@ -21,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class TeamRegularizationHistoryActivity : AppCompatActivity() , ApiStageListener<Any> {
+class TeamRegularizationHistoryActivity : BaseActivity() , ApiStageListener<Any> {
     private lateinit var binding: ActivityTeamRegularizationHistoryBinding
     private val viewModel: AttendanceViewModel by viewModels()
     private var filteredList: List<AttendanceRegularizeByUserData?> = emptyList()
@@ -80,7 +81,7 @@ class TeamRegularizationHistoryActivity : AppCompatActivity() , ApiStageListener
     private fun filter(text: String) {
         Coroutines.io {
             val filteredNames = filteredList.filter {
-                (it?.EmployeeName?.toLowerCase(Locale.getDefault())?.contains(text.toLowerCase(Locale.getDefault())) == true)
+                (it?.EmployeeName?.lowercase(Locale.getDefault())?.contains(text.lowercase(Locale.getDefault())) == true)
             }
             filterUI(filteredNames)
         }

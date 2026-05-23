@@ -4,6 +4,9 @@ package com.goldmedal.hrapp.ui.dashboard.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.goldmedal.hrapp.common.ApiStageListener
+import com.goldmedal.hrapp.data.db.entities.AllHolidayData
+import com.goldmedal.hrapp.data.db.entities.BirthdayData
+import com.goldmedal.hrapp.data.db.entities.HolidayData
 import com.goldmedal.hrapp.data.network.GlobalConstant
 import com.goldmedal.hrapp.data.repositories.HomeRepository
 import com.goldmedal.hrapp.util.ApiException
@@ -46,13 +49,13 @@ class HomeViewModel @Inject constructor(
                 val holidaysResponse = repository.getAllHolidays(userID, "ALL")
                 if (holidaysResponse.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
 
-                    if (!holidaysResponse?.holidayData?.isNullOrEmpty()!!) {
+                    if (!holidaysResponse.holidayData?.isEmpty()!!) {
                         holidaysResponse.holidayData.let {
                             apiListener?.onSuccess(it, "all_holidays")
                             Log.d("Inside all holiday", "Msg - - - -" + it.size)
                             println("inside all holiday - - - - - -  - --  - - - - - -")
                             repository.removeAllHolidaysData()
-                            repository.saveAllHolidaysData(it)
+                            repository.saveAllHolidaysData(it as List<AllHolidayData>)
                             print("inside all holiday- - - " + it.size)
                             return@main
                         }
@@ -96,13 +99,13 @@ class HomeViewModel @Inject constructor(
                 val holidaysResponse = userId?.let { repository.upcomingHolidays(it, "-") }
 
                 if (holidaysResponse?.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!holidaysResponse?.holidayData?.isNullOrEmpty()!!) {
+                    if (!holidaysResponse?.holidayData?.isEmpty()!!) {
                         holidaysResponse.holidayData.let {
                             apiListener?.onSuccess(it, "holidays")
                             Log.d("Inside holiday", "Msg - - - -" + it.size)
                             println("inside holiday - - - - - -  - --  - - - - - -")
                             repository.removeHolidaysData()
-                            repository.saveHolidaysData(it)
+                            repository.saveHolidaysData(it as List<HolidayData>)
                             print("inside holiday- - - " + it.size)
                             return@main
                         }
@@ -145,13 +148,13 @@ class HomeViewModel @Inject constructor(
             try {
                 val birthdayResponse = userId?.let { repository.upcomingBirthdays(it) }
                 if (birthdayResponse?.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!birthdayResponse?.birthdayData?.isNullOrEmpty()!!) {
+                    if (!birthdayResponse?.birthdayData?.isEmpty()!!) {
                         birthdayResponse.birthdayData.let {
                             apiListener?.onSuccess(it, "birthday")
                             Log.d("Inside", "Msg - - - -" + it.size)
                             println("inside - - - - - -  - --  - - - - - -")
                             repository.removeBirthData()
-                            repository.saveBirthData(it)
+                            repository.saveBirthData(it as List<BirthdayData>)
                             print("inside - - - " + it.size)
                             return@main
                         }
@@ -241,7 +244,7 @@ class HomeViewModel @Inject constructor(
             try {
                 val employeeAttendanceResponse = userId?.let { repository.employeeAttendance(it) }
                 if (employeeAttendanceResponse?.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!employeeAttendanceResponse?.employeeAttendanceData?.isNullOrEmpty()!!) {
+                    if (!employeeAttendanceResponse?.employeeAttendanceData?.isEmpty()!!) {
                         employeeAttendanceResponse.employeeAttendanceData.let {
                             apiListener?.onSuccess(it, "employee_attendance")
 
@@ -330,14 +333,12 @@ class HomeViewModel @Inject constructor(
             try {
                 val outputResponse =  repository.getMyTeam(userId)
                 if (outputResponse.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
-                    if (!outputResponse.data?.isNullOrEmpty()!!) {
+                    if (!outputResponse.data?.isEmpty()!!) {
                         outputResponse.data.let {
                             apiListener?.onSuccess(it, "my_team")
 
                             repository.removeMyTeamData()
                             repository.saveMyTeam(it)
-
-
                             return@main
                         }
                     }
@@ -444,5 +445,43 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun restrictEmployeeToCheckIn(userId: Int?) {
+        if (userId == null) {
+            apiListener?.onValidationError("User id cannot be nil", "restrict_checkin")
+            return
+        }
+
+        apiListener?.onStarted("restrict_checkin")
+
+        Coroutines.main {
+            try {
+                val response = repository.restrictEmployeeToCheckIn(userId)
+                if (response.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
+                    if (!response.data?.isNullOrEmpty()!!) {
+                        response.data.let {
+                            apiListener?.onSuccess(it, "restrict_checkin")
+                            return@main
+                        }
+                    } else {
+                        apiListener?.onError("Something went wrong", "restrict_checkin", false)
+                    }
+                } else {
+                    val errorResponse = response.Errors
+                    if (!errorResponse?.isNullOrEmpty()!!) {
+                        errorResponse[0]?.ErrorMsg?.let { apiListener?.onError(it, "restrict_checkin", false) }
+                    } else {
+                        response.StatusCodeMessage?.let { apiListener?.onError(it, "restrict_checkin", false) }
+                    }
+                }
+            } catch (e: ApiException) {
+                apiListener?.onError(e.message!!, "restrict_checkin", true)
+            } catch (e: NoInternetException) {
+                apiListener?.onError(e.message!!, "restrict_checkin", true)
+            } catch (e: SocketTimeoutException) {
+                apiListener?.onError(e.message!!, "restrict_checkin", true)
+            }
+        }
     }
 }

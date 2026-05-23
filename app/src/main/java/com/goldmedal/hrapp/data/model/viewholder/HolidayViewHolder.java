@@ -13,7 +13,7 @@ public class HolidayViewHolder extends BaseViewHolder<HolidayData> {
 
     public HolidayViewHolder(@NonNull View itemView, int roundCorner) {
         super(itemView);
-        CornerImageView imageView = findView(R.id.banner_image);
+        CornerImageView imageView = findViewById(R.id.banner_image);
         imageView.setRoundCorner(roundCorner);
 
     }
@@ -25,7 +25,7 @@ public class HolidayViewHolder extends BaseViewHolder<HolidayData> {
 
     @Override
     public void bindData(HolidayData data, int position, int pageSize) {
-        CornerImageView imageView = findView(R.id.banner_image);
+        CornerImageView imageView = findViewById(R.id.banner_image);
 
         if (data.getHolidayName() != null) {
             String holidayName = data.getHolidayName().toLowerCase();

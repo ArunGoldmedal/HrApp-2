@@ -17,7 +17,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_login.*
 
 /**
  *
@@ -33,33 +32,33 @@ class LoginActivity : AppCompatActivity(), AuthListener<Any> {
 
 
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-        val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewmodel = viewModel
 
 
 //Make All Text UpperCase
-        editTextCaptcha?.filters = editTextCaptcha.filters + InputFilter.AllCaps()
+        binding.editTextCaptcha.filters += InputFilter.AllCaps()
 
         viewModel.authListener = this
         viewModel.strDeviceId = getDeviceId(this@LoginActivity)
 
         viewModel.strGeneratedCaptcha = generateRandomCaptcha()
-        tvCaptcha.text = viewModel.strGeneratedCaptcha
+        binding.tvCaptcha.text = viewModel.strGeneratedCaptcha
 
-        viewModel.getLoggedInUser().observe(this, { user ->
+        viewModel.getLoggedInUser().observe(this) { user ->
             if (user != null) {
                 Intent(this, DashboardActivity::class.java).also {
                     it.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(it)
-
                 }
             }
-        })
+        }
         /**
          * Get FireBase Registration  Token (pushwoosh id)
          */
@@ -76,6 +75,7 @@ class LoginActivity : AppCompatActivity(), AuthListener<Any> {
              * Get new FCM registration token
              */
             viewModel.strFCMToken = task.result
+            viewModel.saveFcmToken(task.result)
             Log.d("LoginActivity", "FCM Token: " + task.result)
 
 
@@ -87,20 +87,20 @@ class LoginActivity : AppCompatActivity(), AuthListener<Any> {
 
 
     override fun onStarted() {
-        progress_bar?.start()
+        binding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>) {
-        progress_bar?.stop()
+        binding.progressBar.stop()
     }
 
     override fun onFailure(message: String) {
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
+        binding.progressBar.stop()
+        binding.rootLayout.snackbar(message)
     }
 
     override fun setCaptcha(strCaptcha: String) {
-        tvCaptcha.text = strCaptcha
+        binding.tvCaptcha.text = strCaptcha
     }
 
     companion object {

@@ -20,12 +20,8 @@ class UpdateAppDialogFragment : DialogFragment() {
         val view = inflater.inflate(R.layout.update_app_dialog, container, false)
         isCancelable = false
 
-
         val btnUpdate = view.findViewById<Button>(R.id.buttonUpdate)
         val btnCancel = view.findViewById<Button>(R.id.buttonCancel)
-
-
-
 
         arguments?.let {
             forceUpdate = it.getBoolean("forceUpdate")
@@ -34,7 +30,6 @@ class UpdateAppDialogFragment : DialogFragment() {
         if (forceUpdate) {
             btnCancel.visibility = View.GONE
         }
-
 
         btnUpdate.setOnClickListener {
             callBack?.pressedUpdate()

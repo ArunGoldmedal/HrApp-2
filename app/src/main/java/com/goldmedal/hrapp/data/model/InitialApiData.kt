@@ -7,5 +7,6 @@ data class InitialApiData(
     val Password: String?,
     val isActive: Boolean?,
     val isLimitDetails: Boolean?,
-    val forceUpdate: Boolean?
+    val forceUpdate: Boolean?,
+    val IsCFSUser: Boolean?
 )

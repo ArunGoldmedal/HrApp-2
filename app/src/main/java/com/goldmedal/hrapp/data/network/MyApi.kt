@@ -1,10 +1,18 @@
 package com.goldmedal.hrapp.data.network
 
-import com.goldmedal.hrapp.data.db.entities.AgingResponse
+import com.goldmedal.hrapp.data.network.responses.AgingResponse
 import com.goldmedal.hrapp.data.db.entities.ResetPasswordResponse
 import com.goldmedal.hrapp.data.db.entities.SendOtpResponse
+import com.goldmedal.hrapp.data.model.AddCompanyResponse
+import com.goldmedal.hrapp.data.model.ChannelFinanceDealerResponse
+import com.goldmedal.hrapp.data.model.ChannelFinanceDealerWiseResponse
+import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
+import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
+import com.goldmedal.hrapp.data.model.UpdateCNAmountResponse
+import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
+import com.goldmedal.hrapp.data.network.GlobalConstant.TEST_BASE_URL
 import com.goldmedal.hrapp.data.network.responses.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,6 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Url
 import java.util.concurrent.TimeUnit
@@ -470,8 +479,10 @@ interface MyApi {
     suspend fun updateLimitParty(
             @Url url : String = "${BASE_URL}UpdateIncreaseLimitParty",
             @Field("CIN") strCin: String,
-            @Field("ClientSecret") strClientSecret: String
-    ): Response<List<AgingResponse>>
+            @Field("limitamt") limitAmount: String,
+            @Field("userid") userId: Int,
+            @Field("Category") category: String
+    ): Response<List<UpdateLimitResponse>>
 
 
     // - - - - - -  API for getting increase limit party detail - - - - - - - - - - -
@@ -641,6 +652,82 @@ interface MyApi {
             @Field("ClientSecret") strClientSecret: String
     ): Response<DefaultMessageResponse>
 
+    @FormUrlEncoded
+    @POST("common/common-image-upload")
+    suspend fun commonImageUpload(
+        @Field("ModuleName") moduleName: String,
+        @Field("ImageBlob") imgBlob: String
+    ): Response<CommonImageUploadResponse>
+
+    @FormUrlEncoded
+    @POST("common/add-update-company-details")
+    suspend fun addCompanyDetails(
+        @Field("CompanyDetailsID") companyDetailsId: Int,
+        @Field("AppType") appType: String,
+        @Field("UserID") userId: Int,
+        @Field("CINNo") cinNo: String,
+        @Field("Category") category: String,
+        @Field("CompanyName") companyName: String,
+        @Field("CompanyAddress") companyAddress: String,
+        @Field("VisitingCardImages") visitingCardImages: String,
+        @Field("ProductImages") productImages: String,
+        @Field("Remark") remark: String,
+        @Field("ClientID") strClientid: String,
+        @Field("ClientSecret") strClientSecret: String
+    ): Response<AddCompanyResponse>
+
+    @FormUrlEncoded
+    @POST("common/get-company-details-list")
+    suspend fun getCompanyDetails(
+        @Field("AppType") appType: String,
+        @Field("UserID") userId: Int,
+        @Field("CINNo") cinNo: String,
+        @Field("Category") category: String,
+        @Field("ClientID") strClientid: String,
+        @Field("ClientSecret") strClientSecret: String
+    ): Response<GetCompanyDetailsResponse>
+
+    @FormUrlEncoded
+    @POST("common/delete-company-details")
+    suspend fun deleteCompanyDetails(
+        @Field("AppType") appType: String,
+        @Field("CompanyDetailsID") companyDetailsId: Int,
+        @Field("UserID") userId: Int,
+        @Field("CINNo") cinNo: String,
+        @Field("Remark") remark: String
+    ): Response<AddCompanyResponse>
+
+    @FormUrlEncoded
+    @POST("leaves/getblockmonthDate")
+    suspend fun getBlockMonthDate(
+        @Field("UserID") userId: Int
+    ): Response<BlockMonthDateResponse>
+
+    @GET("events/GetCFDealerCinnumber")
+    suspend fun getCFDealer(): Response<ChannelFinanceDealerResponse>
+
+    @FormUrlEncoded
+    @POST("events/GetChannelFinanceData")
+    suspend fun getCFDealerWiseData(
+        @Field("CIN") cinNumber: String
+    ): Response<ChannelFinanceDealerWiseResponse>
+
+    @FormUrlEncoded
+    @POST("events/UpdateChannelFinanceAmount")
+    suspend fun updateCFAmount(
+        @Field("CIN") cinNumber: String,
+        @Field("UserId") userId: Int,
+        @Field("Amount") amount: String,
+        @Field("Slno") slNo: Int
+    ): Response<UpdateCNAmountResponse>
+
+    @FormUrlEncoded
+    @POST("punchdata/RestrictEmployeeToCheckIn")
+    suspend fun restrictEmployeeToCheckIn(
+        @Field("UserID") userId: Int
+    ): Response<DefaultMessageResponse>
+
+
     companion object {
         operator fun invoke(
                 networkConnectionInterceptor: NetworkConnectionInterceptor
@@ -660,7 +747,7 @@ interface MyApi {
 
             return Retrofit.Builder()
                     .client(okkHttpclient)
-                    .baseUrl(HRM_BASE_URL)
+                    .baseUrl(GlobalConstant.BASE_URL_MAIN)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(MyApi::class.java)

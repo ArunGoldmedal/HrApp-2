@@ -9,6 +9,9 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="holiday_list">Holiday List</string>
+    <string name="sourcing_data">Add Sourcing Data</string>
+    <string name="view_sourcing_data">Sourcing Data History</string>
+    <string name="channel_finance">Channel Finance</string>
 
     <!--Leave management-->
     <string name="leave_management">LEAVE MANAGEMENT</string>
@@ -173,6 +176,16 @@
     <string name="sl_history">My SL History</string>
     <string name="sl_requests">Short Leave Requests</string>
     <string name="limit_details">Temp Limit</string>
+    <string name="org_name">Company Name</string>
+    <string name="org_address">Company Address</string>
+
+    <string name="total_limit">Total Limit</string>
+    <string name="rupees_amount">₹ %s</string>
+    <string name="outstanding">Outstanding</string>
+    <string name="balance_limit">Balance Limit</string>
+    <string name="update">Update</string>
+    <string name="account_frozen">Account Frozen</string>
+    <string name="aging_amount">Aging Amount</string>
 
 
 </resources>

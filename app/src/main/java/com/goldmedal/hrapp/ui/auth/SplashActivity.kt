@@ -3,22 +3,23 @@ package com.goldmedal.hrapp.ui.auth
 import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.User
 import com.goldmedal.hrapp.data.model.InitialApiData
+import com.goldmedal.hrapp.databinding.ActivitySplashBinding
 import com.goldmedal.hrapp.ui.dashboard.DashboardActivity
 import com.goldmedal.hrapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_splash.*
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity(), AuthListener<Any> {
 
-
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: ActivitySplashBinding
 
     private val splashJson = arrayOf(R.raw.splash_1, R.raw.splash_2, R.raw.splash_3)
     private var initialApiCalled = false
@@ -33,7 +34,8 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
     private var user: User? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         viewModel.authListener = this
 
         startApi()
@@ -41,14 +43,14 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
 
     override fun onResume() {
         super.onResume()
-        lottie?.setAnimation(splashJson.random())
-        lottie?.playAnimation()
+        binding.lottie.setAnimation(splashJson.random())
+        binding.lottie.playAnimation()
 
-        lottie?.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-            }
+        binding.lottie.addAnimatorListener(object : Animator.AnimatorListener {
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationStart(p0: Animator) {}
+
+            override fun onAnimationEnd(p0: Animator) {
                 isVideoCompleted = true
                 if (!initialApiCalled) {
                     startApi()
@@ -59,11 +61,9 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
                 }
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
-            }
+            override fun onAnimationCancel(p0: Animator) {}
 
-            override fun onAnimationStart(animation: Animator?) {
-            }
+            override fun onAnimationRepeat(p0: Animator) {}
 
         })
     }
@@ -82,21 +82,20 @@ class SplashActivity : AppCompatActivity(), AuthListener<Any> {
         initialApiCalled = true
     }
 
-
     private fun comparePassword() {
-val savedPasswordOnDevice = viewModel.getUserPassword()
+        val savedPasswordOnDevice = viewModel.getUserPassword()
 
         //Password was not found re-direct to Login screen
-        if(savedPasswordOnDevice == null){
+        if (savedPasswordOnDevice == null) {
             viewModel.logoutUser()
-        }else{
+        } else {
             if (strUserPasswordOnServer == savedPasswordOnDevice) {
                 //Account is Active,Proceed
                 Intent(this@SplashActivity, DashboardActivity::class.java).also {
                     it.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(it)
                 }
-            }else{
+            } else {
                 //User has been compromised
                 viewModel.logoutUser()
             }
@@ -109,8 +108,8 @@ val savedPasswordOnDevice = viewModel.getUserPassword()
         if (isIntroScreenShown) {
             if (user != null) {
                 if (isActive == true) {
-                        //Check If Password was changed
-                            comparePassword()
+                    //Check If Password was changed
+                    comparePassword()
                 } else {
                     //Impostor was Ejected
                     toast("${user?.FirstName}, Your Account has been Disabled.")
@@ -135,11 +134,13 @@ val savedPasswordOnDevice = viewModel.getUserPassword()
         forceUpdate = data?.get(0)?.forceUpdate
         playStoreVersionCode = data?.get(0)?.VersionCode?.toInt() ?: 0
         val versionName = data?.get(0)?.VersionName
+        val isCFUser = data?.get(0)?.IsCFSUser
+        Log.d("TAG", "Is CF User - $isCFUser")
 
-
-
-        viewModel.saveInitialData(playStoreVersionCode, versionName, isActive ?: true, forceUpdate
-                ?: false)
+        viewModel.saveInitialData(
+            playStoreVersionCode, versionName, isActive ?: true,
+            forceUpdate ?: false, isCFUser ?: false
+        )
         if (isVideoCompleted) {
             userAccountStatus()
         }

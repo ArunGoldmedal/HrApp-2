@@ -1,6 +1,9 @@
 package com.goldmedal.hrapp.data.adapters;
 
 import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 import com.goldmedal.hrapp.R;
 import com.goldmedal.hrapp.data.db.entities.BirthdayData;
@@ -10,7 +13,7 @@ import com.goldmedal.hrapp.data.network.GlobalConstant;
 import com.zhpan.bannerview.BaseBannerAdapter;
 import com.zhpan.bannerview.BaseViewHolder;
 
-public class BirthdayAdapter extends BaseBannerAdapter<BirthdayData, BaseViewHolder<BirthdayData>> {
+public class BirthdayAdapter extends BaseBannerAdapter<BirthdayData> {
 
     private int roundCorner;
 
@@ -20,11 +23,11 @@ public class BirthdayAdapter extends BaseBannerAdapter<BirthdayData, BaseViewHol
 
 
     @Override
-    protected void onBind(BaseViewHolder<BirthdayData> holder, BirthdayData data, int position, int pageSize) {
+    protected void bindData(BaseViewHolder<BirthdayData> holder, BirthdayData data, int position, int pageSize) {
         holder.bindData(data, position, pageSize);
     }
 
-    @Override
+    /*@Override
     public BaseViewHolder<BirthdayData> createViewHolder(View itemView, int viewType) {
 
         if (viewType == GlobalConstant.TYPE_NO_DATA) {
@@ -33,8 +36,15 @@ public class BirthdayAdapter extends BaseBannerAdapter<BirthdayData, BaseViewHol
         return new BirthdayViewHolder(itemView, roundCorner);
 
 
-    }
+    }*/
 
+    @Override
+    public BaseViewHolder<BirthdayData> createViewHolder(@NonNull ViewGroup parent, View itemView, int viewType) {
+        if (viewType == GlobalConstant.TYPE_NO_DATA) {
+            return new NoDataBirthdayHolder(itemView, roundCorner);
+        }
+        return new BirthdayViewHolder(itemView, roundCorner);
+    }
 
     @Override
     public int getViewType(int position) {

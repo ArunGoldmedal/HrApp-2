@@ -8,5 +8,9 @@ data class AttendanceSummaryData(
     val PresentDays: Double?,
     val TotalDays: Double?,
     val WeekendDays: Double?,
-    val punchoutmissing: Double?
+    val punchoutmissing: Double?,
+    val MonthStartDate : String?,
+    val MonthEndDate : String?,
+    val MonthStartDateRegulization : String?,
+    val MonthEndDateRegulization : String?
 )

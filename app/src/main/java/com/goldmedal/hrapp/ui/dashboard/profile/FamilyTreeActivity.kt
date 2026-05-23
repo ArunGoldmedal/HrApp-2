@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.customviews.treeview.BaseTreeAdapter
 import com.goldmedal.hrapp.common.customviews.treeview.TreeNode
@@ -15,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.hdodenhof.circleimageview.CircleImageView
 
 
-class FamilyTreeActivity : AppCompatActivity() {
+class FamilyTreeActivity : BaseActivity() {
 
     private var mCurrentNode: TreeNode? = null
     private var nodeCount = 0

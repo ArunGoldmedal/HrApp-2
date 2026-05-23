@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/lightGray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_text"
+        android:hint="Search..."
+        android:padding="12dp"
+        android:singleLine="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:imeOptions="actionDone"
+        android:textSize="14sp"
+        android:background="@drawable/rounder_corners"
+        android:backgroundTint="@color/white"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_dialog_searchable_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/row_searchable_list"/>
+
+    <LinearLayout
+        android:id="@+id/ll_dialog_searchable_list_qty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_dialog_searchable_list_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:text="Quantity"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_dialog_manual_qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:hint="Add Quantity"
+            android:background="@drawable/bg_white_gray_border"
+            android:backgroundTint="@color/white"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:backgroundTint="@color/appBg"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        android:text="OK"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:cornerRadius="12dp"/>
+
+</LinearLayout>

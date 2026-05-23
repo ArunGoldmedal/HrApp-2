@@ -88,7 +88,7 @@ class LeaveRepository @Inject constructor(
         return apiRequest { api.getLeaveBalance(userId,year, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET) }
     }
 
-    suspend fun saveLeaveBalance(leaveBalData: List<LeaveBalanceData?>) = db.getLeaveBalanceDao().insertLeaveBalanceData(leaveBalData)
+    suspend fun saveLeaveBalance(leaveBalData: List<LeaveBalanceData>) = db.getLeaveBalanceDao().insertLeaveBalanceData(leaveBalData)
 
     fun getLeaveBalanceData() = db.getLeaveBalanceDao().getLeaveBalanceData()
 
@@ -150,5 +150,7 @@ class LeaveRepository @Inject constructor(
         return apiRequest { api.approveRejectOD(userId,requestId,type, GlobalConstant.CLIENT_ID, GlobalConstant.CLIENT_SECRET) }
     }
 
-
+    suspend fun getBlockMonthDate(userId: Int): BlockMonthDateResponse {
+        return apiRequest { api.getBlockMonthDate(userId) }
+    }
 }

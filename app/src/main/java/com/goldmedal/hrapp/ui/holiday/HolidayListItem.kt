@@ -34,7 +34,7 @@ class HolidayListItem(
 
         viewBinding.tvHolidayDescr.text = holidayData?.Description
 
-        val holidayName: String = holidayData?.HolidayName?.toLowerCase(Locale.getDefault()) ?: ""
+        val holidayName: String = holidayData?.HolidayName?.lowercase(Locale.getDefault()) ?: ""
 
         //REPUBLIC DAY
         if (holidayName.contains("republic")) {

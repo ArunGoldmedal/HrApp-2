@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.data.model.ODListData
 import com.goldmedal.hrapp.databinding.ActivityODRecordsBinding
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class ODRecordsActivity : AppCompatActivity(), ApiStageListener<Any>{
+class ODRecordsActivity : BaseActivity(), ApiStageListener<Any>{
 
     private lateinit var binding: ActivityODRecordsBinding
     private val viewModel: LeaveViewModel by viewModels()

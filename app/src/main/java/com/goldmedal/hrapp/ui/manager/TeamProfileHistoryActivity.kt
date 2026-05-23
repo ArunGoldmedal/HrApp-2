@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ZoomOutPageTransformer
 import com.goldmedal.hrapp.data.db.entities.MyTeamData
 import com.goldmedal.hrapp.databinding.ActivityTeamProfileHistoryBinding
@@ -15,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 private const val NUM_PAGES = 2
 @AndroidEntryPoint
-class TeamProfileHistoryActivity : AppCompatActivity(){
+class TeamProfileHistoryActivity : BaseActivity(){
     private var modelItem: MyTeamData? = null
     private lateinit var binding: ActivityTeamProfileHistoryBinding
     override fun onCreate(savedInstanceState: Bundle?) {

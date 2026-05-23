@@ -12,6 +12,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.text.Html
@@ -24,9 +25,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.GoogleMapInfoAdapter
 import com.goldmedal.hrapp.data.model.InsertPunchData
+import com.goldmedal.hrapp.databinding.ActivityMapsBinding
 import com.goldmedal.hrapp.geofence.GeofenceTransitionService
 import com.goldmedal.hrapp.ui.dialogs.PunchAttendanceDialog
 import com.goldmedal.hrapp.ui.dialogs.SuccessMessageDialog
@@ -43,16 +46,16 @@ import com.google.android.gms.maps.GoogleMap.*
 import com.google.android.gms.maps.model.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_maps.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
-class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener, OnMapReadyCallback, SuccessMessageDialog.OnDashboardRefresh, OnMapClickListener, OnMarkerClickListener, ResultCallback<Status>, PunchAttendanceDialog.OnShowSuccessMsg {
+class MapsActivity : BaseActivity(), View.OnClickListener, ConnectionCallbacks, OnConnectionFailedListener, LocationListener, OnMapReadyCallback, SuccessMessageDialog.OnDashboardRefresh, OnMapClickListener, OnMarkerClickListener, ResultCallback<Status>, PunchAttendanceDialog.OnShowSuccessMsg {
     private var map: GoogleMap? = null
+    private lateinit var mBinding: ActivityMapsBinding
     private var googleApiClient: GoogleApiClient? = null
-    private var lastLocation: Location? = null
+    var lastLocation: Location? = null
     private var geoFenceMarker: Marker? = null
 
     private var officeLatitude: String? = null
@@ -81,14 +84,14 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
 
         private const val GEO_DURATION = 60 * 60 * 1000.toLong()
         private const val GEOFENCE_REQ_ID = "My Geofence"
-        private const val GEOFENCE_RADIUS = 500.0f // in meters
+        private const val GEOFENCE_RADIUS = 50.0f // in meters
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
-
+        mBinding = ActivityMapsBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
         // initialize GoogleMaps
         initGMaps()
@@ -108,16 +111,16 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
         isGeoFenceLock = intent.getBooleanExtra("isGeoFenceLock", true)
 
 
-        buttonAddress?.setOnClickListener(this)
+        mBinding.buttonAddress.setOnClickListener(this)
 
         if (punchType == "IN") {
-            btnCheckIn.visibility = View.VISIBLE
-            btnCheckOut.visibility = View.GONE
-            btnCheckIn.setOnClickListener(this)
+            mBinding.btnCheckIn.visibility = View.VISIBLE
+            mBinding.btnCheckOut.visibility = View.GONE
+            mBinding.btnCheckIn.setOnClickListener(this)
         } else {
-            btnCheckIn.visibility = View.GONE
-            btnCheckOut.visibility = View.VISIBLE
-            btnCheckOut.setOnClickListener(this)
+            mBinding.btnCheckIn.visibility = View.GONE
+            mBinding.btnCheckOut.visibility = View.VISIBLE
+            mBinding.btnCheckOut.setOnClickListener(this)
         }
     }
 
@@ -311,7 +314,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
             //set view for info window
             map!!.setInfoWindowAdapter(GoogleMapInfoAdapter(this))
 
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this)
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient!!, locationRequest!!, this)
         }
     }
 
@@ -345,7 +348,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
         get() {
             Log.d(TAG, "getLastKnownLocation()")
             if (checkPermission()) {
-                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient)
+                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient!!)
                 if (lastLocation != null) {
                     Log.i(TAG, "LasKnown location. " +
                             "Long: " + lastLocation!!.longitude +
@@ -443,15 +446,20 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
         Log.d(TAG, "createGeofencePendingIntent")
         if (geoFencePendingIntent != null) return geoFencePendingIntent
         val intent = Intent(this, GeofenceTransitionService::class.java)
-        return PendingIntent.getService(
-                this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getService(this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getService(this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+
     }
 
     // Add the created GeofenceRequest to the device's monitoring list
     private fun addGeofence(request: GeofencingRequest) {
         Log.d(TAG, "addGeofence")
         if (checkPermission()) LocationServices.GeofencingApi.addGeofences(
-                googleApiClient,
+                googleApiClient!!,
                 request,
                 createGeofencePendingIntent()
         ).setResultCallback(this)
@@ -539,7 +547,7 @@ class MapsActivity : FragmentActivity(), View.OnClickListener, ConnectionCallbac
     private fun clearGeofence() {
         Log.d(TAG, "clearGeofence()")
         LocationServices.GeofencingApi.removeGeofences(
-                googleApiClient,
+                googleApiClient!!,
                 createGeofencePendingIntent()
         ).setResultCallback { status ->
             if (status.isSuccess) { // remove drawing

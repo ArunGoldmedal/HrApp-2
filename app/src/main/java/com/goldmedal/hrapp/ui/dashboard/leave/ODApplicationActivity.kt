@@ -8,16 +8,18 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.databinding.ActivityODApplicationBinding
 import com.goldmedal.hrapp.ui.leave.LeaveViewModel
+import com.goldmedal.hrapp.util.getMinDateToApplyLeaves
 import com.goldmedal.hrapp.util.snackbar
 import com.goldmedal.hrapp.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class ODApplicationActivity : AppCompatActivity(), ApiStageListener<Any> {
+class ODApplicationActivity : BaseActivity(), ApiStageListener<Any> {
 
 
     private lateinit var binding: ActivityODApplicationBinding
@@ -61,7 +63,8 @@ class ODApplicationActivity : AppCompatActivity(), ApiStageListener<Any> {
 
 
             val previousCalendar = Calendar.getInstance()
-            previousCalendar.add(Calendar.DAY_OF_MONTH, -7)
+            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+            previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
 
             val startDatePicker = DatePickerDialog(this,
@@ -90,7 +93,8 @@ class ODApplicationActivity : AppCompatActivity(), ApiStageListener<Any> {
 
 
             val previousCalendar = Calendar.getInstance()
-            previousCalendar.add(Calendar.DAY_OF_MONTH, -7)
+            val minDay = getMinDateToApplyLeaves(mYear, mMonth + 1, mDay)
+            previousCalendar.add(Calendar.DAY_OF_MONTH, -minDay)
 
             val endDatePicker = DatePickerDialog(this,
                     { view, year, monthOfYear, dayOfMonth ->
@@ -105,8 +109,6 @@ class ODApplicationActivity : AppCompatActivity(), ApiStageListener<Any> {
             if (viewModel.strStartDate?.isNotEmpty() == true) {
                 endDatePicker.datePicker.minDate = minEndDate.timeInMillis
             } else {
-
-
                 endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
             }
             endDatePicker.show()

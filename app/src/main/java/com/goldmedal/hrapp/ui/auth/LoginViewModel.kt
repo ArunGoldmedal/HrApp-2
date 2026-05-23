@@ -46,12 +46,18 @@ class LoginViewModel @Inject constructor(
     fun introInit() = repository.introInit()
     fun isIntroInit() = repository.isIntroInit()
 
-    fun saveInitialData(verCode: Int, verName: String?, isActive: Boolean, forceUpdate: Boolean) = repository.saveInitialData(verCode, verName, isActive, forceUpdate)
+    fun saveInitialData(verCode: Int, verName: String?, isActive: Boolean, forceUpdate: Boolean, isCFUser: Boolean) =
+        repository.saveInitialData(verCode, verName, isActive, forceUpdate, isCFUser)
 
 
 
     fun getVersionCode() = repository.getVersionCode()
     fun getForceUpdateFlag() = repository.getForceUpdateFlag()
+
+    fun saveFcmToken(token: String?) = repository.saveFCMToken(token)
+    fun getFcmToken() = repository.getFCMToken()
+
+    fun isCFUser() = repository.isCFUser()
 
     fun logoutUser() =
 
@@ -83,8 +89,9 @@ class LoginViewModel @Inject constructor(
             return
         }
         else if (strFCMToken.isNullOrEmpty()) {
-            authListener?.onFailure("Invalid token")
-            return
+            strFCMToken = getFcmToken()
+            /*authListener?.onFailure("Invalid token")
+            return*/
         }
         authListener?.onStarted()
 

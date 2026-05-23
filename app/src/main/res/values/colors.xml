@@ -105,5 +105,7 @@
     <color name="white_alpha_75">#BFFFFFFF</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="black_overlay">#66000000</color>
+
+    <color name="colorYellow">#FFFF00</color>
 </resources>
 

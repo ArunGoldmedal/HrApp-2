@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.goldmedal.hrapp.BaseActivity
 import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.data.db.entities.IncreaseLimitPartyData
 import com.goldmedal.hrapp.data.model.AgingDetail
@@ -16,24 +17,22 @@ import com.goldmedal.hrapp.util.snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_accounts_detail.rvList
-import kotlinx.android.synthetic.main.activity_login.root_layout
-import kotlinx.android.synthetic.main.activity_party_detail.*
 
 @AndroidEntryPoint
-class PartyDetailActivity : AppCompatActivity(), DetailListener {
+class PartyDetailActivity : BaseActivity(), DetailListener {
 
 
 
 //    private val factory: AccountsViewModelFactory by instance()
 
     private  val limitDataParty: AccountsViewModel by viewModels()
+    private lateinit var binding: ActivityPartyDetailBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityPartyDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_party_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_party_detail)
 //        limitDataParty = ViewModelProviders.of(this, factory).get(AccountsViewModel::class.java)
         binding.viewmodelparty = limitDataParty
 
@@ -61,12 +60,12 @@ class PartyDetailActivity : AppCompatActivity(), DetailListener {
     private fun initRecyclerView(toLimitDetailParty: List<PartyDetailItem?>) {
         val mAdapter = GroupAdapter<GroupieViewHolder>().apply {
             print("Count - - -" + toLimitDetailParty.size)
-            root_layout?.snackbar("Count - - -" + toLimitDetailParty.size)
+            binding.rootLayout.snackbar("Count - - -" + toLimitDetailParty.size)
 
             addAll(toLimitDetailParty)
         }
 
-        rvList.apply {
+        binding.rvList.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = mAdapter
@@ -102,33 +101,38 @@ class PartyDetailActivity : AppCompatActivity(), DetailListener {
 
     override fun onStarted() {
         // progress_bar.show()
-        view_common.showProgressBar()
+        binding.viewCommon.showProgressBar()
     }
 
 
-    override fun onSuccess(partyList: List<IncreaseLimitPartyData?>?, agingList: List<AgingDetail?>?, partyDetailList: List<LimitPartyDetailData?>?) {
+    override fun onSuccess(
+        limitIncreaseMessage: String?,
+        partyList: List<IncreaseLimitPartyData?>?,
+        agingList: List<AgingDetail?>?,
+        partyDetailList: List<LimitPartyDetailData?>?
+    ) {
         bindUI(partyDetailList)
 
         // progress_bar.hide()
-        if (partyDetailList?.isNullOrEmpty() ?: true) {
-            view_common.showNoData()
+        if (partyDetailList.isNullOrEmpty()) {
+            binding.viewCommon.showNoData()
         } else {
-            view_common.hide()
+            binding.viewCommon.hide()
         }
 
-        root_layout?.snackbar("Party detail List - - - " + partyDetailList?.size)
+        binding.rootLayout.snackbar("Party detail List - - - " + partyDetailList?.size)
     }
 
 
     override fun onFailure(message: String, reason: String) {
         // progress_bar.hide()
-        if(reason.equals("net")){
-            view_common.showNoInternet()
+        if(reason == "net"){
+            binding.viewCommon.showNoInternet()
         }else{
-            view_common.showServerError()
+            binding.viewCommon.showServerError()
         }
 
-        root_layout?.snackbar(message)
+        binding.rootLayout.snackbar(message)
     }
 
 }

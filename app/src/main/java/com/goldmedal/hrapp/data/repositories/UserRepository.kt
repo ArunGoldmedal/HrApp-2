@@ -80,11 +80,11 @@ class UserRepository @Inject constructor(
 
     }
 
-    suspend fun saveProfilePic(profilePicLink: String?) = db.getUserDao().updateProfilePic(profilePicLink)
+    suspend fun saveProfilePic(profilePicLink: String) = db.getUserDao().updateProfilePic(profilePicLink)
 
 
-    suspend fun saveUser(user: User?) = db.getUserDao().upsert(user)
-    suspend fun updateUserProfile(user: UserDataUpdate?) = db.getUserDao().update(user)
+    suspend fun saveUser(user: User) = db.getUserDao().upsert(user)
+    suspend fun updateUserProfile(user: UserDataUpdate) = db.getUserDao().update(user)
 
     fun getUser() = db.getUserDao().getUser()
 
@@ -99,9 +99,16 @@ class UserRepository @Inject constructor(
     fun introInit() = prefs.introInit(true)
     fun isIntroInit() = prefs.isIntroInit()
 
-    fun saveInitialData(verCode: Int,verName: String?,isActive: Boolean,forceUpdate: Boolean) =
-            prefs.saveInitialData(verCode, verName, isActive, forceUpdate)
+    fun saveInitialData(verCode: Int,verName: String?,isActive: Boolean,forceUpdate: Boolean,
+                        isCFUser: Boolean) =
+            prefs.saveInitialData(verCode, verName, isActive, forceUpdate, isCFUser)
 
-fun getVersionCode() = prefs.getVersionCode()
-fun getForceUpdateFlag() = prefs.getForceUpdateFlag()
+    fun getVersionCode() = prefs.getVersionCode()
+    fun getForceUpdateFlag() = prefs.getForceUpdateFlag()
+
+    fun saveFCMToken(token: String?) = prefs.saveFCMToken(token)
+    fun getFCMToken() = prefs.getFCMToken()
+
+    fun setCFUser(isCFUser: Boolean) = prefs.setIsCFUser(isCFUser)
+    fun isCFUser() = prefs.isCFUser()
 }

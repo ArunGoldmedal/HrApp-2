@@ -12,17 +12,17 @@ import com.goldmedal.hrapp.util.generateRandomCaptcha
 import com.goldmedal.hrapp.util.getDeviceId
 import com.goldmedal.hrapp.util.snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_input_detail.*
 
 @AndroidEntryPoint
 class InputDetailsActivity : AppCompatActivity(), AuthListener<Any> {
 
-private  val viewModel: LoginViewModel by viewModels()
+    private  val viewModel: LoginViewModel by viewModels()
+    private lateinit var binding: ActivityInputDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityInputDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_input_detail)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_input_detail)
 
         binding.viewmodelinput = viewModel
 
@@ -30,20 +30,16 @@ private  val viewModel: LoginViewModel by viewModels()
 
         viewModel.strDeviceId = getDeviceId(this@InputDetailsActivity)
         viewModel.strGeneratedCaptcha =  generateRandomCaptcha()
-        tvCaptcha.text = viewModel.strGeneratedCaptcha
-
-
-
-
+        binding.tvCaptcha.text = viewModel.strGeneratedCaptcha
     }
     override fun onStarted() {
-        progress_bar?.start()
+        binding.progressBar.start()
     }
 
     override fun onSuccess(_object: List<Any?>) {
 
         viewOtpScreen(_object as List<SendOtpData>)
-        progress_bar?.stop()
+        binding.progressBar.stop()
     }
 
     private fun viewOtpScreen(list: List<SendOtpData>) {
@@ -56,12 +52,12 @@ private  val viewModel: LoginViewModel by viewModels()
     }
 
     override fun onFailure(message: String) {
-        progress_bar?.stop()
-        root_layout?.snackbar(message)
+        binding.progressBar.stop()
+        binding.rootLayout.snackbar(message)
     }
 
     override fun setCaptcha(strCaptcha: String) {
-        tvCaptcha.setText(strCaptcha)
+        binding.tvCaptcha.text = strCaptcha
     }
 
 
