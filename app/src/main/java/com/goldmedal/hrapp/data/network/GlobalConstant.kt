@@ -8,7 +8,7 @@ object GlobalConstant {
     const val BASE_URL = "https://api.goldmedalindia.in/api/"
     const val TEST_BASE_URL = "https://goldapi-uat.goldmedalindia.in/api/hrm/v1/"
     const val HRM_BASE_URL = "https://goldapi.goldmedalindia.in/api/hrm/v1.0/"
-    private const val IS_LIVE = false // todo - change value for live
+    private const val IS_LIVE = true // todo - change value for live
     var BASE_URL_MAIN = if(IS_LIVE) HRM_BASE_URL else TEST_BASE_URL
 
     const val SUCCESS_CODE = "200"
