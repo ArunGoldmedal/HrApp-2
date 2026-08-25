@@ -10,7 +10,6 @@ import com.goldmedal.hrapp.data.model.CommonImageUploadResponse
 import com.goldmedal.hrapp.data.model.GetCompanyDetailsResponse
 import com.goldmedal.hrapp.data.model.UpdateCNAmountResponse
 import com.goldmedal.hrapp.data.model.UpdateLimitResponse
-import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_NET_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.TEST_BASE_URL
@@ -459,7 +458,7 @@ interface MyApi {
     @FormUrlEncoded
     @POST()
     suspend fun getIncreaseLimitParty(
-            @Url url : String = "${BASE_NET_URL}GetIncreaseLimitParty",
+            @Url url : String = "${BASE_URL}GetIncreaseLimitParty",
             @Field("partyid") strPartyId: String,
             @Field("searchtxt") strSearchText: String
     ): Response<List<IncreaseLimitPartyResponse>>
@@ -468,7 +467,7 @@ interface MyApi {
     @FormUrlEncoded
     @POST()
     suspend fun getAgingDetail(
-            @Url url : String = "${BASE_NET_URL}getAging",
+            @Url url : String = "${BASE_URL}getAging",
             @Field("CIN") strCin: String,
             @Field("ClientSecret") strClientSecret: String
     ): Response<List<AgingResponse>>
@@ -478,7 +477,7 @@ interface MyApi {
     @FormUrlEncoded
     @POST()
     suspend fun updateLimitParty(
-            @Url url : String = "${BASE_NET_URL}UpdateIncreaseLimitParty",
+            @Url url : String = "${BASE_URL}UpdateIncreaseLimitParty",
             @Field("CIN") strCin: String,
             @Field("limitamt") limitAmount: String,
             @Field("userid") userId: Int,
@@ -492,7 +491,7 @@ interface MyApi {
     @FormUrlEncoded
     @POST()
     suspend fun getIncreaseLimitDetail(
-            @Url url : String = "${BASE_NET_URL}GetIncreaseLimitPartyDetails",
+            @Url url : String = "${BASE_URL}GetIncreaseLimitPartyDetails",
             @Field("userid") strPartyId: String,
             @Field("searchtxt") strSearchText: String
     ): Response<List<LimitPartyDetailResponse>>
