@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import androidx.work.OneTimeWorkRequest
@@ -83,7 +84,7 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
 
     private val viewModel: HomeViewModel by viewModels()
     private val notiViewModel: NotificationViewModel by viewModels()
-    private val attViewModel: AttendanceViewModel by viewModels()
+    private val attViewModel: AttendanceViewModel by activityViewModels()
 
 
     private lateinit var homeFragmentBinding: HomeFragmentBinding
@@ -628,6 +629,14 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
                 homeFragmentBinding.txtApprovedLeaves.text = formatNumber(summaryData?.Approvedleave.toString())
                 homeFragmentBinding.txtCompanyHoliday.text = formatNumber(summaryData?.CompanyHoliday.toString())
                 homeFragmentBinding.txtWeekend.text = formatNumber(summaryData?.WeekendDays.toString())
+                attViewModel.monthStartDate = summaryData?.MonthStartDate.toString()
+                attViewModel.monthEndDate = summaryData?.MonthEndDate.toString()
+                attViewModel.monthStartDateRegularization = summaryData?.MonthStartDateRegulization.toString()
+                attViewModel.monthEndDateRegularization = summaryData?.MonthEndDateRegulization.toString()
+            }
+
+            if (callFrom == "restrict_checkin") {
+                showMap("IN")
             }
         }
     }
@@ -877,13 +886,23 @@ class HomeFragment : Fragment(), ApiStageListener<Any>, View.OnClickListener {
             }
         }
 
+        if (callFrom == "restrict_checkin") {
+            requireContext().alertDialog(message)
+        }
+
     }
 
     override fun onClick(v: View?) {
         val id = v?.id
 
         if (id == R.id.btnCheckIn) {
-            showMap("IN")
+         //   showMap("IN")
+
+            viewModel.getLoggedInUser().observe(viewLifecycleOwner) { user ->
+                if (user != null) {
+                    viewModel.restrictEmployeeToCheckIn(user.UserID)
+                }
+            }
         } else if (id == R.id.btnCheckout) {
             showMap("OUT")
         } else if (id == R.id.llRequests1) {

@@ -42,9 +42,6 @@ fun formatDateString(rawString: String, inputFormat: String, outputFormat: Strin
 }
 
 fun getCurrentDateTime(): Date {
-
-
-
     return Calendar.getInstance().time
 }
 
@@ -259,4 +256,16 @@ fun getCalendarFromDate(strDate: String): Calendar {
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     cal.time = sdf.parse(strDate) as Date
     return cal
+}
+
+// Parses dates in format "MM/dd/yyyy hh:mm:ss aa" e.g. "04/26/2026 12:00:00 AM"
+fun getCalendarFromDateTimeString(strDate: String): Calendar {
+    val cal = Calendar.getInstance()
+    return try {
+        val sdf = SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa", Locale.getDefault())
+        cal.time = sdf.parse(strDate) as Date
+        cal
+    } catch (e: Exception) {
+        cal
+    }
 }

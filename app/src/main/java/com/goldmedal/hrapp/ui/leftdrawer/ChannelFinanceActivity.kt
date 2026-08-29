@@ -69,9 +69,9 @@ class ChannelFinanceActivity : BaseActivity(), ApiStageListener<Any> {
                 val inputAmount = etUpdateAmount.text.toString().trim()
                 if (inputAmount.isEmpty()) {
                     alertDialog("Please enter amount to update")
-                } else if (inputAmount.toDouble() > totalLimit) {
+                } /*else if (inputAmount.toDouble() > totalLimit) {
                     alertDialog("Amount should not be greater than total limit")
-                } else {
+                }*/ else {
                     viewModel.updateCFAmount(cinNumber, userId ?: 0, inputAmount, slNo ?: 0)
                 }
             }

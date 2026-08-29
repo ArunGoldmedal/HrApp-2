@@ -12,6 +12,7 @@ import com.goldmedal.hrapp.data.model.UpdateCNAmountResponse
 import com.goldmedal.hrapp.data.model.UpdateLimitResponse
 import com.goldmedal.hrapp.data.network.GlobalConstant.BASE_URL
 import com.goldmedal.hrapp.data.network.GlobalConstant.HRM_BASE_URL
+import com.goldmedal.hrapp.data.network.GlobalConstant.TEST_BASE_URL
 import com.goldmedal.hrapp.data.network.responses.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -720,6 +721,13 @@ interface MyApi {
         @Field("Slno") slNo: Int
     ): Response<UpdateCNAmountResponse>
 
+    @FormUrlEncoded
+    @POST("punchdata/RestrictEmployeeToCheckIn")
+    suspend fun restrictEmployeeToCheckIn(
+        @Field("UserID") userId: Int
+    ): Response<DefaultMessageResponse>
+
+
     companion object {
         operator fun invoke(
                 networkConnectionInterceptor: NetworkConnectionInterceptor
@@ -739,7 +747,7 @@ interface MyApi {
 
             return Retrofit.Builder()
                     .client(okkHttpclient)
-                    .baseUrl(HRM_BASE_URL)
+                    .baseUrl(GlobalConstant.BASE_URL_MAIN)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(MyApi::class.java)

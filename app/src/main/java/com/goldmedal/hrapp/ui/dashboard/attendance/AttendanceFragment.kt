@@ -31,7 +31,6 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.Month
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener<Any> {
@@ -110,14 +109,14 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
         viewModel.strStartDate = previous.toString("yyyy-MM-dd")
         viewModel.strEndDate = today.toString("yyyy-MM-dd")
 
-        val attInfo = arrayListOf<String>()
+        val attInfo: ArrayList<String> = ArrayList<String>()
         attInfo.add("Present")
         attInfo.add("Absent")
         attInfo.add("Half Day")
         attInfo.add("Missed Punch")
         attInfo.add("Holiday")
 
-        val colors = arrayListOf<HexColors>()
+        val colors: ArrayList<HexColors> = ArrayList<HexColors>()
         colors.add(HexColors("#228B22")) //Green
         colors.add(HexColors("#AD160F")) //Red
         colors.add(HexColors("#2577E7")) //Blue
@@ -144,12 +143,13 @@ class AttendanceFragment : Fragment(),  OnDateSelectedListener, ApiStageListener
                         .into(attFragmentBinding.imgProfilePic)
 
                     Coroutines.main {
+                        if (!isAdded || view == null) return@main
                         attFragmentBinding.progressBar.start()
                         val attendance = viewModel.attendanceData.await()
 
-                        //If used viewLifecycleOwner app crashes ,let context be this
-                        attendance.observe(this@AttendanceFragment) { it ->
-
+                        //If used viewLifecycleOwner app crashes, let context be this
+                        attendance.observe(viewLifecycleOwner) { it ->
+                            if (!isAdded || view == null) return@observe
                             attFragmentBinding.progressBar.stop()
                             if (it != null) {
                                 attendanceData = it

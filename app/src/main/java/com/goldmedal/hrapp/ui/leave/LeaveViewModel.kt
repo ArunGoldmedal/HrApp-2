@@ -502,7 +502,7 @@ class LeaveViewModel @Inject constructor(
         } else if (strEndDate.isNullOrEmpty()) {
             apiListener?.onValidationError("Please Select End Date", "applyLeave")
             return
-        } else if (strLeaveReasonId == "-1") {
+        } else if (strLeaveReasonId.isNullOrEmpty() || strLeaveReasonId == "-1") {
             apiListener?.onValidationError("Please Select Leave Reason", "applyLeave")
             return
         } else if (strActualLeaveDays?.toDouble() ?: 0.0 <= 0.0) {

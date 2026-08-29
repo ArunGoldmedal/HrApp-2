@@ -223,4 +223,10 @@ class HomeRepository @Inject constructor(
         }
     }
 
+    suspend fun restrictEmployeeToCheckIn(userId: Int): DefaultMessageResponse {
+        return apiRequest {
+            api.restrictEmployeeToCheckIn(userId)
+        }
+    }
+
 }

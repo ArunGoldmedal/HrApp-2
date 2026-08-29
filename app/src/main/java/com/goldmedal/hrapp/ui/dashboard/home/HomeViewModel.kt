@@ -446,4 +446,42 @@ class HomeViewModel @Inject constructor(
         }
 
     }
+
+    fun restrictEmployeeToCheckIn(userId: Int?) {
+        if (userId == null) {
+            apiListener?.onValidationError("User id cannot be nil", "restrict_checkin")
+            return
+        }
+
+        apiListener?.onStarted("restrict_checkin")
+
+        Coroutines.main {
+            try {
+                val response = repository.restrictEmployeeToCheckIn(userId)
+                if (response.StatusCode.equals(GlobalConstant.SUCCESS_CODE)) {
+                    if (!response.data?.isNullOrEmpty()!!) {
+                        response.data.let {
+                            apiListener?.onSuccess(it, "restrict_checkin")
+                            return@main
+                        }
+                    } else {
+                        apiListener?.onError("Something went wrong", "restrict_checkin", false)
+                    }
+                } else {
+                    val errorResponse = response.Errors
+                    if (!errorResponse?.isNullOrEmpty()!!) {
+                        errorResponse[0]?.ErrorMsg?.let { apiListener?.onError(it, "restrict_checkin", false) }
+                    } else {
+                        response.StatusCodeMessage?.let { apiListener?.onError(it, "restrict_checkin", false) }
+                    }
+                }
+            } catch (e: ApiException) {
+                apiListener?.onError(e.message!!, "restrict_checkin", true)
+            } catch (e: NoInternetException) {
+                apiListener?.onError(e.message!!, "restrict_checkin", true)
+            } catch (e: SocketTimeoutException) {
+                apiListener?.onError(e.message!!, "restrict_checkin", true)
+            }
+        }
+    }
 }

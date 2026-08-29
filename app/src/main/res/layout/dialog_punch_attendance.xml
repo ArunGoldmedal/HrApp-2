@@ -150,7 +150,6 @@
                 android:layout_marginBottom="@dimen/dp_16"
                 android:background="@drawable/color_checkin"
                 android:gravity="center"
-                android:onClick="@{viewmodel::onPunchAttendanceButtonClick}"
                 android:padding="@dimen/dp_8"
                 android:text="@string/str_submit"
                 android:textColor="#FFFFFF" />

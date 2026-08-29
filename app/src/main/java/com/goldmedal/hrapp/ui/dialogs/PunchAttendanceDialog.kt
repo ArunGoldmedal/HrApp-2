@@ -3,7 +3,6 @@ package com.goldmedal.hrapp.ui.dialogs
 import android.Manifest
 import android.app.Activity
 import android.app.Dialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -14,9 +13,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -25,6 +22,7 @@ import com.goldmedal.hrapp.R
 import com.goldmedal.hrapp.common.ApiStageListener
 import com.goldmedal.hrapp.common.ImageSelectionListener
 import com.goldmedal.hrapp.databinding.DialogPunchAttendanceBinding
+import com.goldmedal.hrapp.ui.map.MapsActivity
 import com.goldmedal.hrapp.util.*
 import com.google.android.gms.maps.model.LatLng
 import com.vmadalin.easypermissions.EasyPermissions
@@ -43,6 +41,8 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
     private val GALLERY = 1
     private val CAMERA = 2
     private val CAMERA_PERM = 121
+    private lateinit var lastLocation: LatLng
+    private var isWithinOfficeRadius = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -58,6 +58,20 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
         dialog?.window?.setLayout(screenWidth, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setGravity(Gravity.CENTER)
         dialog?.setCanceledOnTouchOutside(true)
+        //Log.d("TAG", "PunchAttendanceDialog - onResume")
+
+        lastLocation = LatLng(requireArguments().getDouble("latitude"), requireArguments().getDouble("longitude"))
+        viewModel.lastLocation = lastLocation
+
+        isWithinOfficeRadius = arguments?.getBoolean("isWithinOfficeRadius") ?: false
+
+        if (isWithinOfficeRadius) {
+            viewModel.strLocationAddress = arguments?.getString("officeAddress", getAddressFromLatLong(view?.context, lastLocation.latitude, lastLocation.longitude))
+        } else {
+            viewModel.strLocationAddress = getAddressFromLatLong(view?.context, lastLocation.latitude, lastLocation.longitude)
+        }
+
+        attBinding.txtPunchTime.text = getCurrentDateTime().toString("hh:mm a")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,7 +82,7 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Log.d("TAG", "PunchAttendanceDialog - onViewCreated")
         attBinding.viewmodel = viewModel
         viewModel.apiListener = this
         viewModel.imageSelectionListener = this
@@ -81,27 +95,34 @@ class PunchAttendanceDialog : DialogFragment(), ApiStageListener<Any>, ImageSele
 
             }
         })
-
+        (activity as MapsActivity).lastLocation
         viewModel.strPunchType = arguments?.getString("calledFrom", "")
 
         if (viewModel.strPunchType.equals("OUT", ignoreCase = true)) {
             attBinding.txtPunchHeader.text = getString(R.string.str_punch_out)
         }
 
+        attBinding.btnOk.setOnClickListener {
+            try {
+                lastLocation = (activity as MapsActivity).lastLocation?.let { location ->
+                    LatLng(location.latitude, location.longitude)
+                } ?: LatLng(requireArguments().getDouble("latitude"), requireArguments().getDouble("longitude"))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                lastLocation = LatLng(requireArguments().getDouble("latitude"), requireArguments().getDouble("longitude"))
+            }
+            
+            viewModel.lastLocation = lastLocation
 
-        val lastLocation = LatLng(requireArguments().getDouble("latitude"), requireArguments().getDouble("longitude"))
-        viewModel.lastLocation = lastLocation
-
-
-        val isWithinOfficeRadius = arguments?.getBoolean("isWithinOfficeRadius") ?: false
-
-        if (isWithinOfficeRadius) {
-            viewModel.strLocationAddress = arguments?.getString("officeAddress", getAddressFromLatLong(view.context, lastLocation.latitude, lastLocation.longitude))
-        } else {
-            viewModel.strLocationAddress = getAddressFromLatLong(view.context, lastLocation.latitude, lastLocation.longitude)
+            if (isWithinOfficeRadius) {
+                viewModel.strLocationAddress = arguments?.getString("officeAddress", getAddressFromLatLong(
+                    view.context, lastLocation.latitude, lastLocation.longitude))
+            } else {
+                viewModel.strLocationAddress = getAddressFromLatLong(view.context, lastLocation.latitude, lastLocation.longitude)
+            }
+            
+            viewModel.onPunchAttendanceButtonClick(it)
         }
-
-        attBinding.txtPunchTime.text = getCurrentDateTime().toString("hh:mm a")
     }
 
     override fun onStarted(callFrom: String) {

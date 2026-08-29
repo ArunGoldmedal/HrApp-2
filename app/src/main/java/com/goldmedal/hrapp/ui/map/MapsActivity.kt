@@ -55,7 +55,7 @@ class MapsActivity : BaseActivity(), View.OnClickListener, ConnectionCallbacks, 
     private var map: GoogleMap? = null
     private lateinit var mBinding: ActivityMapsBinding
     private var googleApiClient: GoogleApiClient? = null
-    private var lastLocation: Location? = null
+    var lastLocation: Location? = null
     private var geoFenceMarker: Marker? = null
 
     private var officeLatitude: String? = null

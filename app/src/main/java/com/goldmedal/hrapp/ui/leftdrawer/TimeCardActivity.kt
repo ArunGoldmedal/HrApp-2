@@ -130,9 +130,18 @@ class TimeCardActivity : BaseActivity(), ApiStageListener<Any>,AdapterCallbackLi
 
                 }, mYear, mMonth, mDay
             )
-            startDatePicker.datePicker.minDate = previousCalendar.timeInMillis
+            // Use monthStartDateRegularization from API as minDate, fallback to previousCalendar
+            val minDateCalendar = if (!viewModel.monthStartDateRegularization.isNullOrEmpty()) {
+                getCalendarFromDateTimeString(viewModel.monthStartDateRegularization!!)
+            } else {
+                previousCalendar
+            }
+            startDatePicker.datePicker.minDate = minDateCalendar.timeInMillis
 
-            if (viewModel.strEndDate?.isNotEmpty() == true) {
+            // Use monthEndDateRegularization from API as maxDate
+            if (!viewModel.monthEndDateRegularization.isNullOrEmpty()) {
+                startDatePicker.datePicker.maxDate = getCalendarFromDateTimeString(viewModel.monthEndDateRegularization!!).timeInMillis
+            } else if (viewModel.strEndDate?.isNotEmpty() == true) {
                 startDatePicker.datePicker.maxDate = maxStartDate.timeInMillis
             }
 //            Log.d("TAG", "End Date - ${viewModel.strStartDate}")
@@ -164,9 +173,18 @@ class TimeCardActivity : BaseActivity(), ApiStageListener<Any>,AdapterCallbackLi
                         //(monthOfYear + 1).toString() + "/" + dayOfMonth + "/" + year
                     }, mYear, mMonth, mDay
                 )
-                endDatePicker.datePicker.maxDate = c.timeInMillis
+                // Set maxDate from API (monthEndDateRegularization), fallback to today
+                if (!viewModel.monthEndDateRegularization.isNullOrEmpty()) {
+                    endDatePicker.datePicker.maxDate = getCalendarFromDateTimeString(viewModel.monthEndDateRegularization!!).timeInMillis
+                } else {
+                    endDatePicker.datePicker.maxDate = c.timeInMillis
+                }
+
+                // Set minDate: selected start date, else monthStartDateRegularization, else previousCalendar
                 if (viewModel.strStartDate?.isNotEmpty() == true) {
                     endDatePicker.datePicker.minDate = getCalendarFromDate(viewModel.strStartDate!!).timeInMillis
+                } else if (!viewModel.monthStartDateRegularization.isNullOrEmpty()) {
+                    endDatePicker.datePicker.minDate = getCalendarFromDateTimeString(viewModel.monthStartDateRegularization!!).timeInMillis
                 } else {
                     endDatePicker.datePicker.minDate = previousCalendar.timeInMillis
                 }
